@@ -1,0 +1,53 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-2 grid-margin stretch-card"></div>
+  <div class="col-md-8 grid-margin">
+    <br>
+      <div class="card">
+        <div class="card-body ">
+          <div class="d-flex justify-content-center">
+            <h2 class="">{{ titre }} Taux</h2>
+          </div>
+          <p class="card-description">
+            <br>
+            <br>
+          </p>
+          <!-- <form action="" method="post">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                  <legend class="border-bottom mb-4"></legend>
+                  {{ form.as_p }}
+              </fieldset>
+              <div class="form-group">
+                  <button class="btn btn-info" type="submit">Ajouter</button>
+              </div>
+          </form> -->
+          <form class="forms-sample" method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+              <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Taux</label>
+              <div class="col-sm-9">
+                <!-- <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email"> -->
+                {{ form.taux }}
+              </div>
+            </div>
+            <div class="form-group row d-none">
+              <label for="exampleInputMobile" class="col-sm-3 col-form-label">Date</label>
+              <div class="col-sm-9">
+                <!-- <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number"> -->
+                {{ date }}
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
+            <a href="{% url 'ListeTaux' %}"><button type="button" class="btn btn-light ml-5 mr-3">Retour</button></a>
+          </form>
+        </div>
+      </div>
+      <div></div>
+  </div>
+  <div class="col-md-2 grid-margin stretch-card"></div>
+</div>
+
+  {% endblock %}

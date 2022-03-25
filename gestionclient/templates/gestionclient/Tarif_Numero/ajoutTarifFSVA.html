@@ -1,0 +1,56 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-2 grid-margin stretch-card"></div>
+  <div class="col-md-8 grid-margin">
+    <br>
+      <div class="card">
+        <div class="card-body ">
+          <div class="d-flex justify-content-center">
+            <h2 class="">{{ titre }} Tarif des FSVA</h2>
+          </div>
+          <p class="card-description">
+            <br>
+            
+            
+            <br>
+          </p>
+         
+          <form class="forms-sample" method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Etude du dossier</label>
+              <div class="col-sm-9">
+                {{ form.etudeDossier }}
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Agrement des equipement</label>
+                <div class="col-sm-9">
+                  {{ form.agrementEquip }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Redevance Annuelle</label>
+                <div class="col-sm-9">
+                  {{ form.redevanceAnn }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Autorisation de l'ARCT / Licence</label>
+                <div class="col-sm-9">
+                  {{ form.autorisationARCT }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
+            <a href=""><button type="button" class="btn btn-light">retour</button></a>
+          </form>
+        </div>
+      </div>
+      <div></div>
+  </div>
+  <div class="col-md-2 grid-margin stretch-card"></div>
+</div>
+
+  {% endblock %}

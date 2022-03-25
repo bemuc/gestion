@@ -1,0 +1,29 @@
+{%  extends 'gestionclient/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="card card-body">
+
+			<form action="" method="POST">
+				{% csrf_token %}
+                {% if fichef.q_pq > 0 %}
+                <h5> les PQ</h5>
+				{{ numLongformset.management_form }}
+				{% for form in numLongformset %}
+					{{form}}
+					<hr>
+				{% endfor %}
+                {% endif %}
+				
+				
+				<input type="submit" name="Submit">
+			</form>
+
+		</div>
+	</div>
+</div>
+
+  {% endblock %}

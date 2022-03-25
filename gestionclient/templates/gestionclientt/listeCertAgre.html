@@ -1,0 +1,53 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-2 grid-margin"></div>
+    <div class="col-lg-8 grid-margin">
+        <br>
+        <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+               <h4>Liste Certificat Agrement</h4> 
+            </div>
+            
+            <p class="card-description">
+            <!-- Add class <code>.table-hover</code> -->
+            <a href=""><button type="button" class="btn btn-primary">Ajouter un certificat</button></a>
+            </p>
+            <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Type</th>
+                    <th>Nature</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for certificat in certificats %}
+                <tr>
+                    <td>{{ certificat.client.nom }}</td>
+                    <td>{{ certificat.type }}</td>
+                    <td>{{ certificat.nature }}</td>
+                    <td>
+                        <a href=""><button type="button" class="btn btn-primary" ><i class="icon-eye"></i></button></a>
+                    </td>
+                    <td>
+                        <a href=""><button type="button" class="btn btn-danger"><i class="icon-cross"></i></button></a></a>
+                    </td>
+                    <!-- <td class="text-success"> 28.76% <i class="mdi mdi-arrow-up"></i></td>
+                    <td><label class="badge badge-danger">Pending</label></td> -->
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col-lg-2 grid-margin"></div>
+</div>
+    
+{% endblock %}

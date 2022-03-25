@@ -1,0 +1,66 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 grid-margin">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                   <h4>Liste des Constucteurs d'Equipement</h4> 
+                </div>
+                
+                <p class="card-description">
+                <a href="{% url 'ajoutConstructeur' %}"><button type="button" class="btn btn-primary">Ajouter un Constructeur</button></a>
+                  </p>
+                <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Adresse</th>
+                        <th>Telephone</th>
+                        <th>Email</th>
+                        <!-- <th>Fax</th> -->
+                        <th>Status</th>
+                        <!-- <th>Status</th> -->
+                        <th colspan="5"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if constructeurs %}
+                    {% for constructeur in constructeurs %}
+                    <tr>
+                        <td>{{ constructeur.nom }}</td>
+                        <td>{{ constructeur.adresse }}</td>
+                        <td>{{ constructeur.téléphone }}</td>
+                        <!-- <td>{{ constructeur.fax }}</td> -->
+                        <td>{{ constructeur.email }}</td>
+                        <!-- {% if certificat.facturer == 'oui' %}
+                        <td><label class="badge badge-success" >{{ certificat.facturer }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-warning" >{{ certificat.facturer }}</label></td>
+                        {% endif %} -->
+                        <!-- {% if today >= certificat.dateExp  %}
+                        <td><label class="badge badge-danger">Expired</label></td>
+                        {% else %}
+                        <td><label class="badge badge-success">Valid</label></td>
+                        {% endif %} -->
+                        <td>
+                            <a href="{% url 'updateConstr' constructeur.id %}"><button type="button" class="btn btn-primary" >Modifier</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                            <h2>Pas de certificat</h2>
+                    {% endif %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-lg-2 grid-margin"></div> -->
+</div>
+    
+{% endblock %}

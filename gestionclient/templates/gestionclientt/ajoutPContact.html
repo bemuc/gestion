@@ -1,0 +1,78 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-2 grid-margin stretch-card"></div>
+  <div class="col-md-8 grid-margin">
+    <br>
+      <div class="card">
+        <div class="card-body ">
+          <div class="d-flex justify-content-center">
+            <h2 class="">Ajouter une personne de contact</h2>
+            
+          </div>
+          <p class="card-description">
+            <a href="{% url 'listePContact_page' %}"><button type="button" class="btn btn-primary">retour</button></a>
+            <br>
+            <br>
+          </p>
+          <!-- <form action="" method="post">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                  <legend class="border-bottom mb-4"></legend>
+                  {{ form.as_p }}
+              </fieldset>
+              <div class="form-group">
+                  <button class="btn btn-info" type="submit">Ajouter</button>
+              </div>
+          </form> -->
+          <form class="forms-sample" method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+              <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Client</label>
+              <div class="col-sm-9">
+                <!-- <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email"> -->
+                {{ form.client }}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputMobile" class="col-sm-3 col-form-label">Nom</label>
+              <div class="col-sm-9">
+                <!-- <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number"> -->
+                {{ form.nom }}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Téléphone</label>
+              <div class="col-sm-9">
+                <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
+                {{ form.telephone }}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Email</label>
+              <div class="col-sm-9">
+                <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
+                {{ form.email }}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Poste</label>
+              <div class="col-sm-9">
+                <!-- <input type="password" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password"> -->
+                {{ form.poste }}
+              </div>
+            </div>
+         
+            <button type="submit" class="btn btn-primary mr-2">{{ titre }}</button>
+        
+            <button class="btn btn-light">Cancel</button>
+          </form>
+        </div>
+      </div>
+      <div></div>
+  </div>
+  <div class="col-md-2 grid-margin stretch-card"></div>
+</div>
+
+  {% endblock %}

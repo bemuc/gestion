@@ -1,0 +1,151 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-2 grid-margin stretch-card"></div>
+  <div class="col-md-8 grid-margin">
+    <br>
+      <div class="card">
+        <div class="card-body ">
+          <div class="d-flex justify-content-center">
+            <h2 class="">{{ titre }} Fiche Facturation</h2>
+          </div>
+          <p class="card-description">
+            <br>
+            
+            <br>
+          </p>
+         
+          <form class="forms-sample" method="POST">
+            {% csrf_token %}
+            <div class="form-group row d-none">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Client</label>
+              <div class="col-sm-9">
+                {{ form.client }}
+              </div>
+            </div>
+            <div class="form-group row ">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Client</label>
+              <div class="col-sm-9">
+                {{ client.nom }}
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Nature Facturation</label>
+                <div class="col-sm-9">
+                  {{ form.nature }}
+                </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Numero long(PQ)</label>
+              <div class="col-sm-9">
+                {{ form.q_pq }}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Ordinaire</label>
+              <div class="col-sm-9">
+                {{ form.q_ordinaire }}
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">USSD</label>
+                <div class="col-sm-9">
+                  {{ form.q_ussd }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Code Mnemonique</label>
+                <div class="col-sm-9">
+                  {{ form.q_mnemonique }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">MNC</label>
+                <div class="col-sm-9">
+                  {{ form.q_mnc }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">NSPC</label>
+                <div class="col-sm-9">
+                  {{ form.q_nspc }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">ISPC</label>
+                <div class="col-sm-9">
+                  {{ form.q_ispc }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Code de prselection pour les transporteurs internationaux</label>
+                <div class="col-sm-9">
+                  {{ form.q_cpti }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Periode</label>
+                <div class="col-sm-9">
+                  {{ form.periode }}
+                </div>
+            </div>
+            {% if client.type == 'Operateur telephonique' %}
+            <h4>Ressource en Numerotation</h4>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Etude du dossier</label>
+                <div class="col-sm-9">
+                  {{ form.RN_etudeDossier }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Frais de gestion(annuelle)</label>
+                <div class="col-sm-9">
+                  {{ form.RN_fraisGestion }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Redevance annuelles</label>
+                <div class="col-sm-9">
+                  {{ form.RN_redevanceAnn }}
+                </div>
+            </div>
+            {% elif client.type == 'FSVA'  %}
+            <h5>Fourniture des services a valeur ajoutee</h5>
+            <div class="form-group row">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Etude du dossier</label>
+              <div class="col-sm-9">
+                {{ form.FS_etudeDossier }}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Agrement des equipement</label>
+              <div class="col-sm-9">
+                {{ form.FS_agreEquipe }}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Autorisation de l'ARCT</label>
+              <div class="col-sm-9">
+                {{ form.FS_autoARCT }}
+              </div>
+            </div>
+            {% endif %}
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Date d'Attribution</label>
+                <div class="col-sm-9">
+                  {{ form.dateAtri }}
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
+            <a href="{% url 'ListeCli' %}"><button type="button" class="btn btn-light">retour</button></a>
+          </form>
+        </div>
+      </div>
+      <div></div>
+  </div>
+  <div class="col-md-2 grid-margin stretch-card"></div>
+</div>
+
+  {% endblock %}

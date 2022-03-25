@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Document</title>
+    <style type="text/css">
+        /* @page {
+            size: letter portrait;
+            margin: 600cm;
+            @frame content_frame {
+                right: 50pt;
+                width: 512pt;
+                top: 50pt;
+                height: 692pt;
+                
+            }
+        } */
+        /* #header_content {
+            left: 50pt;
+            width: 200pt;
+            top: 50pt;
+            height: 692pt;
+            border: 2px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        #row{
+            display: flex;
+            justify-content: space-around;
+        }
+        #foot{
+            right: 2pt;
+            top: 56pt;
+            width: 522pt;
+            height: 600pt;
+        } */
+        
+    </style>
+</head>
+<body>
+    <div class="container" >
+        <div class="row">
+            <div class="col-md-12">
+                <br>
+                <div class="card">
+                    <div class="card-body ">
+                            <div class="d-flex justify-content-center">
+                                <h5 class="text-center mx-5 mr-5 ">FICHE DE FACTURATION POUR OBTENTION D'UN CERTIFICAT DE {{ certificat.type }} DES EQUIPEMENTS ET TERMINAUX DE COMMUNICATIONS ELECTRONIQUES</h5>
+                            </div>
+                            <p class="card-description">
+                            </p>   
+                            <h6>1. IDENTIFICATION DU CLIENT</h6>
+                            <div class="border border-dark p-4 mb-3">
+                                <div class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3 ">Nom et Prenonm ou Raison sociale :  </label>
+                                <div class="col-sm-9 text-uppercase">
+                                    <!-- <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email"> -->
+                                    
+                                {{ certificat.client.nom }}
+                                </div>
+                                </div>
+                                <div class=" row">
+                                <label for="exampleInputMobile" class="col-sm-3 ">Adresse Physique :  </label>
+                                <div class="col-sm-9 text-uppercase">
+                                    <!-- <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number"> -->
+                                    {{ certificat.client.adresse }}
+                                </div>
+                                </div>
+                                <div class=" row">
+                                <label for="exampleInputPassword2" class="col-sm-3 ">Téléphone :  </label>
+                                <div class="col-sm-9">
+                                    {{ certificat.client.téléphone }}
+                                </div>
+                                </div>
+                                <div class=" row">
+                                <label for="exampleInputPassword2" class="col-sm-3 ">Fax :  </label>
+                                <div class="col-sm-9">
+                                    {{ certificat.client.fax }}
+                                </div>
+                                </div>
+                                <div class=" row">
+                                <label for="exampleInputPassword2" class="col-sm-3 ">Email :   </label>
+                                <div class="col-sm-9">
+                                    {{ certificat.client.email }}
+                                </div>
+                                </div>
+                                <div class=" row">
+                                <label for="exampleInputPassword2" class="col-sm-3 ">Site web :  </label>
+                                <div class="col-sm-9">
+                                    {{ certificat.client.siteweb }}
+                                </div>
+                                </div>
+                                <div class=" row">
+                                <label for="exampleInputPassword2" class="col-sm-3 ">Boite Postale :  </label>
+                                <div class="col-sm-9">
+                                    {{ certificat.client.boite_postale }}
+                                </div>
+                                </div>
+                            </div>
+        
+                            <h6>2 . PERSONNE DE CONTACT</h6>
+                            <div class="border border-dark p-4 mb-3 ">
+                                <div class=" row">
+                                    <label for="exampleInputPassword2" class="col-sm-3 ">Nom et Prenom :  </label>
+                                    <div class="col-sm-9 text-uppercase">
+                                        {{ certificat.contact.nom }}
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <label for="exampleInputPassword2" class="col-sm-3 ">Telephone :  </label>
+                                    <div class="col-sm-9">
+                                        {{ certificat.contact.telephone }}
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <label for="exampleInputPassword2" class="col-sm-3 ">Email :  </label>
+                                    <div class="col-sm-9">
+                                        {{ certificat.contact.email }}
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <label for="exampleInputPassword2" class="col-sm-3 ">Titre/Poste :  </label>
+                                    <div class="col-sm-9 text-uppercase">
+                                        {{ certificat.contact.poste }}
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <h6>3 . TYPE DE CERTIFICAT</h6>
+                            <div class="border border-dark p-4 mb-3 row d-flex justify-content-around align-items-center">
+                                <div class="col-md-3">
+                                    <label for="exampleInputPassword2" class="">Certificat Vendeur :
+                                        {% if certificat.type == 'VENDEUR' %}
+                                        X
+                                        {% endif %}
+                                    </label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputPassword2" class="">Certificat d'Installateur : 
+                                        {% if certificat.type == 'INSTALLATEUR' %}
+                                        X
+                                        {% endif %}
+                                    </label>
+                                </div>
+                                <div class="  col-md-3">
+                                    <label for="exampleInputPassword2" class="">Certificat Distributeur : 
+                                        {% if certificat.type == 'DISTRIBUTEUR' %}
+                                        X
+                                        {% endif %}
+                                    </label>
+                                </div>
+                            </div>
+        
+                            <h6>4 . NATURE DE LA DEMANDE</h6>
+        
+                            <div class="border border-dark p-4 mb-3 row d-flex justify-content-between align-items-center">
+                                <div class="col-md-6">
+                                    <label for="exampleInputPassword2" class=" ">Nouveau certificat : 
+                                        {% if certificat.nature == 'Nouveau certificat' %}
+                                        X
+                                        {% endif %}
+                                    </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputPassword2" class=" ">Renouvellement certificat : 
+                                        {% if certificat.nature == 'Renouvellement certificat' %}
+                                        X
+                                        {% endif %}
+                                    </label>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="align-left" >
+                                <div class="row d-flex justify-content-between align-items-center">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3 text-justify">
+                                        <p>Fait a Bujumbura le {{ certificat.dateAttri}}</p>
+                                        <h6 class="text-justify">Le Chef de service Normalisation reseaux et service "NR&S"</h6>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+

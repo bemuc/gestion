@@ -1,0 +1,88 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <br>
+        <div class="card">
+            <div class="card-body ">
+                    <div class="d-flex justify-content-center">
+                        <h5 class="text-center text-uppercase">CERTIFICAT d'Homologation</h5>
+                    </div>
+                    <p class="card-description">
+
+                    <br>
+                    <br>
+                    </p>  
+                    <div class=" p-1 mb-3">
+                        <div class=" row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Client : </label>
+                            <div class="col-sm-9 text-uppercase">
+                                <h5>{{ homologation.client.nom }}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Equipement : </label>
+                            <div class="col-sm-9 text-uppercase">
+                                <h5>{{ homologation.equipement.designation }}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Categorie : </label>
+                            <div class="col-sm-9 text-uppercase">
+                                <h5>{{ homologation.categorie }}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Date d'attribution : </label>
+                            <div class="col-sm-9 text-uppercase">
+                                <h5>{{ homologation.dateAttri }}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Date d'expiration : </label>
+                            <div class="col-sm-9 text-uppercase">
+                                <h5>{{ homologation.dateExp }}</h5>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12 ">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="row "> 
+                    <div class="col-sm-3 d-flex flex-start align-items-center">
+                        <div class="mx-2   p-2">
+                            <a href="{% url 'ListeHomo'  %}"><button type="button" class="btn btn-dark">retour</button></a>
+                            <a href="{% url 'modifierHomo' homologation.id %}"><button type="button" class="btn btn-dark"> Modifier</button></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-9 d-flex justify-content-center align-items-center">
+                            {% if  homologation.dateExp <= today %}
+                            <div class="mx-2 row d-flex flex-column align-items-center   p-2">
+                                <label  class="">Renouveller </label>
+                                <a href="{% url 'updateHomologation' homologation.id %}"><button type="button" class="btn btn-warning"><i class="icon-reload"></i></button></a>
+                            </div>
+                            {% endif %}
+                            
+                            
+                            <div class="mx-2 row d-flex flex-column align-items-center  p-2">
+                                <label  class="">Supprimer </label>
+                                <a href=""><button type="button" class="btn btn-danger" ><i class="icon-cross"></i></button></a>
+                            </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <br>
+    <br>
+</div>
+<br>
+
+{% endblock %}

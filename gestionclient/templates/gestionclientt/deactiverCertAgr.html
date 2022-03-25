@@ -1,0 +1,24 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+
+<br>
+<div class="row">
+	<div class="col-md-6">
+		<div class="card card-body">
+
+
+			<p>Voulez-vous vraiment deactiver ce certificat?</p>
+
+			<form action="{% url 'deactiverCertAgr_page' certificat.id  %}" method="POST">
+				
+				{% csrf_token %}
+				<a class="btn btn-warning" href="{% url 'listeCertAgr_page' certificat.client.id %}">non</a>
+
+				<input class="btn btn-danger" type="submit" value="oui" name="Confirm">
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

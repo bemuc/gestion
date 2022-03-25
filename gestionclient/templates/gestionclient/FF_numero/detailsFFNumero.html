@@ -1,0 +1,197 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<!-- details du client -->
+<div class="row">
+    <!-- <div class="col-lg-2 grid-margin"></div> -->
+    <div class="col-lg-12 grid-margin">
+        <br>
+            <div class="card">
+                <div class="card-body">
+                    
+                    <h4>Details de la Fiche de Facturation</h4>
+                    
+                    <p class="card-description">
+                    <hr>
+                    
+                    </p>
+                    <!-- <div class="row"> -->
+                        <!-- <div class="col-md-8" style="border-left: 1px solid black;"> -->
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Nom du client :</label>
+                                <div class="col-sm-6">{{ FF_Numero.client.nom }}</div>
+                                
+                            </div>
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Nature client :</label>
+                                <div class="col-sm-6">{{ FF_Numero.nature }}</div>
+                            </div>
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Numero long (PQ) :</label>
+                                <div class="col-sm-6">{{ FF_Numero.q_pq }}</div>
+                            </div> 
+                        <!-- </div> -->
+                        <!-- <div class="col-md-4" style="border-left: 1px solid black;"> -->
+                            <hr>
+                            <h5 class="mt-3">Numero Court</h5>
+                            
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Ordinaire :</label>
+                                <div class="col-sm-6">{{ FF_Numero.q_ordinaire }}</div>
+                            </div>
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">USSD :</label>
+                                <div class="col-sm-6">{{ FF_Numero.q_ussd }}</div>
+                            </div>
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Code Mnemonique :</label>
+                                <div class="col-sm-6">{{ FF_Numero.q_mnemonique }}</div>
+                            </div> 
+                        <!-- </div> -->
+                        <!-- <div class="col-md-4" style="border-left: 1px solid black;"> -->
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">MNC :</label>
+                                <div class="col-sm-6">{{ FF_Numero.q_mnc }}</div>
+                            </div>
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">NSPC :</label>
+                                <div class="col-sm-6">{{ FF_Numero.q_nspc }}</div>
+                            </div>
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">ISPC :</label>
+                                <div class="col-sm-6">{{ FF_Numero.q_ispc }}</div>
+                            </div> 
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Code de preselection pour les transporteurs internationaux :</label>
+                                <div class="col-sm-6">{{ FF_Numero.q_cpti }}</div>
+                            </div> 
+                            {% if FF_Numero.client.type == 'Operateur telephonique' %}
+                            <hr>
+                            <h5  class="mt-3">Ressources en numerotation</h5>
+                            
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Etude du Dossier :</label>
+                                <div class="col-sm-6">{{ FF_Numero.RN_etudeDossier }}</div>
+                            </div> 
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Frais de gestion (annuelle) :</label>
+                                <div class="col-sm-6">{{ FF_Numero.RN_fraisGestion }}</div>
+                            </div> 
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Redevances annuelles :</label>
+                                <div class="col-sm-6">{{ FF_Numero.RN_redevanceAnn }}</div>
+                            </div> 
+                            {% elif FF_Numero.client.type == 'FSVA' %}
+                            <hr>
+                            <h5  class="mt-3">Fourniture de service a valeur ajoutee</h5>
+                            
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Etude du Dossier :</label>
+                                <div class="col-sm-6">{{ FF_Numero.FS_etudeDossier }}</div>
+                            </div> 
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Agrement des equipements :</label>
+                                <div class="col-sm-6">{{ FF_Numero.FS_agreEquipe }}</div>
+                            </div> 
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Autorisation de l'ARCT :</label>
+                                <div class="col-sm-6">{{ FF_Numero.FS_autoARCT }}</div>
+                            </div> 
+                            {% endif %}
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Date :</label>
+                                <div class="col-sm-6">{{ FF_Numero.dateAtri }}</div>
+                            </div>
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Periode :</label>
+                                <div class="col-sm-6">{{ FF_Numero.periode }} mois</div>
+                            </div>
+                        <!-- </div> -->
+
+                    <!-- </div> -->
+                </div>
+                
+            </div>
+            <div class="d-flex justify-content-start align-items-center">
+                <a href="{% url 'ListeFFNumero' %}"><button type="button" class="btn btn-primary ml-5 mr-3">Retour</button></a>
+                {% if FF_Numero.facturer == 'non' %}
+                <a href="{% url 'facturerFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Facturer</button></a>
+                <a href="{% url 'updateFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Modifier</button></a>
+                <a href="{% url 'facturerFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Supprimer</button></a>
+                
+                {% endif %}
+                </div>
+            <br>
+            <!-- <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <h4>Services</h4>
+                    </div>
+                    <p class="card-description">
+                    <hr>
+                    
+                    <a href=""><button type="button" class="btn btn-primary ml-5">Certificat Agrement</button></a>
+                   
+                    </p>
+                    
+                </div>
+            </div> -->
+            <!-- <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                       <h4>Liste des certificat d'agrement</h4> 
+                    </div>
+                    
+                    <p class="card-description">
+                    <a href=""><button type="button" class="btn btn-primary">Ajouter un certificat</button></a>
+                    </p>
+                    <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Nature</th>
+                            <th>Date attribution</th>
+                            <th>Date expiration</th>
+                            <th>Status</th>
+                            <th colspan="2">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if certificats %}
+                        {% for certificat in certificats %}
+                        <tr>
+                            <td>{{ certificat.type }}</td>
+                            <td>{{ certificat.nature }}</td>
+                            <td>{{ certificat.dateAttri }}</td>
+                            <td>{{ certificat.dateExp }}</td>
+                            {% if today >= certificat.dateExp  %}
+                            <td><label class="badge badge-danger">Expired</label></td>
+                            {% else %}
+                            <td><label class="badge badge-success">Valid</label></td>
+                            {% endif %}
+                            <td>
+                                <a href="{% url 'detailsClient_page' client.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye"></i></button></a>
+                            </td>
+                            <td>
+                                <a href="{% url 'deactiverClient_page' client.id %}"><button type="button" class="btn btn-danger"><i class="icon-cross"></i></button></a></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                                <h2>Pas de certificat agrement</h2>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div> -->
+    <!-- <div class="col-lg-2 grid-margin"></div> -->
+    </div>
+    <hr>
+</div>
+<div class="row">
+    
+</div>
+    
+{% endblock %}

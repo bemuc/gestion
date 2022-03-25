@@ -1,0 +1,65 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 grid-margin">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                   <h4>Liste dess Frequences Hertzien distribue</h4> 
+                </div>
+                
+                <p class="card-description">
+                <a href="{% url 'ajoutFH' %}"><button type="button" class="btn btn-primary">Ajouter</button></a>
+                  </p>
+                <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>client</th>
+                        <th>Bande</th>
+                        <th>Bande Passante</th>
+                        <th>Nombre de canaux</th>
+                        <th>Date Attribution</th>
+                        <!-- <th>Type</th> -->
+                        <!-- <th>Modele</th> -->
+                        <!-- <th>Pays d'Origine</th> -->
+                        <!-- <th>Fax</th> -->
+                        <th>Status</th>
+                        <!-- <th>Status</th> -->
+                        <th colspan="5"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if fhs %}
+                    {% for fh in fhs %}
+                    <tr>
+                        <td>{{ fh.client.nom }}</td>
+                        <td>{{ fh.bande }}</td>
+                        <td>{{ fh.bande_passante }}</td>
+                        <td>{{ fh.nombre_canaux }}</td>
+                        <td>{{ fh.dateAtri }}</td>
+                        {% if fh.etat == 'actif' %}
+                        <td><label class="badge badge-success" >{{ fh.etat }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-warning" >{{ fh.etat }}</label></td>
+                        {% endif %}
+                        <td>
+                            <a href="{% url 'updateFH' fh.id %}"><button type="button" class="btn btn-primary" >Modifier</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                            <h2>Pas de certificat</h2>
+                    {% endif %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-lg-2 grid-margin"></div> -->
+</div>
+    
+{% endblock %}

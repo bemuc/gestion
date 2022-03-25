@@ -1,0 +1,93 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<!-- <div class="row mb-1 d-flex">
+    <div class="col-md-6 grid-margin">
+        <a href=""><button type="button" class="btn btn-primary">Ajouter un certificat</button></a>
+                 
+    </div>
+    <div class="col-md-6 grid-margin">
+        <a href=""><button type="button" class="btn btn-primary">Ajouter un certificat</button></a>
+                 
+    </div>
+</div> -->
+<div class="row">
+    <div class="col-lg-12 grid-margin">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                   <h4>Liste des certificat d'Homologations</h4> 
+                </div>
+                
+                <p class="card-description">
+                <a href="{% url 'ajoutHomologation' %}"><button type="button" class="btn btn-primary">Ajouter un certificat</button></a>
+                  </p>
+                <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Equipement</th>
+                        <th>Categorie</th>
+                        <th>Date attribution</th>
+                        <th>Date expiration</th>
+                        <th>Status</th>
+                        <!-- <th>Status</th> -->
+                        <th colspan="5"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if homologations %}
+                    {% for homologation in homologations %}
+                    <tr>
+                        <td>{{ homologation.client.nom }}</td>
+                        <td>{{ homologation.equipement.designation }}</td>
+                        <td>{{ homologation.categorie }}</td>
+                        <td>{{ homologation.dateAttri }}</td>
+                        <td>{{ homologation.dateExp }}</td>
+                        <!-- {% if certificat.facturer == 'oui' %}
+                        <td><label class="badge badge-success" >{{ certificat.facturer }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-warning" >{{ certificat.facturer }}</label></td>
+                        {% endif %} -->
+                        {% if today >= homologation.dateExp  %}
+                        <td><label class="badge badge-danger">Expired</label></td>
+                        {% else %}
+                        <td><label class="badge badge-success">Valid</label></td>
+                        {% endif %}
+                        <td>
+                            <a href="{% url 'detailHomologation' homologation.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye" ></i></button></a>
+                        </td>
+                        <!-- {% if  certificat.dateExp <= today %}
+                        <td>
+                            <a href="{% url 'renouCertAgr_page' certificat.id %}"><button type="button" class="btn btn-warning">Renou</button></a></a>
+                        </td>
+                        {% endif %}
+                        {% if  certificat.pourfacturation == 'non' %}
+                        <td>
+                            <a href="{% url 'renouCertAgr_page' certificat.id %}"><button type="button" class="btn btn-info"><i class="icon-arrow-right" ></i></button></a></a>
+                        </td>
+                        {% endif %}
+                        <td>
+                            
+                            <a href=""><button type="button" class="btn btn-danger" ><i class="icon-cross"></i></button></a>
+                            
+                            
+                        </td> -->
+                        <!-- <td class="text-success"> 28.76% <i class="mdi mdi-arrow-up"></i></td>
+                        <td><label class="badge badge-danger">Pending</label></td> -->
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                            <h2>Pas de certificat agrement</h2>
+                    {% endif %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock %}

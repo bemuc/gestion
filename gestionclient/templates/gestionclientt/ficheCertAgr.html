@@ -1,0 +1,198 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <br>
+        <div class="card">
+            <div class="card-body ">
+                    <div class="d-flex justify-content-center">
+                        <h4 class="text-center text-uppercase">FICHE DE FACTURATION POUR OBTENTION D'UN CERTIFICAT DE {{ certificat.type }} DES EQUIPEMENTS ET TERMINAUX DE COMMUNICATIONS ELECTRONIQUES</h4>
+                    </div>
+                    <p class="card-description">
+                    <br>
+                    <br>
+                    </p>   
+                    <h5>1. IDENTIFICATION DU CLIENT</h5>
+                    <div class="border border-dark p-4 mb-3">
+                        <div class=" row">
+                        <label for="exampleInputEmail2" class="col-sm-3 ">Nom et Prenonm ou Raison sociale : </label>
+                        <div class="col-sm-9 text-uppercase">
+                            <!-- <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email"> -->
+                            {{ certificat.client.nom }}
+                        </div>
+                        </div>
+                        <div class=" row">
+                        <label for="exampleInputMobile" class="col-sm-3 ">Adresse Physique : </label>
+                        <div class="col-sm-9 text-uppercase">
+                            <!-- <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number"> -->
+                            {{ certificat.client.adresse }}
+                        </div>
+                        </div>
+                        <div class=" row">
+                        <label for="exampleInputPassword2" class="col-sm-3 ">Téléphone : </label>
+                        <div class="col-sm-9">
+                            {{ certificat.client.téléphone }}
+                        </div>
+                        </div>
+                        <div class=" row">
+                        <label for="exampleInputPassword2" class="col-sm-3 ">Fax : </label>
+                        <div class="col-sm-9">
+                            {{ certificat.client.fax }}
+                        </div>
+                        </div>
+                        <div class=" row">
+                        <label for="exampleInputPassword2" class="col-sm-3 ">Email : </label>
+                        <div class="col-sm-9">
+                            {{ certificat.client.email }}
+                        </div>
+                        </div>
+                        <div class=" row">
+                        <label for="exampleInputPassword2" class="col-sm-3 ">Site web : </label>
+                        <div class="col-sm-9">
+                            {{ certificat.client.siteweb }}
+                        </div>
+                        </div>
+                        <div class=" row">
+                        <label for="exampleInputPassword2" class="col-sm-3 ">Boite Postale : </label>
+                        <div class="col-sm-9">
+                            {{ certificat.client.boite_postale }}
+                        </div>
+                        </div>
+                    </div>
+
+                    <h5>2 . PERSONNE DE CONTACT</h5>
+                    <div class="border border-dark p-4 mb-3 ">
+                        <div class=" row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Nom et Prenom : </label>
+                            <div class="col-sm-9 text-uppercase">
+                            {{ certificat.contact.nom }}
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Telephone : </label>
+                            <div class="col-sm-9">
+                            {{ certificat.contact.telephone }}
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Email : </label>
+                            <div class="col-sm-9">
+                            {{ certificat.contact.email }}
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Titre/Poste : </label>
+                            <div class="col-sm-9 text-uppercase">
+                            {{ certificat.contact.poste }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5>3 . TYPE DE CERTIFICAT</h5>
+                    <div class="border border-dark p-4 mb-3 row d-flex justify-content-around align-items-center">
+                        <div class="col-md-3">
+                            <label for="exampleInputPassword2" class="">Certificat Vendeur :
+                                {% if certificat.type == 'VENDEUR' %}
+                                X
+                                {% endif %}
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="exampleInputPassword2" class="">Certificat d'Installateur : 
+                                {% if certificat.type == 'INSTALLATEUR' %}
+                                X
+                                {% endif %}
+                            </label>
+                        </div>
+                        <div class="  col-md-3">
+                            <label for="exampleInputPassword2" class="">Certificat Distributeur : 
+                                {% if certificat.type == 'DISTRIBUTEUR' %}
+                                X
+                                {% endif %}
+                            </label>
+                        </div>
+                    </div>
+
+                    <h5>4 . NATURE DE LA DEMANDE</h5>
+
+                    <div class="border border-dark p-4 mb-3 row d-flex justify-content-around align-items-center">
+                        <div class="row">
+                            <label for="exampleInputPassword2" class=" ">Nouveau certificat : 
+                                {% if certificat.nature == 'Nouveau certificat' %}
+                                X
+                                {% endif %}
+                            </label>
+                        </div>
+                        <div class="row">
+                            <label for="exampleInputPassword2" class=" ">Renouvellement certificat : 
+                                {% if certificat.nature == 'Renouvellement certificat' %}
+                                X
+                                {% endif %}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12 ">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="row "> 
+                    <div class="col-sm-3 d-flex flex-start align-items-center">
+                        <div class="mx-2   p-2">
+                            {% if name == 'finance' %}
+                            <a href="{% url 'CertListAgr_page'  %}"><button type="button" class="btn btn-dark">retour</button></a>
+                            {% else %}
+                            <a href="{% url 'listeCertAgr_page' certificat.client.id %}"><button type="button" class="btn btn-dark">retour</button></a>
+                            
+                            {% endif %}
+                            <a  href="{% url 'printcert_page' certificat.id %}"><button type="button" class="btn btn-dark">Imprimer</button></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-9 d-flex justify-content-center align-items-center">
+                            {% if  certificat.dateExp <= today %}
+                            <div class="mx-2 row d-flex flex-column align-items-center   p-2">
+                                <label  class="">Renouveller </label>
+                                <a href="{% url 'renouCertAgr_page' certificat.id %}"><button type="button" class="btn btn-warning"><i class="icon-reload"></i></button></a>
+                            </div>
+                            {% endif %}
+                            
+                            {% if  certificat.pourfacturation == 'non' %}
+                            <div class="mx-2 row d-flex flex-column align-items-center  p-2">
+                                <label  class="">Envoyer a la  facturation </label>
+                                <a href="{% url 'pourfactCertAgr_page' certificat.id %}"><button type="button" class="btn btn-info"><i class="icon-arrow-right" ></i></button></a>
+                            </div>
+                            <div class="mx-2 row d-flex flex-column align-items-center  p-2">
+                                <label  class="">Supprimer </label>
+                                <a href="{% url 'deactiverCertAgr_page' certificat.id %}"><button type="button" class="btn btn-danger" ><i class="icon-cross"></i></button></a>
+                            </div>
+                            <div class="mx-2 row d-flex flex-column align-items-center  p-2">
+                                <label  class="">Modifier </label>
+                                <a href="{% url 'updateCertAgr_page' certificat.id %}"><button type="button" class="btn btn-primary" ><i class="icon-file-add"></i></button></a>
+                            </div>
+
+                            {% endif %}
+                            {% if name == 'finance' %}
+                            <div class="mx-2 row d-flex flex-column align-items-center  p-2">
+                                <label  class=""></label>
+                                <a href="{% url 'facturer_page' certificat.id %}"><button type="button" class="btn btn-primary" >Facturer</button></a>
+                            </div>
+                            
+                            {% endif %}
+                            
+                </div>
+            </div> 
+        </div>
+    </div>
+    <br>
+    <br>
+</div>
+<br>
+
+{% endblock %}

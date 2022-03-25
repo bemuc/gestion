@@ -1,0 +1,68 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 grid-margin">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                   <h4>Liste des Tarifs des FSVA</h4> 
+                </div>
+                
+                <p class="card-description">
+                <a href="{% url 'ajoutertarifFSVANumero' %}"><button type="button" class="btn btn-primary">Ajouter un tarif</button></a>
+                  </p>
+                <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Etude du dossier</th>
+                        <th>Agrement equipement</th>
+                        <th>Redevance Annuelle</th>
+                        <th>Licence</th>
+                        <th>Date d'attribution</th>
+                        <th>Status</th>
+                        <th colspan="5"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if tarifFSVAs %}
+                    {% for tarifFSVA in tarifFSVAs %}
+                    <tr>
+                        <td>{{ tarifFSVA.etudeDossier }}</td>
+                        <td>{{ tarifFSVA.agrementEquip }}</td>
+                        <td>{{ tarifFSVA.redevanceAnn }}</td>
+                        <td>{{ tarifFSVA.autorisationARCT }}</td>
+                        <td>{{ tarifFSVA.dateAtri }}</td>
+                        <!-- <td>{{ numcourt.etat }}</td> -->
+                        <!-- <td>{{ constructeur.fax }}</td> -->
+                        <!-- <td>{{ constructeur.email }}</td> -->
+                        {% if  tarifFSVA.etat == 'actif' %}
+                        <td><label class="badge badge-success" >{{  tarifFSVA.etat }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-warning" >{{  tarifFSVA.etat }}</label></td>
+                        {% endif %}
+                        <!-- {% if today >= certificat.dateExp  %}
+                        <td><label class="badge badge-danger">Expired</label></td>
+                        {% else %}
+                        <td><label class="badge badge-success">Valid</label></td>
+                        {% endif %} -->
+                        <td>
+                            <a href=""><button type="button" class="btn btn-primary" >Modifier</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                            <h2>Pas de certificat</h2>
+                    {% endif %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-lg-2 grid-margin"></div> -->
+</div>
+    
+{% endblock %}

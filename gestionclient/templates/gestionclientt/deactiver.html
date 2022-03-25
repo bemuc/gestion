@@ -1,0 +1,24 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+
+<br>
+<div class="row">
+	<div class="col-md-6">
+		<div class="card card-body">
+ 
+
+			<p>Voulez-vous vraiment deactiver le client : "{{item.nom}}"?</p>
+
+			<form action="{% url 'deactiverClient_page' item.id  %}" method="POST">
+				
+				{% csrf_token %}
+				<a class="btn btn-warning" href="{% url 'listeClient_page' %}">non</a>
+
+				<input class="btn btn-danger" type="submit" value="oui" name="Confirm">
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

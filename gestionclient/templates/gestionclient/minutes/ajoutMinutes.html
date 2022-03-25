@@ -1,0 +1,51 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-2 grid-margin stretch-card"></div>
+  <div class="col-md-8 grid-margin">
+    <br>
+      <div class="card">
+        <div class="card-body ">
+          <div class="d-flex justify-content-center">
+            <h2 class="">{{ titre }} Minutes</h2>
+          </div>
+          <p class="card-description">
+            <br>
+            
+            
+            <br>
+          </p>
+         
+          <form class="forms-sample" method="POST">
+            {% csrf_token %}
+            <div class="form-group row ">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Client</label>
+              <div class="col-sm-9">
+                {{ form.client }}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Minutes</label>
+              <div class="col-sm-9">
+                {{ form.minutes }}
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Date d'ajout</label>
+                <div class="col-sm-9">
+                  {{ form.dateAtri }}
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
+            <a href="{% url 'ListeMinutes' %}"><button type="button" class="btn btn-light">retour</button></a>
+          </form>
+        </div>
+      </div>
+      <div></div>
+  </div>
+  <div class="col-md-2 grid-margin stretch-card"></div>
+</div>
+
+  {% endblock %}

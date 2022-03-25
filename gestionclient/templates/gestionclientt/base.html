@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags --> 
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Admin</title>
+  <!-- base:css -->
+  <link rel="stylesheet" href="{% static '/vendors/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static '/vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static '/vendors/base/vendor.bundle.base.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <link rel="stylesheet" href="{% static '/vendors/flag-icon-css/css/flag-icon.min.css' %}"/>
+  <link rel="stylesheet" href="{% static '/vendors/font-awesome/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static '/vendors/jquery-bar-rating/fontawesome-stars-o.css' %}">
+  <link rel="stylesheet" href="{% static '/vendors/jquery-bar-rating/fontawesome-stars.css' %}">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static '/css/style.css' %}">
+  <!-- endinject -->
+  <!-- icone dans le title de l'onglet -->
+  <!-- <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" /> -->
+</head>
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <!-- <a class="navbar-brand brand-logo btn-primary" href="base.html">ARCT</a> -->
+        <!-- <h4 class="btn-primary" >ARCT</h4> -->
+        <!-- <img src="{% static '/images/logo.svg' %}" alt="logo"/> -->
+        <a class="navbar-brand brand-logo-mini" href="base.html"><img src="{% static '/images/logo-mini.svg' %}" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+        <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown d-lg-flex d-none">
+                <a href="{% url 'logout' %}"><button type="button" class="btn btn-info font-weight-bold">Logout</button></a>
+            </li>
+            <li class="nav-item dropdown d-flex mr-4 ">
+              <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
+                <i class="icon-cog"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                <p class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
+                <a class="dropdown-item preview-item">               
+                    <i class="icon-head"></i> Profile
+                </a>
+                <a href="{% url 'login_page' %}" class="dropdown-item preview-item">
+                    <i class="icon-inbox"></i> Logout <a href=""></a>
+                </a>
+              </div>
+            </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="icon-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <!-- <div class="user-profile">
+          <div class="user-image">
+            <img src="{% static '/images/faces/face28.png' %}">
+          </div>
+          <div class="user-name">
+              Edward Spencer
+          </div>
+          <div class="user-designation">
+              Developer
+          </div>
+        </div> -->
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">
+              <i class="icon-box menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          
+          {% if name == 'finance' %}
+
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#uuu-basic" aria-expanded="false" aria-controls="uuu-basic">
+              <i class="fa-solid fa-user-group menu-icon"></i>
+              <span class="menu-title">Finance</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="uuu-basic">
+              <ul class="nav flex-column ">
+                <!-- <li class="nav-item"> <a class="nav-link" href="{% url 'ajoutClient_page' %}">Ajouter un client</a></li> sub-menu-->
+                <li class="nav-item"><a class="nav-link" href="{% url 'CertListAgr_page' %}">Liste des certificats</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'listePContact_page' %}">Personne de contact</a></li>
+              </ul>
+            </div>
+          </li>
+          
+          {% else  %}
+          
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#u-basic" aria-expanded="false" aria-controls="u-basic">
+              <i class="fa-solid fa-user-group menu-icon"></i>
+              <span class="menu-title">Clients</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="u-basic">
+              <ul class="nav flex-column ">
+                <!-- <li class="nav-item"> <a class="nav-link" href="{% url 'ajoutClient_page' %}">Ajouter un client</a></li> sub-menu-->
+                <li class="nav-item"><a class="nav-link" href="{% url 'listeClient_page' %}">Liste des clients</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'listePContact_page' %}">Personne de contact</a></li>
+              </ul>
+            </div>
+          </li>
+          {% endif %}
+          
+          <!-- <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#uu-basic" aria-expanded="false" aria-controls="uu-basic">
+              <i class="fa-solid fa-user-group menu-icon"></i>
+              <span class="menu-title">Certificat</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="uu-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="">Agrement</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'listePContact_page' %}">Personne de contact</a></li>
+              </ul>
+            </div>
+          </li> -->
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="container-fluid">
+            {% if messages %}
+                {% for message in messages %}
+                  {% if message.tags == "error" %}
+                  <br>
+                  <div class="alert alert-danger">
+                    {{ message }}
+                  </div>
+                  {% else %}
+                  <br>
+                  <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                  </div>
+                  {% endif %}
+                  
+                {% endfor %}
+            {% endif%}
+            {% block content %}
+
+            {% endblock %}
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <!-- <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap dashboard templates</a> from Bootstrapdash.com</span>
+          </div>
+        </footer> -->
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- base:js -->
+  <script src="{% static '/vendors/base/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="{% static '/js/off-canvas.js' %}"></script>
+  <script src="{% static '/js/hoverable-collapse.js' %}"></script>
+  <script src="{% static '/js/template.js' %}"></script>
+  <!-- endinject -->
+  <!-- plugin js for this page -->
+  <script src="{% static '/vendors/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static '/vendors/jquery-bar-rating/jquery.barrating.min.js' %}"></script>
+  <!-- End plugin js for this page -->
+  <!-- Custom js for this page-->
+  <script src="{% static '/js/dashboard.js' %}"></script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>
+

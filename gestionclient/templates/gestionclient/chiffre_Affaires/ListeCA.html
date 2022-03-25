@@ -1,0 +1,56 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 grid-margin">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                   <h4>Les Chiffres d'Affaires</h4> 
+                </div>
+                
+                <p class="card-description">
+                <a href="{% url 'ajoutCA' %}"><button type="button" class="btn btn-primary">Ajouter</button></a>
+                  </p>
+                <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>client</th>
+                        <th>Chiffre d'affaire</th>
+                        <th>Date Attribution</th>
+                        <th>Status</th>
+                        <th colspan="5"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if cas %}
+                    {% for ca in cas %}
+                    <tr>
+                        <td>{{ ca.client.nom }}</td>
+                        <td>{{ ca.ca }}</td>
+                        <td>{{ ca.dateAtri }}</td>
+                        {% if ca.etat == 'actif' %}
+                        <td><label class="badge badge-success" >{{ ca.etat }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-warning" >{{ ca.etat }}</label></td>
+                        {% endif %}
+                        <td>
+                            <a href="{% url 'updateCA' ca.id %}"><button type="button" class="btn btn-primary" >Modifier</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                            <h2>Pas de certificat</h2>
+                    {% endif %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-lg-2 grid-margin"></div> -->
+</div>
+    
+{% endblock %}
