@@ -115,6 +115,8 @@ class CertAgr(models.Model):
     nature = models.CharField(max_length=200, null=True,choices=NATURE)
     dateAttri = models.DateField(auto_now= False, null= True)
     dateExp = models.DateField(auto_now=False, null=True)
+    porfact = models.CharField(max_length=200, null=True, default='non')
+    facturer = models.CharField(max_length=200, null=True, default='non')
     etat = models.CharField(max_length=200, null=True, default='actif')
 
     
@@ -123,6 +125,34 @@ class CertAgr(models.Model):
 
     class Meta:
         ordering = ['-dateAttri']
+
+class Taux(models.Model):
+    taux = models.FloatField(max_length=200, null=True)
+    dateAtri = models.DateField(auto_now= True, null= True)
+    etat = models.CharField(max_length=200, null=True, default='actif')
+
+class TarifAgre(models.Model):
+    TYPE = (
+        ('VENDEUR','VENDEUR'),
+        ('INSTALLATEUR','INSTALLATEUR'),
+        ('DISTRIBUTEUR','DISTRIBUTEUR'),
+       )
+    type = models.CharField(max_length=200,  null=True, choices=TYPE)
+    tarifs = models.IntegerField(null=True)
+    etat = models.CharField(max_length=200, null=True, default='actif')
+    date = models.DateField(auto_now= True, null= True)
+
+    def __str__(self):
+        return (self.type)
+
+
+class Facture_CertAgr(models.Model):
+    certificat = models.ForeignKey(CertAgr,on_delete=models.PROTECT)
+    tarif =  models.ForeignKey(TarifAgre,on_delete=models.PROTECT)
+    taux = models.ForeignKey(Taux,on_delete=models.PROTECT)
+    total = models.IntegerField(null=True)
+    total_bif = models.IntegerField(null=True)
+    date = models.DateField(auto_now= True, null= True)
 
 
 class CertConf(models.Model):
@@ -140,6 +170,8 @@ class CertConf(models.Model):
     dateAttri = models.DateField(auto_now= False, null= True)
     dateExp = models.DateField(auto_now=False, null=True)
     etat = models.CharField(max_length=200, null=True, default='actif')
+    pourfact = models.CharField(max_length=200, null=True, default='non')
+    facturer = models.CharField(max_length=200, null=True, default='non')
 
     
     def __str__(self):
@@ -148,6 +180,26 @@ class CertConf(models.Model):
     class Meta:
         ordering = ['-dateAttri']
 
+class TarifConf(models.Model):
+    TYPE = (
+        ('RESEAU LOCAL','RESEAU LOCAL'),
+        ('RESEAU NATIONAL','RESEAU NATIONAL'),
+    )
+    type = models.CharField(max_length=200,  null=True, choices=TYPE)
+    tarif = models.IntegerField(null=True)
+    etat = models.CharField(max_length=200, null=True, default='actif')
+    date = models.DateField(auto_now= True, null= True)
+
+    def __str__(self):
+        return (self.type)
+
+class FactureConf(models.Model):
+    certificat = models.ForeignKey(CertConf,on_delete=models.PROTECT)
+    tarif =  models.ForeignKey(TarifConf,on_delete=models.PROTECT)
+    taux = models.ForeignKey(Taux,on_delete=models.PROTECT)
+    total = models.IntegerField(null=True)
+    total_bif = models.IntegerField(null=True)
+    date = models.DateField(auto_now= True, null= True)
 
 class Constructeur(models.Model):
     nom = models.CharField(max_length=200,  null=False)
@@ -181,6 +233,10 @@ class Equipement(models.Model):
         ordering = ['-date_creation']
 
 class HomologationEqui(models.Model):
+    NATURE = (
+        ('Nouveau certificat','Nouveau certificat'),
+        ('Renouvellement certificat','Renouvellement certificat'),
+    )
     CATEGORIE = (
         ('Terminal Simple et de Faible Puissance','Terminal Simple et de Faible Puissance'),
         ("Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise","Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise"),
@@ -192,11 +248,9 @@ class HomologationEqui(models.Model):
     dateAttri = models.DateField(auto_now= False, null= True)
     dateExp = models.DateField(auto_now=False, null=True)
     etat = models.CharField(max_length=200, null=True, default='actif')
-    NATURE = (
-        ('Nouveau certificat','Nouveau certificat'),
-        ('Renouvellement certificat','Renouvellement certificat'),
-    )
     nature = models.CharField(max_length=200, null=True,choices=NATURE)
+    pourfact = models.CharField(max_length=200, null=True, default='non')
+    facturer = models.CharField(max_length=200, null=True, default='non')
 
     def __str__(self):
         return (self.client.nom +'/'+ self.equipement.designation)
@@ -205,9 +259,31 @@ class HomologationEqui(models.Model):
     class Meta:
         ordering = ['-dateAttri']
 
+class TarifHom(models.Model):
+    TYPE = (
+        ('Terminal Simple et de Faible Puissance','Terminal Simple et de Faible Puissance'),
+        ("Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise","Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise"),
+        ('Terminal Radioelectrique de Reseau','Terminal Radioelectrique de Reseau'),
+    )
+    type = models.CharField(max_length=200,  null=True, choices=TYPE)
+    tarif = models.IntegerField(null=True)
+    etat = models.CharField(max_length=200, null=True, default='actif')
+    date = models.DateField(auto_now= True, null= True)
 
-  
-    
+    def __str__(self):
+        return (self.type)
+
+class FactureHom(models.Model):
+    certificat = models.ForeignKey(HomologationEqui,on_delete=models.PROTECT)
+    tarif =  models.ForeignKey(TarifHom,on_delete=models.PROTECT)
+    taux = models.ForeignKey(Taux,on_delete=models.PROTECT)
+    total = models.IntegerField(null=True)
+    total_bif = models.IntegerField(null=True)
+    date = models.DateField(auto_now= True, null= True)
+
+
+
+
 
 
 class Megas(models.Model):
@@ -270,7 +346,7 @@ class FaisceauxHertzien(models.Model):
 
 class FF_Numero(models.Model):
     NATURE = (
-        ('Client Nouveau ','Client Nouveau '),
+        ('Client Nouveau','Client Nouveau'),
         ('Client Existant','Client Existant'),
     )
     client  = models.ForeignKey(Client,on_delete=models.PROTECT)
@@ -293,7 +369,8 @@ class FF_Numero(models.Model):
     facturer = models.CharField(max_length=200, null=True, default='non')
     efacturer = models.CharField(max_length=200, null=True, default='non')
     etat = models.CharField(max_length=200, null=True, default='actif')
-    dateAtri = models.DateField(auto_now= False, null= True)
+    dateAtri = models.DateField(auto_now= True, null= True)
+    observation = models.TextField(max_length= 300,null=True,default='-')
 
     # def __str__(self):
     #     return (self.pk)
@@ -312,6 +389,7 @@ class NumeroCourt(models.Model):
     ffnumero = models.ForeignKey(FF_Numero,null=True,on_delete=models.PROTECT)
     type = models.CharField(max_length=200, null=True,choices=TYPE)
     numero = models.CharField(max_length=200,  null=True)
+    periode = models.IntegerField(null=True,default= 0)
     dateAtri = models.DateField(auto_now= True, null= True)
     etat = models.CharField(max_length=200, null=True, default='actif')
 
@@ -347,10 +425,6 @@ class AB(models.Model):
         ordering = ['-dateAtri']
 
 
-class Taux(models.Model):
-    taux = models.FloatField(max_length=200, null=True)
-    dateAtri = models.DateField(auto_now= True, null= True)
-    etat = models.CharField(max_length=200, null=True, default='actif')
 
     # def __str__(self):
     #     return (self.taux )
@@ -387,17 +461,18 @@ class TarifFFNumero(models.Model):
 class Facture_FFNumero(models.Model):
     ffnumero = models.ForeignKey(FF_Numero,null=True,on_delete=models.PROTECT)
     taux = models.ForeignKey(Taux,null=True,on_delete=models.PROTECT)
-    total = models.FloatField(max_length=200, null=True)
+    total = models.IntegerField(null=True)
+    total_bif = models.IntegerField(null=True)
     dateAtri = models.DateField(auto_now= True, null= True)
-    q_pq = models.FloatField(max_length=200, null=True)
-    q_ordinaire = models.FloatField(max_length=200, null=True)
-    q_ussd = models.FloatField(max_length=200, null=True)
-    q_mnemonique = models.FloatField(max_length=200, null=True)
-    q_mnc = models.FloatField(max_length=200, null=True)
-    q_nspc = models.FloatField(max_length=200, null=True)
-    q_ispc = models.FloatField(max_length=200, null=True)
-    q_cpti = models.FloatField(max_length=200, null=True)
-    fsva = models.FloatField(max_length=200, null=True)
+    q_pq = models.IntegerField(null=True)
+    q_ordinaire = models.IntegerField(null=True)
+    q_ussd = models.IntegerField(null=True)
+    q_mnemonique = models.IntegerField(null=True)
+    q_mnc = models.IntegerField(null=True)
+    q_nspc = models.IntegerField(null=True)
+    q_ispc = models.IntegerField(null=True)
+    q_cpti = models.IntegerField(null=True)
+    fsva = models.IntegerField(null=True)
 
     
 

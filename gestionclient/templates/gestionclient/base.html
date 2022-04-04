@@ -56,6 +56,11 @@
                     <!-- <i class="icon-inbox"></i> Logout <a href="{% url 'logout' %}"></a> -->
                     <button type="button" class="btn btn-info font-weight-bold">Logout</button>
                 </a>
+                {% if request.user.is_staff %}
+                <a href="admin/" class="dropdown-item preview-item ">
+                    <button type="button" class="btn btn-info font-weight-bold">Admin</button>
+                </a>
+                {% endif %}
               </div>
             </li>
         </ul>
@@ -68,24 +73,13 @@
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <!-- <div class="user-profile">
-          <div class="user-image">
-            <img src="{% static '/images/faces/face28.png' %}">
-          </div>
-          <div class="user-name">
-              Edward Spencer
-          </div>
-          <div class="user-designation">
-              Developer
-          </div>
-        </div> -->
         <ul class="nav">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="{% url 'home' %}">
               <i class="icon-box menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
-          </li>
+          </li> -->
           
           <!-- <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#u-basic" aria-expanded="false" aria-controls="u-basic">
@@ -100,8 +94,277 @@
               </ul>
             </div>
           </li> -->
-
+          {% if name == 'finance' %}
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'listeClient_page' %}">
+              <i class="fa-solid fa-user-group menu-icon"></i>
+              <span class="menu-title">Stats</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#numero-basic" aria-expanded="false" aria-controls="numero-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Numerotations
+                {% if facturer > 0 %}
+                <label class="badge badge-warning">{{ facturer }}</label>
+                {% endif %}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="numero-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'Listeff' %}">Fiche Facturation
+                  {% if facturer > 0 %}
+                <label class="badge badge-warning">{{ facturer }}</label>
+                {% endif %}
+                </a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'Listefactfiche' %}">Liste des factures</a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#agrement-basic" aria-expanded="false" aria-controls="agrement-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Cert.Agrement
+                {% if certAgr > 0 %}
+                <label class="badge badge-warning">{{ certAgr }}</label>
+                {% endif %}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="agrement-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListCetAfact' %}">Fiche Facturation
+                  {% if certAgr > 0 %}
+                <label class="badge badge-warning">{{ certAgr }}</label>
+                {% endif %}
+                </a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#conformite-basic" aria-expanded="false" aria-controls="conformite-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Cert.Conformite
+                {% if conf > 0 %}
+                <label class="badge badge-warning">{{ conf }}</label>
+                {% endif %}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="conformite-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListCertConfAfact' %}">Liste conformite
+                  {% if conf > 0 %}
+                  <label class="badge badge-warning">{{ conf }}</label>
+                  {% endif %}
+                </a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#homologation-basic" aria-expanded="false" aria-controls="homologation-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Cert.Homologation
+                {% if homolo > 0 %}
+                <label class="badge badge-warning">{{ homolo }}</label>
+                {% endif %}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="homologation-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListCertHomAfact' %}">Liste Homologation
+                  {% if homolo > 0 %}
+                <label class="badge badge-warning">{{ homolo }}</label>
+                {% endif %}
+                </a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
+              </ul>
+            </div>
+          </li>
+          {% elif name == 'technicien' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'listeClient_page' %}">
+              <i class="fa-solid fa-user-group menu-icon"></i>
+              <span class="menu-title">Clients</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#numero-basic" aria-expanded="false" aria-controls="numero-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Numerotations
+                {% if totalnum > 0 %}
+                <label class="badge badge-warning">{{ totalnum }}</label>
+                {% endif %}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="numero-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeFFNumero' %}">Fiche Facturation
+                  {% if afacturer > 0 %}
+                <label class="badge badge-warning">{{ afacturer }}</label>
+                  {% endif %}
+                </a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeNumCourt' %}">Numero Court
+                  {% if numcourt > 0 %}
+                <label class="badge badge-warning">{{ numcourt }}</label>
+                  {% endif %}
+                </a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListePQ' %}">Numero Long
+                  {% if pq > 0 %}
+                <label class="badge badge-warning">{{ pq }}</label>
+                {% endif %}
+                </a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#agrement-basic" aria-expanded="false" aria-controls="agrement-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Cert.Agrement
+                {% if agrements > 0 %}
+                <label class="badge badge-warning">{{ agrements }}</label>
+                {% endif %}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="agrement-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'CertListAgr_page' %}">Liste Cert Agr
+                  {% if agrements > 0 %}
+                <label class="badge badge-warning">{{ agrements }}</label>
+                {% endif %}
+                </a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#conformite-basic" aria-expanded="false" aria-controls="conformite-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Cert.Conformite
+                {% if confor > 0 %}
+                <label class="badge badge-warning">{{ confor }}</label>
+                {% endif %}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="conformite-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListCertConf' %}">Liste conformite
+                  {% if confor > 0 %}
+                <label class="badge badge-warning">{{ confor }}</label>
+                {% endif %}
+                </a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#homologation-basic" aria-expanded="false" aria-controls="homologation-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Cert.Homologation
+                {% if homo > 0 %}
+                <label class="badge badge-warning">{{ homo }}</label>
+                {% endif %}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="homologation-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeHomo' %}">Fiche Facturation
+                  {% if homo > 0 %}
+                <label class="badge badge-warning">{{ homo }}</label>
+                {% endif %}
+                </a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <!-- {% elif request.user.is_staff %} -->
+          {% elif poste == 'admin' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'listeClient_page' %}">
+              <i class="fa-solid fa-user-group menu-icon"></i>
+              <span class="menu-title">Stats</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'listeClient_page' %}">
+              <i class="fa-solid fa-user-group menu-icon"></i>
+              <span class="menu-title">Clients</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#numero-basic" aria-expanded="false" aria-controls="numero-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Numerotations</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="numero-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeFFNumero' %}">Fiche Facturation</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeNumCourt' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListePQ' %}">Numero Long</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#agrement-basic" aria-expanded="false" aria-controls="agrement-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Cert.Agrement</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="agrement-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeHomo' %}">Fiche Facturation</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#conformite-basic" aria-expanded="false" aria-controls="conformite-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Cert.Conformite</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="conformite-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeHomo' %}">Fiche Facturation</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#homologation-basic" aria-expanded="false" aria-controls="homologation-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Cert.Homologation</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="homologation-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeHomo' %}">Fiche Facturation</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li>
+              </ul>
+            </div>
+          </li>
+
+          {% endif %}
+          <!-- <li class="nav-item">
             <a class="nav-link" href="{% url 'listeClient_page' %}">
               <i class="fa-solid fa-user-group menu-icon"></i>
               <span class="menu-title">Clients</span>
@@ -183,14 +446,14 @@
                 {% endif %}
               </span>
             </a>
-          </li>
+          </li> -->
           <!-- <li class="nav-item">
             <a class="nav-link" href="{% url 'ListCertConf' %}">
               <i class="icon-paper menu-icon"></i>
               <span class="menu-title">Certificat Homologation</span>
             </a>
           </li> -->
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#u-basic" aria-expanded="false" aria-controls="u-basic">
               <i class="icon-circle-check menu-icon"></i>
               <span class="menu-title">Cert. Homologation</span>
@@ -213,11 +476,11 @@
             <div class="collapse" id="o-basic">
               <ul class="nav flex-column ">
                 <li class="nav-item"><a class="nav-link" href="{% url 'ListeNumCourt' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeNumCourt' %}">Numero Court</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ListePQ' %}">Numero Long</a></li>
-                <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Liste des equipements</a></li> -->
               </ul>
             </div>
-          </li>
+          </li> -->
       
           
           <!-- <li class="nav-item">

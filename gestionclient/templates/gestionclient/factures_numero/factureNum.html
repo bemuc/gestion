@@ -2,21 +2,21 @@
 
 {% block content %}
 <!-- details du client -->
-<div class="row">
-    <!-- <div class="col-lg-2 grid-margin"></div> -->
+<!-- <div class="row">
     <div class="col-lg-12 grid-margin">
         <br>
             <div class="card">
                 <div class="card-body">
                     
-                    <h4>Details de la Fiche de Facturation</h4>
+                    <h4>Details de la  Facture</h4>
                     
                     <p class="card-description">
                     <hr>
                     
                     </p>
-                    <!-- <div class="row"> -->
-                        <!-- <div class="col-md-8" style="border-left: 1px solid black;"> -->
+                    .
+                    <div class="row">
+                        <div class="col-md-6" style="border-left: 1px solid black;">
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Total en dollar :</label>
                                 <div class="col-sm-6">{{ total }}</div>
@@ -30,172 +30,450 @@
                                 <label for="exampleInputEmail2" class="col-sm-3">Taux :</label>
                                 <div class="col-sm-6">{{ taux }}</div>
                             </div>
-                            <!-- <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Numero long (PQ) :</label>
-                                <div class="col-sm-6">{{ FF_Numero.q_pq }}</div>
-                            </div>  -->
-                        <!-- </div> -->
-                        <!-- <div class="col-md-4" style="border-left: 1px solid black;"> -->
-                            <!-- <hr>
-                            <h5 class="mt-3">Numero Court</h5>
-                            
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Ordinaire :</label>
-                                <div class="col-sm-6">{{ FF_Numero.q_ordinaire }}</div>
-                            </div>
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">USSD :</label>
-                                <div class="col-sm-6">{{ FF_Numero.q_ussd }}</div>
-                            </div>
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Code Mnemonique :</label>
-                                <div class="col-sm-6">{{ FF_Numero.q_mnemonique }}</div>
-                            </div>  -->
-                        <!-- </div> -->
-                        <!-- <div class="col-md-4" style="border-left: 1px solid black;"> -->
-                            <!-- <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">MNC :</label>
-                                <div class="col-sm-6">{{ FF_Numero.q_mnc }}</div>
-                            </div>
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">NSPC :</label>
-                                <div class="col-sm-6">{{ FF_Numero.q_nspc }}</div>
-                            </div>
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">ISPC :</label>
-                                <div class="col-sm-6">{{ FF_Numero.q_ispc }}</div>
-                            </div> 
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Code de preselection pour les transporteurs internationaux :</label>
-                                <div class="col-sm-6">{{ FF_Numero.q_cpti }}</div>
-                            </div> 
-                            {% if FF_Numero.client.type == 'Operateur telephonique' %}
-                            <hr>
-                            <h5  class="mt-3">Ressources en numerotation</h5>
-                            
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Etude du Dossier :</label>
-                                <div class="col-sm-6">{{ FF_Numero.RN_etudeDossier }}</div>
-                            </div> 
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Frais de gestion (annuelle) :</label>
-                                <div class="col-sm-6">{{ FF_Numero.RN_fraisGestion }}</div>
-                            </div> 
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Redevances annuelles :</label>
-                                <div class="col-sm-6">{{ FF_Numero.RN_redevanceAnn }}</div>
-                            </div> 
-                            {% elif FF_Numero.client.type == 'FSVA' %}
-                            <hr>
-                            <h5  class="mt-3">Fourniture de service a valeur ajoutee</h5>
-                            
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Etude du Dossier :</label>
-                                <div class="col-sm-6">{{ FF_Numero.FS_etudeDossier }}</div>
-                            </div> 
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Agrement des equipements :</label>
-                                <div class="col-sm-6">{{ FF_Numero.FS_agreEquipe }}</div>
-                            </div> 
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Autorisation de l'ARCT :</label>
-                                <div class="col-sm-6">{{ FF_Numero.FS_autoARCT }}</div>
-                            </div> 
-                            {% endif %}
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Date :</label>
-                                <div class="col-sm-6">{{ FF_Numero.dateAtri }}</div>
-                            </div>
-                            <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Periode :</label>
-                                <div class="col-sm-6">{{ FF_Numero.periode }} mois</div>
-                            </div> -->
-                        <!-- </div> -->
-
-                    <!-- </div> -->
+                        </div>
+                    </div>
+                        
                 </div>
                 
             </div>
             <div class="d-flex justify-content-start align-items-center">
                 <a href=""><button type="button" class="btn btn-primary ml-5 mr-3">Retour</button></a>
-                {% if FF_Numero.facturer == 'non' %}
+                {% if FF_Numero.facturer is 'non' %}
                 <a href=""><button type="button" class="btn btn-primary ml-5">Facturer</button></a>
                 <a href=""><button type="button" class="btn btn-primary ml-5">Modifier</button></a>
                 <a href=""><button type="button" class="btn btn-primary ml-5">Supprimer</button></a>
                 
                 {% endif %}
                 </div>
-            <br>
-            <!-- <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <h4>Services</h4>
-                    </div>
-                    <p class="card-description">
-                    <hr>
-                    
-                    <a href=""><button type="button" class="btn btn-primary ml-5">Certificat Agrement</button></a>
-                   
-                    </p>
-                    
-                </div>
-            </div> -->
-            <!-- <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-center">
-                       <h4>Liste des certificat d'agrement</h4> 
-                    </div>
-                    
-                    <p class="card-description">
-                    <a href=""><button type="button" class="btn btn-primary">Ajouter un certificat</button></a>
-                    </p>
-                    <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Nature</th>
-                            <th>Date attribution</th>
-                            <th>Date expiration</th>
-                            <th>Status</th>
-                            <th colspan="2">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% if certificats %}
-                        {% for certificat in certificats %}
-                        <tr>
-                            <td>{{ certificat.type }}</td>
-                            <td>{{ certificat.nature }}</td>
-                            <td>{{ certificat.dateAttri }}</td>
-                            <td>{{ certificat.dateExp }}</td>
-                            {% if today >= certificat.dateExp  %}
-                            <td><label class="badge badge-danger">Expired</label></td>
-                            {% else %}
-                            <td><label class="badge badge-success">Valid</label></td>
-                            {% endif %}
-                            <td>
-                                <a href="{% url 'detailsClient_page' client.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye"></i></button></a>
-                            </td>
-                            <td>
-                                <a href="{% url 'deactiverClient_page' client.id %}"><button type="button" class="btn btn-danger"><i class="icon-cross"></i></button></a></a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        {% else %}
-                                <h2>Pas de certificat agrement</h2>
-                        {% endif %}
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
-            </div> -->
-    <!-- <div class="col-lg-2 grid-margin"></div> -->
+            
     </div>
     <hr>
-</div>
-<div class="row">
+</div> -->
+<div class="card">
+  <div class="card-body">
+      <div class="d-flex justify-content-center align-items-center">
+      </div>
+      <p class="card-description">
+        <br>
+      </p>
+      <div class="row">
+        <div class="col-md-12">
+            <h5>Exploitation des ressources en numerotation</h5>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Libelle</th>
+                    <th>Prix Unitaire</th>
+                    <th>Prix Total</th>
+                </tr>
+                <tr>
+                    <td>
+                        <h3>Frais etude du dossier</h3>
+                    {% if ff.RN_etudeDossier is True %}
+                    <ul>
+                    {% if ff.q_ordinaire > 0 %}
+                    <li>Numeros courts-codes ordinaires</li>
+                    {% endif %}
+                    {% if ff.q_ussd > 0  %}
+                    <li>Numeros courts-ussd</li>
+                    {% endif %}
+                    {% if ff.q_mnemonique > 0  %}
+                    <li>Numeros courts-code mnemonique</li>
+                    {% endif %}
+                    {% if ff.q_mnc > 0  %}
+                    <li>Numeros courts-MNC</li>
+                    {% endif %}
+                    {% if ff.q_nspc > 0  %}
+                    <li>Numeros courts-NSPC</li>
+                    {% endif %}
+                    {% if ff.q_ispc > 0  %}
+                    <li>Numeros courts-ISPC</li>
+                    {% endif %}
+                    {% if ff.q_cpti > 0  %}
+                    <li>Numeros courts-Code de preselection pour les transporteurs internationaux</li>
+                    {% endif %}
+                    {% endif %}
+                    </ul>
+                    {% if ff.FS_etudeDossier is True %}
+                    <ul>
+                        <li>FSVA</li>
+                    </ul>
+                    {% endif %}
+                    </td>
+                    <td>
     
+                    </td>
+                    <td><h1></h1><br>
+                    {% if ff.RN_etudeDossier is True %}
+                    <ul>
+                    {% if ff.q_ordinaire > 0 %}
+                    <li>{{ q_ordinaire.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_ussd > 0  %}
+                    <li>{{ q_ussd.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_mnemonique > 0  %}
+                    <li>{{ q_mnemonique.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_mnc > 0  %}
+                    <li>{{ q_mnc.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_nspc > 0  %}
+                    <li>{{ q_nspc.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_ispc > 0  %}
+                    <li>{{ q_ispc.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_cpti > 0  %}
+                    <li>{{ q_cpti.etudeDossier }} $</li>
+                    {% endif %}
+                    </ul>
+                    {% elif ff.FS_etudeDossier is True %}
+                        <ul>
+                            <li>{{ fsva.etudeDossier }}</li>
+                        </ul>
+                    {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    {% if ff.RN_fraisGestion is True %}
+                    <h3>Frais de gestion annuelle:</h3>
+                        <ul>
+                        {% if ff.q_ordinaire > 0 %}
+                        <li>Numeros courts-codes ordinaires</li>
+                        {% endif %}
+                        {% if ff.q_ussd > 0  %}
+                        <li>Numeros courts-ussd</li>
+                        {% endif %}
+                        {% if ff.q_mnemonique > 0  %}
+                        <li>Numeros courts-code mnemonique</li>
+                        {% endif %}
+                        {% if ff.q_mnc > 0  %}
+                        <li>Numeros courts-MNC</li>
+                        {% endif %}
+                        {% if ff.q_nspc > 0  %}
+                        <li>Numeros courts-NSPC</li>
+                        {% endif %}
+                        {% if ff.q_ispc > 0  %}
+                        <li>Numeros courts-ISPC</li>
+                        {% endif %}
+                        {% if ff.q_cpti > 0  %}
+                        <li>Numeros courts-Code de preselection pour les transporteurs internationaux</li>
+                        {% endif %}
+                        </ul>
+                    {% elif ff.FS_agreEquipe is True %}
+                    <h3>Frais d'agrement des equipements:</h3>
+                        
+                    {% endif %}
+                    </td>
+                    <td>
+    
+                    </td>
+                    <td>
+                        <h1></h1>
+                        {% if ff.RN_fraisGestion is True %}
+                        <ul>
+                        {% if ff.q_ordinaire > 0 %}
+                        <li>{{ q_ordinaire.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_ussd > 0  %}
+                        <li>{{ q_ussd.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_mnemonique > 0  %}
+                        <li>{{ q_mnemonique.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_mnc > 0  %}
+                        <li>{{ q_mnc.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_nspc > 0  %}
+                        <li>{{ q_nspc.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_ispc > 0  %}
+                        <li>{{ q_ispc.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_cpti > 0  %}
+                        <li>{{ q_cpti.fraisGestion }} $</li>
+                        {% endif %}
+                        </ul>
+                        {% elif ff.FS_etudeDossier is True %}
+                            <ul>
+                                <li>{{ fsva.etudeDossier }} $</li>
+                            </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    {% if ff.RN_redevanceAnn is True %}
+                    <h3>Frais de gestion annuelle:</h3>
+                        <ul>  
+                        {% if ff.q_pq > 0 %}
+                        <li>{{ff.q_pq}} PQ </li>
+                        {% endif %}
+                        {% if ff.q_ordinaire > 0 %}
+                        <li>{{ff.q_ordinaire}} Code court Ordinanire</li>
+                        {% endif %}
+                        {% if ff.q_ussd > 0  %}
+                        <li>{{ff.q_ussd}} Code court ussd</li>
+                        {% endif %}
+                        {% if ff.q_mnemonique > 0  %}
+                        <li>{{ ff.q_mnemonique }} Code court mnemonique</li>
+                        {% endif %}
+                        {% if ff.q_mnc > 0  %}
+                        <li>{{ ff.q_mnc  }} Code court MNC</li>
+                        {% endif %}
+                        {% if ff.q_nspc > 0  %}
+                        <li>{{ff.q_nspc}}Code court NSPC</li>
+                        {% endif %}
+                        {% if ff.q_ispc > 0  %}
+                        <li>{{ ff.q_ispc }}Code court ISPC</li>
+                        {% endif %}
+                        {% if ff.q_cpti > 0  %}
+                        <li>{{ ff.q_cpti }} Code courts de preselectionx</li>
+                        {% endif %}
+                        </ul>
+                        {% elif ff.FS_autoARCT is True  %}
+                        <h3>Autorisation de l'ARCT</h3>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <h5 >-</h5><br>
+                        {% if ff.RN_redevanceAnn is True %}
+                        <ul>
+                        {% if ff.q_pq > 0 %}
+                        <li>{{ q_pq.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_ordinaire > 0 %}
+                        <li>{{ q_ordinaire.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_ussd > 0  %}
+                        <li>{{ q_ussd.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_mnemonique > 0  %}
+                        <li>{{ q_mnemonique.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_mnc > 0  %}
+                        <li>{{ q_mnc.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_nspc > 0  %}
+                        <li>{{ q_nspc.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_ispc > 0  %}
+                        <li>{{ q_ispc.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_cpti > 0  %}
+                        <li>{{ q_cpti.redevanceAnn }} $</li>
+                        {% endif %}
+                        </ul>
+                        {% elif ff.FS_autoARCT is True %}
+                            <ul>
+                                <li>{{ fsva.autorisationARCT }}</li>
+                            </ul>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <h5 >-</h5><br>
+                        {% if ff.RN_redevanceAnn is True %}
+                        <ul>
+                        {% if ff.q_pq > 0 %}
+                        <!-- <li>{% widthratio q_pq.redevanceAnn 1 ff.q_pq %}</li> -->
+                        <li>{{ a }}</li>
+                        <!-- <li>{% widthratio q_pq.redevanceAnn 1 ff.q_pq %}</li> -->
+                        {% endif %}
+                        {% if ff.q_ordinaire > 0 %}
+                        {% if ff.periode > 0 %}
+                        <!-- <li>{{ q_ordinaire.redevanceAnn }} * {{ ff.q_ordinaire }} * {{ ff.periode }} / 365 </li> -->
+                        <li>{{ q_ordinaire.redevanceAnn }} * {{ ff.q_ordinaire }} * {{ ff.periode }} / 365 = {{ b }} $</li>
+                        {% else %}
+                        <li>{% widthratio q_ordinaire.redevanceAnn 1 ff.q_ordinaire %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_ussd > 0 %}
+                        {% if ff.periode > 0 %}
+                        <li>{{ q_ussd.redevanceAnn }} * {{ ff.q_ussd }} * {{ ff.periode }} / 365 = {{ c }} $</li>
+                        {% else %}
+                        <li>{% widthratio q_ussd.redevanceAnn 1 ff.q_ussd %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_mnemonique > 0 %}
+                        {% if ff.periode > 0 %}
+                        <li>{{ q_mnemonique.redevanceAnn }} * {{ ff.q_mnemonique }} * {{ ff.periode }} / 365 ={{ d }} $</li>
+                        {% else %}
+                        <li>{% widthratio q_mnemonique.redevanceAnn 1 ff.q_mnemonique %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_mnc > 0 %}
+                        {% if ff.periode > 0 %}
+                        <!-- <li>{{ q_ordinaire.redevanceAnn }} * {{ ff.q_ordinaire }} * {{ ff.periode }} / 365 </li> -->
+                        <li>{{ q_mnc.redevanceAnn }} * {{ ff.q_mnc }} * {{ ff.periode }} / 365 ={{ e }} $</li>
+                        {% else %}
+                        <li>{% widthratio q_mnc.redevanceAnn 1 ff.q_mnc %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_nspc > 0 %}
+                        {% if ff.periode > 0 %}
+                        <li>{{ q_nspc.redevanceAnn }} * {{ ff.q_nspc }} * {{ ff.periode }} / 365 ={{ f }}$ </li>
+                        {% else %}
+                        <li>{% widthratio q_nspc.redevanceAnn 1 ff.q_nspc %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_ispc > 0 %}
+                        {% if ff.periode > 0 %}
+                        <li>{{ q_ispc.redevanceAnn }} * {{ ff.q_ispc }} * {{ ff.periode }} / 365 ={{ g }} $</li>
+                        {% else %}
+                        <li>{% widthratio q_ispc.redevanceAnn 1 ff.q_ispc %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_cpti > 0 %}
+                        {% if ff.periode > 0 %}
+                        <li>{{ q_cpti.redevanceAnn }} * {{ ff.q_cpti }} * {{ ff.periode }} / 365 ={{ h }}$ </li>
+                        {% else %}
+                        <li>{% widthratio q_cpti.redevanceAnn 1 ff.q_cpti %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        </ul>
+                        {% elif ff.FS_autoARCT is True %}
+                            <ul>
+                                <li>{{ fsva.autorisationARCT }}</li>
+                            </ul>
+                        {% endif %}
+    
+                    </td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td>{{ total }} $</td>
+                </tr>
+                <tr>
+                    <td>
+                        Todal a Payer <br>
+                        (Taux de conversion : 1$ US = {{ taux }} BIF
+                    </td>
+                    <td>
+    
+                    </td>
+                    <td>
+                        {{ totals }} BIF
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+      
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-body">
+      <div class="d-flex justify-content-center align-items-center">
+      </div>
+      <p class="card-description">
+      
+      {% if ff.efacturer == 'non' %}
+<form class="forms-sample" method="POST">
+    {% csrf_token %}
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Constructeur</label>
+      <div class="col-sm-9">
+        {{ form.ffnumero }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Constructeur</label>
+      <div class="col-sm-9">
+        {{ form.taux }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Constructeur</label>
+      <div class="col-sm-9">
+        {{ form.total }}
+      </div>
+    </div>
+    <div class="form-group  row  d-none ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.total_bif }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.dateAtri }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.q_pq }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.q_ordinaire }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.q_ussd }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.q_mnemonique }}
+      </div>
+    </div>
+    <div class="form-group  row  d-none ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.q_mnc }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.q_nspc }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.q_ispc }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.q_cpti }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
+      <div class="col-sm-9">
+        {{ form.fsva }}
+      </div>
+    </div>
+    {% if ff.efacturer == 'non' %}
+    <button type="submit" class="btn btn-primary mr-2" value="">Ajouter</button>
+    <a href="{% url 'Listeff' %}"><button type="button" class="btn btn-light">retour</button></a>
+    {% else %}
+    <a href="{% url 'Listefactfiche' %}"><button type="button" class="btn btn-light">retour</button></a>
+    {% endif %}
+  </form>
+{% else %}
+  <a href="{% url 'Listefactfiche' %}"><button type="button" class="btn btn-primary">retour</button></a>
+{% endif %}
+      
+      <!-- <a href=""><button type="button" class="btn btn-primary ml-5">Certificat Agrement</button></a> -->
+     
+      </p>
+      
+  </div>
 </div>
     
 {% endblock %}

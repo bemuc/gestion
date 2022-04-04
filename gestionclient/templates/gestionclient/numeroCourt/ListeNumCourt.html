@@ -21,6 +21,7 @@
                         <th>Type</th>
                         <th>Nature</th>
                         <th>Numero</th>
+                        <th>Periode</th>
                         <th>Date d'attribution</th>
                         <!-- <th>Pays d'Origine</th> -->
                         <!-- <th>Fax</th> -->
@@ -37,6 +38,11 @@
                         <td>{{ numcourt.client.type }}</td>
                         <td>{{ numcourt.type }}</td>
                         <td>{{ numcourt.numero }}</td>
+                        {% if numcourt.periode > 0  %}
+                        <td><label class="badge badge-warning" >{{ numcourt.periode }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-success" >indeterminee</label></td>
+                        {% endif %}
                         <td>{{ numcourt.dateAtri }}</td>
                         <!-- <td>{{ numcourt.etat }}</td> -->
                         <!-- <td>{{ constructeur.fax }}</td> -->

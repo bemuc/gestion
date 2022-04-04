@@ -59,8 +59,12 @@
                 <div class="row "> 
                     <div class="col-sm-3 d-flex flex-start align-items-center">
                         <div class="mx-2   p-2">
+                            {% if name == 'technicien' %}
                             <a href="{% url 'ListeHomo'  %}"><button type="button" class="btn btn-dark">retour</button></a>
-                            <a href="{% url 'modifierHomo' homologation.id %}"><button type="button" class="btn btn-dark"> Modifier</button></a>
+                            {% else %}
+                            <a href="{% url 'ListCertHomAfact'  %}"><button type="button" class="btn btn-dark">retour</button></a>
+                            {% endif %}
+                            <!-- <a href="{% url 'modifierHomo' homologation.id %}"><button type="button" class="btn btn-dark"> Modifier</button></a> -->
                         </div>
                     </div>
                     <div class="col-sm-9 d-flex justify-content-center align-items-center">
@@ -70,12 +74,17 @@
                                 <a href="{% url 'updateHomologation' homologation.id %}"><button type="button" class="btn btn-warning"><i class="icon-reload"></i></button></a>
                             </div>
                             {% endif %}
-                            
-                            
+                            {% if homologation.pourfact == 'non' %}
+                            <!-- <a href=""><button type="button" class="btn btn-dark"><i class="icon-arrow-right" ></i> </button></a> -->
+                            <div class="mx-2 row d-flex flex-column align-items-center  p-2">
+                                <label  class="">Envoyer pour facturation </label>
+                                <a href="{% url 'pourfactCertHom' homologation.id %}"><button type="button" class="btn btn-info" ><i class="icon-arrow-right"></i></button></a>
+                            </div>
                             <div class="mx-2 row d-flex flex-column align-items-center  p-2">
                                 <label  class="">Supprimer </label>
                                 <a href=""><button type="button" class="btn btn-danger" ><i class="icon-cross"></i></button></a>
                             </div>
+                            {% endif %}
                 </div>
             </div> 
         </div>

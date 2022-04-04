@@ -42,7 +42,7 @@ class CertAgreForm(ModelForm):
     class Meta:
         model = CertAgr
         fields = '__all__'
-        exclude = ['etat','pourfacturation','facturer']
+        exclude = ['etat','porfact','facturer']
         widgets = {
             'client': forms.Select(attrs={'class':'form-control',}),
             # 'contact': forms.Select(attrs={'class':'form-control',}),
@@ -61,12 +61,28 @@ class CertConfForm(ModelForm):
     class Meta:
         model = CertConf
         fields = '__all__'
-        exclude = ['etat']
+        exclude = ['etat','pourfact','facturer']
         widgets = {
             'client': forms.Select(attrs={'class':'form-control',}),
             'type' : forms.Select(attrs={'class':'form-control',}),
             'nature' : forms.TextInput(attrs={'class':'form-control',}),
             'dateAttri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
+            'dateExp' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
+        }
+
+
+class FactureConfForm(ModelForm):
+    class Meta:
+        model = FactureConf
+        fields = '__all__'
+        exclude = ['etat','pourfact','facturer','date']
+        widgets = {
+            'certificat': forms.Select(attrs={'class':'form-control',}),
+            'tarif' : forms.Select(attrs={'class':'form-control',}),
+            'taux' : forms.Select(attrs={'class':'form-control',}),
+            'total' : forms.TextInput(attrs={'class':'form-control',}),
+            'total_bif' : forms.TextInput(attrs={'class':'form-control',}),
+            # 'total_bif' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
             'dateExp' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
 
@@ -112,7 +128,7 @@ class HomologationForm(ModelForm):
     class Meta:
         model = HomologationEqui
         fields = '__all__'
-        exclude = ['etat','nature']
+        exclude = ['etat','nature','pourfact','facturer']
         widgets = {
             'client' :  forms.Select(attrs={'class':'form-control',}),
             'equipement' :  forms.Select(attrs={'class':'form-control',}),
@@ -131,11 +147,13 @@ class NumeroCourtForm(ModelForm):
     class Meta:
         model = NumeroCourt
         fields = '__all__'
-        exclude = ['etat','dateAtri']
+        exclude = ['ffnumero','etat','dateAtri']
         widgets = {
             'client' :  forms.Select(attrs={'class':'form-control',}),
             'type' :  forms.Select(attrs={'class':'form-control',}),
             'numero' :  forms.TextInput(attrs={'class':'form-control',}),
+            'periode' :  forms.TextInput(attrs={'class':'form-control','type':'number','min':0,'max':365}),
+            # 'etat' :  forms.TextInput(attrs={'class':'form-control',}),
             # 'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
 
@@ -228,7 +246,7 @@ class FF_NumeroForm(ModelForm):
     class Meta:
         model = FF_Numero
         fields = '__all__'
-        exclude = ['etat','facturer','efacturer']
+        exclude = ['etat','facturer','efacturer','dateAtri','nature']
         widgets = {
             'client' :  forms.Select(attrs={'class':'form-control'}),
             'q_pq' :  forms.TextInput(attrs={'class':'form-control','type':'number','min':0}),
@@ -248,6 +266,7 @@ class FF_NumeroForm(ModelForm):
             'FS_autoARCT' :  forms.CheckboxInput(attrs={'class':'form-control'}),
             'nature' :  forms.Select(attrs={'class':'form-control'}),
             'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
+            'observation' : forms.TextInput(attrs={'class':'form-control'}),
         }
 
 
@@ -283,12 +302,20 @@ class Facture_FFNumeroForm(ModelForm):
     class Meta:
         model = Facture_FFNumero
         fields = '__all__'
-        # exclude = ['etat']
         widgets = {
-            'client' :  forms.Select(attrs={'class':'form-control'}),
             'ffnumero' :  forms.Select(attrs={'class':'form-control'}),
             'taux' :  forms.Select(attrs={'class':'form-control'}),
-            'client' :  forms.TextInput(attrs={'class':'form-control'}),
+            'total' :  forms.TextInput(attrs={'class':'form-control'}),
+            'total_bif' :  forms.TextInput(attrs={'class':'form-control'}),
+            'q_pq' :  forms.TextInput(attrs={'class':'form-control'}),
+            'q_ordinaire' :  forms.TextInput(attrs={'class':'form-control'}),
+            'q_ussd' :  forms.TextInput(attrs={'class':'form-control'}),
+            'q_mnemonique' :  forms.TextInput(attrs={'class':'form-control'}),
+            'q_mnc' :  forms.TextInput(attrs={'class':'form-control'}),
+            'q_nspc' :  forms.TextInput(attrs={'class':'form-control'}),
+            'q_ispc' :  forms.TextInput(attrs={'class':'form-control'}),
+            'q_cpti' :  forms.TextInput(attrs={'class':'form-control'}),
+            'fsva' :  forms.TextInput(attrs={'class':'form-control'}),
             'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
 
@@ -303,15 +330,46 @@ class TauxForm(ModelForm):
             'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
 
-
-class Facture_FFNumeroForm(ModelForm):
+class TarifAgreForm(ModelForm):
     class Meta:
-        model = Facture_FFNumero
+        model = TarifAgre
         fields = '__all__'
-        exclude = ['ffnumero','taux','dateAtri','q_pq','q_ordinaire','q_ussd','q_mnemonique','q_mnc','q_nspc','q_ispc','q_cpti','fsva',]
+        exclude = ['etat','date']
         widgets = {
-            'total' :  forms.TextInput(attrs={'class':'form-control'}),
+            'tarifs' :  forms.TextInput(attrs={'class':'form-control'}),
+            'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
+
+class Facture_CertAgrForm(ModelForm):
+    class Meta:
+        model = Facture_CertAgr
+        fields = '__all__'
+        exclude = ['date']
+        widgets = {
+            'certificat' :  forms.Select(attrs={'class':'form-control'}),
+            'tarif' :  forms.Select(attrs={'class':'form-control'}),
+            'taux' :  forms.Select(attrs={'class':'form-control'}),
+            'total' :  forms.TextInput(attrs={'class':'form-control'}),
+            'total_bif' :  forms.TextInput(attrs={'class':'form-control'}),
+            'date' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
+        }
+
+
+
+class FactureHomForm(ModelForm):
+    class Meta:
+        model = FactureHom
+        fields = '__all__'
+        exclude = ['date']
+        widgets = {
+            'certificat' :  forms.Select(attrs={'class':'form-control'}),
+            'tarif' :  forms.Select(attrs={'class':'form-control'}),
+            'taux' :  forms.Select(attrs={'class':'form-control'}),
+            'total' :  forms.TextInput(attrs={'class':'form-control'}),
+            'total_bif' :  forms.TextInput(attrs={'class':'form-control'}),
+            'date' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
+        }
+
 
 
 

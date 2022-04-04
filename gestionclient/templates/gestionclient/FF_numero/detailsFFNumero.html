@@ -99,12 +99,23 @@
                             </div> 
                             {% endif %}
                             <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Date :</label>
+                                <label for="exampleInputEmail2" class="col-sm-3">Date attribution :</label>
                                 <div class="col-sm-6">{{ FF_Numero.dateAtri }}</div>
                             </div>
+                            {% if FF_Numero.periode > 0 %}
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Periode :</label>
-                                <div class="col-sm-6">{{ FF_Numero.periode }} mois</div>
+                                <div class="col-sm-6">{{ FF_Numero.periode }} jours </div>
+                            </div>
+                            {% else %}
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Periode :</label>
+                                <div class="col-sm-6">indeterminee</div>
+                            </div>
+                            {% endif %}
+                            <div  class="row">
+                                <label for="exampleInputEmail2" class="col-sm-3">Observation :</label>
+                                <div class="col-sm-6">{{ FF_Numero.observation }}</div>
                             </div>
                         <!-- </div> -->
 

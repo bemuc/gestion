@@ -5,7 +5,7 @@ from .models import *
 
 # admin.site.register(Client)
 admin.site.register(CertAgr)
-admin.site.register(CertConf)
+
 admin.site.register(Constructeur)
 admin.site.register(Equipement)
 admin.site.register(HomologationEqui)
@@ -23,8 +23,13 @@ class TauxAdmin(admin.ModelAdmin):
 
 @admin.register(Client)
 class TauxAdmin(admin.ModelAdmin):
-    list_display = ['nom','type','status']
+    list_display = ['id','nom','type','status']
     # ordering = ['client','dateAtri']
+# admin.site.register(CertConf)
+@admin.register(CertConf)
+class TauxAdmin(admin.ModelAdmin):
+    list_display = ['client','pourfact','facturer','etat']
+
 
 @admin.register(TarifFFNumero)
 class TauxAdmin(admin.ModelAdmin):
@@ -35,6 +40,22 @@ admin.site.register(FrequenceRadio)
 admin.site.register(FaisceauxHertzien)
 admin.site.register(FF_Numero)
 admin.site.register(Taux)
+admin.site.register(Facture_FFNumero)
+
+
+admin.site.register(Facture_CertAgr)
+admin.site.register(TarifAgre)
+admin.site.register(TarifConf)
+admin.site.register(FactureConf)
+admin.site.register(TarifHom)
+admin.site.register(FactureHom)
+
+
+
+
+
+
+
 # admin.site.register(TarifFFNumero)
 
 

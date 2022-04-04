@@ -48,9 +48,48 @@ def logout_page(request):
 def is_group1(user):
   return user.groups.filter(name='finance').exists()
 
+@login_required(login_url='login_page')
 def afacturer(request):
+    if request.user.groups.filter(name='finance'):
+        poste = 'finance'
+    elif  request.user.groups.filter(name='technicien') :
+        poste = 'technicien'
+    else:
+        poste = 'admin'
+
+    # technique
+    afacturer = FF_Numero.objects.filter( facturer = 'non').count()
+    numcourt = NumeroCourt.objects.filter( numero = None).count()
+    pq = PQ.objects.filter( pq = None).count()
+    agre = CertAgr.objects.filter(porfact = 'non').count()
+    confor = CertConf.objects.filter(etat = 'actif').filter(pourfact = 'non').count()
+    homo = HomologationEqui.objects.filter(etat = 'actif').filter(pourfact = 'oui').count()
+
+    #finance
+    facturer = FF_Numero.objects.filter( efacturer = 'non').count()
+    certAgr = CertAgr.objects.filter(porfact = 'oui').filter(facturer = 'non').count()
+    conf = CertConf.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
+    homolo = HomologationEqui.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
+
     return {
-        'afacturer':FF_Numero.objects.filter( efacturer = 'non').count(),
+        'name':poste,
+        #technique
+        'afacturer':afacturer,
+        'numcourt':numcourt,
+        'pq':pq,
+        'totalnum':afacturer + numcourt + pq,
+        'agrements':agre,
+        'confor':confor,
+        'homo':homo,
+        
+    #finance
+        'facturer':facturer,
+        'certAgr':certAgr,
+        'conf':conf,
+        'homolo':homolo,
+
+
+        
     }
 
 @login_required(login_url='login_page')
@@ -58,13 +97,14 @@ def home(request):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
     else:
-        poste = 'nothing'
+        poste = 'technicien'
 
     context={
         'name':poste,
         
     }
     return render(request,'gestionclient/base.html',context)
+    # return redirect('listeClient_page')
 
 
 @login_required(login_url='login_page')
@@ -350,10 +390,10 @@ def updateCertAgre(request,pk):
 @login_required(login_url='login_page')
 @allowed_users(allowed_roles=['technicien'])
 def deactiveCertAgr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     certiAgrs = CertAgr.objects.get(id=pk)
     if request.method == 'POST':
@@ -365,43 +405,97 @@ def deactiveCertAgr(request,pk):
 
     context ={
         'certificat':certiAgrs,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/certificatAgrement/deactiverCertAgr.html',context)
 
 # !!!!!!!!!!!!!
 @allowed_users(allowed_roles=['technicien'])
 def pourFactCertAgr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     certiAgrs = CertAgr.objects.get(id=pk)
-    if certiAgrs.pourfacturation == 'non' and date.today() < certiAgrs.dateExp:
-        certiAgrs.pourfacturation = 'oui'
+    if certiAgrs.porfact == 'non' and date.today() < certiAgrs.dateExp:
+        certiAgrs.porfact = 'oui'
         certiAgrs.save()
-        return redirect ('listeCertAgr_page',pk = certiAgrs.client.id)
+        return redirect ('CertListAgr_page')
     else:
         messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
         'certificat':certiAgrs,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/ficheCertAgr.html',context)
 
+
+@allowed_users(allowed_roles=['finance'])
+def Certfacturer(request):
+    certiAgrs = CertAgr.objects.all()
+    # if certiAgrs.porfact == 'non' and date.today() < certiAgrs.dateExp:
+    #     certiAgrs.porfact = 'oui'
+    #     certiAgrs.save()
+    #     return redirect ('CertListAgr_page')
+    # else:
+    #     messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
+    context ={
+        'certificats':certiAgrs,
+        }
+    return render(request,'gestionclient/certificatAgrement/CertAfacturer.html',context)
+
+@allowed_users(allowed_roles=['finance'])
+def factCert(request,pk):
+    certificat = CertAgr.objects.get(id = pk)
+    type = certificat.type
+    if type == 'VENDEUR':
+        tarif = TarifAgre.objects.filter( type = 'VENDEUR').filter(etat = 'actif').first()
+    elif type == 'DISTRIBUTEUR':
+        tarif = TarifAgre.objects.filter( type = 'DISTRIBUTEUR').filter(etat = 'actif').first()
+    elif type == 'INSTALLATEUR':
+        tarif = TarifAgre.objects.filter( type = 'INSTALLATEUR').filter(etat = 'actif').first()
+    taux = Taux.objects.get(etat = 'actif')
+    total = tarif.tarifs
+    total_bif =round(total * taux.taux)
+
+    form = Facture_CertAgrForm(initial={'certificat':certificat,'tarif':tarif,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = Facture_CertAgrForm(request.POST)
+        if form.is_valid():
+            form.save()
+            certificat.facturer = 'oui'
+            certificat.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListCetAfact')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+            'form':form,
+            'certificat':certificat,
+            'tarif':tarif,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            
+        }
+    return render(request,'gestionclient/certificatAgrement/fiche_fact_agre.html',context)
+
+
 @login_required(login_url='login_page')
 def detailCertAgr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     context = {
         # 'client': Client.objects.get(id = pk),
         'certificat': CertAgr.objects.get(id = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/certificatAgrement/ficheCertAgr.html',context)
 
@@ -469,10 +563,10 @@ def thepdf(request,pk):
 
 @login_required(login_url='login_page')
 def CertListAgr(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     
     context = {
@@ -480,7 +574,7 @@ def CertListAgr(request):
         'certificats': CertAgr.objects.all(),
         # 'client':Client.objects.get(id=pk),
         'today':date.today(),
-        'name':poste,
+        # 'name':poste,
     }
 
     return render(request,'gestionclient/certificatAgrement/certListagr.html',context)
@@ -591,6 +685,81 @@ def renouvCertConf(request,pk):
         }
     
     return render(request,'gestionclient/certificatConf/ajoutCertConf.html',context)
+
+@allowed_users(allowed_roles=['technicien'])
+def pourfactCertConf(request,pk):
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
+
+    certiConf = CertConf.objects.get(id=pk)
+    if certiConf.pourfact == 'non' and date.today() < certiConf.dateExp:
+        certiConf.pourfact = 'oui'
+        certiConf.save()
+        messages.success(request, f'le Certificat a etre envoyer pour facturation')
+        return redirect ('ListCertConf')
+    else:
+        messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
+    context ={
+        'certificat':certiConf,
+        # 'name':poste,
+        }
+    return render(request,'gestionclient/certificatConf/DetailConf.html',context)
+
+
+@allowed_users(allowed_roles=['finance'])
+def CertConfAfact(request):
+    certiconf = CertConf.objects.filter(pourfact = 'oui')
+    # if certiAgrs.porfact == 'non' and date.today() < certiAgrs.dateExp:
+    #     certiAgrs.porfact = 'oui'
+    #     certiAgrs.save()
+    #     return redirect ('CertListAgr_page')
+    # else:
+    #     messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
+    context ={
+        'certificats':certiconf,
+        }
+    return render(request,'gestionclient/certificatConf/CertConfAfact.html',context)
+
+@allowed_users(allowed_roles=['finance'])
+def factCertConf(request,pk):
+    certificat = CertConf.objects.get(id = pk)
+    type = certificat.type
+    if type == 'RESEAU LOCAL':
+        tarif = TarifConf.objects.filter( type = 'RESEAU LOCAL').filter(etat = 'actif').first()
+    elif type == 'RESEAU NATIONAL':
+        tarif = TarifConf.objects.filter( type = 'RESEAU NATIONAL').filter(etat = 'actif').first()
+    
+    taux = Taux.objects.get(etat = 'actif')
+    total = tarif.tarif
+    total_bif =round(total * taux.taux)
+
+    form = FactureConfForm(initial={'certificat':certificat,'tarif':tarif,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = FactureConfForm(request.POST)
+        if form.is_valid():
+            form.save()
+            certificat.facturer = 'oui'
+            certificat.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListCertConfAfact')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+            'form':form,
+            'certificat':certificat,
+            'tarif':tarif,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            
+        }
+    return render(request,'gestionclient/certificatConf/fiche_fact_conf.html',context)
+
+
 
 
 ## constructeur
@@ -738,6 +907,79 @@ def updateEquip(request,pk):
 
 # certificat homologation
 
+@allowed_users(allowed_roles=['finance'])
+def factCertHom(request,pk):
+    certificat = HomologationEqui.objects.get(id = pk)
+    type = certificat.categorie
+    if type == 'Terminal Simple et de Faible Puissance':
+        tarif = TarifHom.objects.filter( type = 'Terminal Simple et de Faible Puissance').filter(etat = 'actif').first()
+    elif type == "Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise":
+        tarif = TarifHom.objects.filter( type = "Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise").filter(etat = 'actif').first()
+    elif type == 'Terminal Radioelectrique de Reseau':
+        tarif = TarifHom.objects.filter( type = 'Terminal Radioelectrique de Reseau').filter(etat = 'actif').first()
+    
+    taux = Taux.objects.get(etat = 'actif')
+    total = tarif.tarif
+    total_bif =round(total * taux.taux)
+
+    form = FactureHomForm(initial={'certificat':certificat,'tarif':tarif,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = FactureHomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            certificat.facturer = 'oui'
+            certificat.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListCertHomAfact')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+            'form':form,
+            'certificat':certificat,
+            'tarif':tarif,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            
+        }
+    return render(request,'gestionclient/certificatHomo/fiche_cert_homo.html',context)
+
+
+
+
+
+
+
+@allowed_users(allowed_roles=['finance'])
+def CertHomAfact(request):
+    homologation = HomologationEqui.objects.filter(pourfact = 'oui')
+    context ={
+        'homologations':homologation,
+        'today':date.today(),
+        }
+    return render(request,'gestionclient/certificatHomo/homAFct.html',context)
+
+
+@allowed_users(allowed_roles=['technicien'])
+def pourfactCertHom(request,pk):
+
+    homologation = HomologationEqui.objects.get(id=pk)
+    if homologation.pourfact == 'non' and date.today() < homologation.dateExp:
+        homologation.pourfact = 'oui'
+        homologation.save()
+        messages.success(request, f'le Certificat a etre envoyer pour facturation')
+        return redirect ('ListeHomo')
+    else:
+        messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
+    context ={
+        'homologation':homologation,
+        # 'name':poste,
+        }
+    return render(request,'gestionclient/certificatHomo/DetailHomo.html',context)
+
+
 @login_required(login_url='login_page')
 def ListeHomo(request):
     context = {
@@ -790,16 +1032,12 @@ def ajoutHomologation(request):
 
 @login_required(login_url='login_page')
 def detailHomologation(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
 
     context = {
         # 'client': Client.objects.get(id = pk),
         'homologation': HomologationEqui.objects.get(id = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/certificatHomo/DetailHomo.html',context)
 
@@ -902,29 +1140,29 @@ def ajoutnumCourt(request):
 @login_required(login_url='login_page')
 def updateNumcourt(request,pk):
     numero = NumeroCourt.objects.get(id=pk)
-    form = NumeroCourtForm(instance = numero)
+    form = NumeroCourtForm(instance = numero,initial={'etat':'actif'})
     if request.method == 'POST':
         form = NumeroCourtForm(request.POST,instance = numero)
         if form.is_valid():
             thennum = form.cleaned_data.get('numero')
             numeros = NumeroCourt.objects.all().filter(etat = 'actif')
             count = 0
-            if numero.numero == thennum:
+            # if numero.numero == thennum:
+            #     form.save()
+            #     messages.success(request, f'Numero bien mis a jour')
+            #     return redirect('ListeNumCourt')
+            # else:
+            for numero in numeros:
+                if thennum == numero.numero:
+                    count += 1
+
+            if count > 0:
+                messages.warning(request, f'Numero existe deja! ')
+        
+            else:
                 form.save()
                 messages.success(request, f'Numero bien mis a jour')
                 return redirect('ListeNumCourt')
-            else:
-                for numero in numeros:
-                    if ( thennum == numero.numero):
-                        count += 1
-
-                if count > 0:
-                    messages.warning(request, f'Numero existe deja! ')
-            
-                else:
-                    form.save()
-                    messages.success(request, f'Numero bien mis a jour')
-                    return redirect('ListeNumCourt')
 
         else:
             messages.error(request, f' ERREUR formulaire invalide. Numero non ajouter!')
@@ -932,6 +1170,8 @@ def updateNumcourt(request,pk):
     context = {
         'form':form,
         'titre':'Modifier',
+        'modifier': True,
+        'numero':numero,
         # 'client': Client.objects.get(id=certiConf.client.id),
         }
 
@@ -1532,6 +1772,15 @@ def Listeff(request):
     return render(request,'gestionclient/factures_numero/listeAfacturer.html',context)
 
 @login_required(login_url='login_page')
+def Listefactfiche(request):
+    context = {
+        'ffs': FF_Numero.objects.filter(efacturer = 'oui'),
+        'today':date.today(),
+    }
+
+    return render(request,'gestionclient/factures_numero/listeAfacturer.html',context)
+
+@login_required(login_url='login_page')
 def detailsFFNum(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
@@ -1552,6 +1801,14 @@ def detailsFFNum(request,pk):
 def facturerNum(request,pk):
     ff = FF_Numero.objects.get(id = pk)
     total = 0
+    a = 0
+    b = 0
+    c = 0
+    d = 0
+    e = 0
+    f = 0
+    g = 0
+    h = 0
     taux = Taux.objects.get(etat = 'actif')
     q_pq = TarifFFNumero.objects.filter( type = 'PQ').filter(etat = 'actif').first()
     q_ordinaire = TarifFFNumero.objects.filter( type = 'Code Ordinaire').filter(etat = 'actif').first()
@@ -1564,7 +1821,10 @@ def facturerNum(request,pk):
     fsva = TarifFSVANumero.objects.filter(etat = 'actif').first()
     
     if ff.q_pq > 0:
-        total = total + (q_pq * ff.q_pq)
+        if ff.RN_redevanceAnn == True:
+            total = total + q_ordinaire.etudeDossier
+            a = q_pq.redevanceAnn * ff.q_pq
+            total = total + a
 
     if ff.FS_etudeDossier == True:
         total = total + fsva.etudeDossier
@@ -1580,69 +1840,119 @@ def facturerNum(request,pk):
         if ff.RN_fraisGestion == True:
             total = total + q_ordinaire.fraisGestion
         if ff.RN_redevanceAnn == True:
-            total = total + (q_ordinaire.redevanceAnn * ff.q_ordinaire)
+            b = q_ordinaire.redevanceAnn * ff.q_ordinaire
+            total = total + b
             if ff.periode >  0:
-                total = total *(ff.periode/365)
+                b = b * (ff.periode/365)
+                total = total * b
 
     if ff.q_ussd > 0:
-        total = total + (q_ussd.redevanceAnn * ff.q_ussd)
+        c = q_ussd.redevanceAnn * ff.q_ussd
+        total = total + c
         if ff.periode >  0:
-            total = total *(ff.periode/365)
+            c = c * (ff.periode/365)
+            total = total * c
 
         if ff.RN_etudeDossier == True:
             total = total + q_ussd.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_ussd.fraisGestion
     if ff.q_mnemonique > 0:
-        total = total + (q_mnemonique.redevanceAnn * ff.q_mnemonique)
+        d = q_mnemonique.redevanceAnn * ff.q_mnemonique
+        total = total + d
         if ff.periode >  0:
-            total = total *(ff.periode/365)
+            d = d * (ff.periode/365)
+            total = total * d
 
         if ff.RN_etudeDossier == True:
             total = total + q_mnemonique.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_mnemonique.fraisGestion
     if ff.q_mnc > 0:
-        total = total + (q_mnc.redevanceAnn * ff.q_mnc)
+        e = (q_mnc.redevanceAnn * ff.q_mnc)
+        total = total + e
         if ff.periode >  0:
-            total = total *(ff.periode/365)
+            e = e * (ff.periode/365)
+            total = total * e
 
         if ff.RN_etudeDossier == True:
             total = total + q_mnc.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_mnc.fraisGestion
     if ff.q_nspc > 0:
-        total = total + (q_nspc.redevanceAnn * ff.q_nspc)
+        f = (q_nspc.redevanceAnn * ff.q_nspc)
+        total = total + f
         if ff.periode >  0:
-            total = total *(ff.periode/365)
+            f = f * (ff.periode/365)
+            total = total * f
 
         if ff.RN_etudeDossier == True:
             total = total + q_nspc.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_nspc.fraisGestion
     if ff.q_ispc > 0:
-        total = total + (q_ispc.redevanceAnn * ff.q_ispc)
+        g = (q_ispc.redevanceAnn * ff.q_ispc)
+        total = total + g
         if ff.periode >  0:
-            total = total *(ff.periode/365)
+            g = g * (ff.periode/365)
+            total = total * g
 
         if ff.RN_etudeDossier == True:
             total = total + q_ispc.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_ispc.fraisGestion
     if ff.q_cpti > 0:
-        total = total + (q_cpti.redevanceAnn * ff.q_cpti)
+        h = (q_cpti.redevanceAnn * ff.q_cpti)
+        total = total + h
         if ff.periode >  0:
-            total = total *(ff.periode/365)
+            h = h * (ff.periode/365)
+            total = total * h
 
         if ff.RN_etudeDossier == True:
             total = total + q_cpti.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_cpti.fraisGestion
-   
+    
+    totals = round(total*taux.taux)
+    today = date.today()
+    form = Facture_FFNumeroForm(initial={'ffnumero':ff,'dateAttri':today,'taux':taux.id,'q_pq':q_pq.id,'q_ordinaire':q_ordinaire.id,'q_ussd':q_ussd.id,'q_mnemonique':q_mnemonique.id,'q_mnc':q_mnc.id,'q_nspc':q_nspc.id,'q_ispc':q_ispc.id,'q_cpti':q_cpti.id,'fsva':fsva.id,'total':total,'total_bif':totals})
+    if request.method == 'POST':
+        form = Facture_FFNumeroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            ff.efacturer = 'oui'
+            ff.facturer = 'oui'
+            ff.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('Listeff')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
     context = {
-            'total': total,
-            'totals': total*taux.taux,
+            'form':form,
+            'total': round(total,1),
+            'totals': totals ,
             'taux':taux.taux,
+            'periodeee':ff.periode/365,
+            'ff':ff,
+            'q_pq':q_pq,
+            'q_ordinaire':q_ordinaire,
+            'q_ussd':q_ussd,
+            'q_mnemonique':q_mnemonique,
+            'q_mnc':q_mnc,
+            'q_nspc':q_nspc,
+            'q_ispc':q_ispc,
+            'q_cpti':q_cpti,
+            'fsva':fsva,
+            'a':a,
+            'b':b,
+            'c':c,
+            'd':d,
+            'e':e,
+            'f':f,
+            'g':g,
+            'h':h,
         }
     return render(request,'gestionclient/factures_numero/factureNum.html',context)
 
@@ -1674,11 +1984,26 @@ def ListeFFNumero(request):
 
     return render(request,'gestionclient/FF_numero/ListeFFNumero.html',context)
 
+
 @login_required(login_url='login_page')
-def ajoutFFNumero(request,pk):
+def ajoutFFANumero(request,pk):
     client = Client.objects.get(id = pk)
     today = date.today()
-    form = FF_NumeroForm(initial={'dateAtri':today,'client':client})
+    numCourt = NumeroCourt.objects.filter(client = client).count()
+    numlong = PQ.objects.filter(client = client).count()
+    if numCourt + numlong > 0:
+        state = 'Client Existant'
+    else:
+        state = 'Client Nouveau'
+    q_pq = PQ.objects.filter(client = client).count()
+    q_ordinaire = NumeroCourt.objects.filter(client = client).filter(type = 'Code Ordinaire').count()
+    q_ussd = NumeroCourt.objects.filter(client = client).filter(type = 'USSD').count()
+    q_mnemonique = NumeroCourt.objects.filter(client = client).filter(type = 'Code Mnemonique').count()
+    q_mnc = NumeroCourt.objects.filter(client = client).filter(type = 'ISPC').count()
+    q_nspc = NumeroCourt.objects.filter(client = client).filter(type = 'NSPC').count()
+    q_ispc = NumeroCourt.objects.filter(client = client).filter(type = 'MNC').count()
+    q_cpti = NumeroCourt.objects.filter(client = client).filter(type = 'Code de preselection pour les transporteurs internationaux').count()
+    form = FF_NumeroForm(initial={'nature':state,'dateAtri':today,'client':client,'q_pq':q_pq,'q_ordinaire':q_ordinaire,'q_ussd':q_ussd,'q_mnemonique':q_mnemonique,'q_mnc':q_mnc,'q_nspc':q_nspc,'q_ispc':q_ispc,'q_cpti':q_cpti,'nature':'Client Existant'})
     if request.method == 'POST':
         form = FF_NumeroForm(request.POST) 
         if form.is_valid(): 
@@ -1691,47 +2016,132 @@ def ajoutFFNumero(request,pk):
             q_ispc = form.cleaned_data.get('q_ispc')
             q_cpti = form.cleaned_data.get('q_cpti')
             if q_pq and q_ordinaire and q_ussd and q_mnemonique and q_mnc and q_nspc and q_ispc and q_cpti == 0:
+                messages.error(request, f' le client ne possede aucun numero')
+            # else:
+            #     if q_pq >0:
+            #         ff = FF_Numero.objects.all().last()
+            #         for q in range(q_pq):
+            #             numlong = PQ(client = client,ffnumero = ff,dateAtri= ff.dateAtri)
+            #             numlong.save()
+            #     if q_ordinaire >0:
+            #         ff = FF_Numero.objects.all().last()
+            #         for q in range(q_ordinaire):
+            #             numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'Code Ordinaire',dateAtri= ff.dateAtri)
+            #             numcourt.save()
+            #     if q_ussd >0:
+            #         ff = FF_Numero.objects.all().last()
+            #         for q in range(q_ussd):
+            #             numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'USSD',dateAtri= ff.dateAtri)
+            #             numcourt.save()
+            #     if q_mnemonique >0:
+            #         ff = FF_Numero.objects.all().last()
+            #         for q in range(q_mnemonique):
+            #             numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'Code Mnemonique',dateAtri= ff.dateAtri)
+            #             numcourt.save()
+            #     if q_mnc >0:
+            #         ff = FF_Numero.objects.all().last()
+            #         for q in range(q_mnc):
+            #             numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'MNC',dateAtri= ff.dateAtri)
+            #             numcourt.save()
+            #     if q_nspc >0:
+            #         ff = FF_Numero.objects.all().last()
+            #         for q in range(q_nspc):
+            #             numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'NSPC',dateAtri= ff.dateAtri)
+            #             numcourt.save()
+            #     if q_ispc >0:
+            #         ff = FF_Numero.objects.all().last()
+            #         for q in range(q_ispc):
+            #             numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'ISPC',dateAtri= ff.dateAtri)
+            #             numcourt.save()
+            #     if q_cpti >0:
+            #         ff = FF_Numero.objects.all().last()
+            #         for q in range(q_cpti):
+            #             numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'Code de preselection pour les transporteurs internationaux',dateAtri= ff.dateAtri)
+            #             numcourt.save()
+            
+            form.save()
+            messages.success(request, f"Fiche facturation bien ajouter")
+            return redirect('ListeCli')
+                
+        else:
+            messages.error(request, f' ERREUR formulaire invalide. Fiche facturation non ajouter!')
+
+    context = {
+        'form':form,
+        'titre':"Ajouter",
+        'client' : client,
+        'state':state,
+        }
+
+    return render(request,'gestionclient/FF_numero/ajoutFFNumero.html',context)
+
+
+
+@login_required(login_url='login_page')
+def ajoutFFNumero(request,pk):
+    client = Client.objects.get(id = pk)
+    today = date.today()
+    numCourt = NumeroCourt.objects.filter(client = client).count()
+    numlong = PQ.objects.filter(client = client).count()
+    if numCourt + numlong > 0:
+        state = 'Client Existant'
+    else:
+        state = 'Client Nouveau'
+    form = FF_NumeroForm(initial={'dateAtri':today,'client':client,'nature':state})
+    if request.method == 'POST':
+        form = FF_NumeroForm(request.POST) 
+        if form.is_valid(): 
+            q_pq = form.cleaned_data.get('q_pq')
+            q_ordinaire = form.cleaned_data.get('q_ordinaire')
+            q_ussd = form.cleaned_data.get('q_ussd')
+            q_mnemonique = form.cleaned_data.get('q_mnemonique')
+            q_mnc = form.cleaned_data.get('q_mnc')
+            q_nspc = form.cleaned_data.get('q_nspc')
+            q_ispc = form.cleaned_data.get('q_ispc')
+            q_cpti = form.cleaned_data.get('q_cpti')
+            periode = form.cleaned_data.get('periode')
+            if q_pq and q_ordinaire and q_ussd and q_mnemonique and q_mnc and q_nspc and q_ispc and q_cpti == 0:
                 messages.error(request, f' ERREUR formulaire incomplet! ajouter au moins un numero')
             else:
                 if q_pq >0:
                     ff = FF_Numero.objects.all().last()
                     for q in range(q_pq):
-                        numlong = PQ(client = client,ffnumero = ff,dateAtri= ff.dateAtri)
+                        numlong = PQ(client = client,ffnumero = ff)
                         numlong.save()
                 if q_ordinaire >0:
                     ff = FF_Numero.objects.all().last()
                     for q in range(q_ordinaire):
-                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'Code Ordinaire',dateAtri= ff.dateAtri)
+                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'Code Ordinaire',periode = periode)
                         numcourt.save()
                 if q_ussd >0:
                     ff = FF_Numero.objects.all().last()
                     for q in range(q_ussd):
-                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'USSD',dateAtri= ff.dateAtri)
+                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'USSD',periode = periode)
                         numcourt.save()
                 if q_mnemonique >0:
                     ff = FF_Numero.objects.all().last()
                     for q in range(q_mnemonique):
-                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'Code Mnemonique',dateAtri= ff.dateAtri)
+                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'Code Mnemonique',periode = periode)
                         numcourt.save()
                 if q_mnc >0:
                     ff = FF_Numero.objects.all().last()
                     for q in range(q_mnc):
-                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'MNC',dateAtri= ff.dateAtri)
+                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'MNC',periode = periode)
                         numcourt.save()
                 if q_nspc >0:
                     ff = FF_Numero.objects.all().last()
                     for q in range(q_nspc):
-                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'NSPC',dateAtri= ff.dateAtri)
+                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'NSPC',periode = periode)
                         numcourt.save()
                 if q_ispc >0:
                     ff = FF_Numero.objects.all().last()
                     for q in range(q_ispc):
-                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'ISPC',dateAtri= ff.dateAtri)
+                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'ISPC',periode = periode)
                         numcourt.save()
                 if q_cpti >0:
                     ff = FF_Numero.objects.all().last()
                     for q in range(q_cpti):
-                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'Code de preselection pour les transporteurs internationaux',dateAtri= ff.dateAtri)
+                        numcourt = NumeroCourt(client = client,ffnumero = ff,type = 'Code de preselection pour les transporteurs internationaux',dateAtri= ff.dateAtri,periode = periode)
                         numcourt.save()
                 form.save()
             messages.success(request, f"Fiche facturation bien ajouter")
@@ -1744,6 +2154,7 @@ def ajoutFFNumero(request,pk):
         'form':form,
         'titre':"Ajouter",
         'client' : client,
+        'state':state,
         }
 
     return render(request,'gestionclient/FF_numero/ajoutFFNumero.html',context)

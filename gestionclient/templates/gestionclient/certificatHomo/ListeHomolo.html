@@ -32,6 +32,7 @@
                         <th>Categorie</th>
                         <th>Date attribution</th>
                         <th>Date expiration</th>
+                        <th>Envoyer pour facturation</th>
                         <th>Status</th>
                         <!-- <th>Status</th> -->
                         <th colspan="5"></th>
@@ -46,11 +47,11 @@
                         <td>{{ homologation.categorie }}</td>
                         <td>{{ homologation.dateAttri }}</td>
                         <td>{{ homologation.dateExp }}</td>
-                        <!-- {% if certificat.facturer == 'oui' %}
-                        <td><label class="badge badge-success" >{{ certificat.facturer }}</label></td>
+                        {% if homologation.pourfact == 'oui' %}
+                        <td><label class="badge badge-success" >{{ homologation.pourfact }}</label></td>
                         {% else %}
-                        <td><label class="badge badge-warning" >{{ certificat.facturer }}</label></td>
-                        {% endif %} -->
+                        <td><label class="badge badge-warning" >{{ homologation.pourfact }}</label></td>
+                        {% endif %}
                         {% if today >= homologation.dateExp  %}
                         <td><label class="badge badge-danger">Expired</label></td>
                         {% else %}
@@ -59,12 +60,12 @@
                         <td>
                             <a href="{% url 'detailHomologation' homologation.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye" ></i></button></a>
                         </td>
-                        <!-- {% if  certificat.dateExp <= today %}
+                        <!-- {% if  homologation.pourfact == 'non' %}
                         <td>
-                            <a href="{% url 'renouCertAgr_page' certificat.id %}"><button type="button" class="btn btn-warning">Renou</button></a></a>
+                            <a href=""><button type="button" class="btn btn-warning">Renou</button></a></a>
                         </td>
-                        {% endif %}
-                        {% if  certificat.pourfacturation == 'non' %}
+                        {% endif %} -->
+                        <!-- {% if  certificat.pourfacturation == 'non' %}
                         <td>
                             <a href="{% url 'renouCertAgr_page' certificat.id %}"><button type="button" class="btn btn-info"><i class="icon-arrow-right" ></i></button></a></a>
                         </td>

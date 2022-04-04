@@ -25,9 +25,10 @@
                         <th>Nature certificat</th>
                         <th>Date attribution</th>
                         <th>Date expiration</th>
+                        <th>envoyer a la factuation</th>
                         <th>Status</th>
                         <!-- <th>Status</th> -->
-                        <th colspan="5"></th>
+                        <th colspan="5">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -39,6 +40,11 @@
                         <td>{{ certificat.nature }}</td>
                         <td>{{ certificat.dateAttri }}</td>
                         <td>{{ certificat.dateExp }}</td>
+                        {% if certificat.porfact == 'oui' %}
+                        <td><label class="badge badge-success" >{{ certificat.porfact }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-warning" >{{ certificat.porfact }}</label></td>
+                        {% endif %}
                         <!-- {% if certificat.facturer == 'oui' %}
                         <td><label class="badge badge-success" >{{ certificat.facturer }}</label></td>
                         {% else %}

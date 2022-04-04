@@ -1,0 +1,115 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+
+<div class="card">
+  <div class="card-body">
+      <div class="d-flex justify-content-center align-items-center">
+      </div>
+      <p class="card-description">
+        <br>
+      </p>
+      <div class="row">
+        <div class="col-md-12">
+            <h5>{{ certificat.client.nom }}</h5>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Libelle</th>
+                    <th>Prix Unitaire</th>
+                    <th>Prix Total</th>
+                </tr>
+                <tr>
+                    <td>
+                        <h3>cout du certificat</h3>
+                    
+                    </td>
+                    <td>
+                        {{ tarif.tarif }}$
+                    </td>
+                    <td>
+                        {{ tarif.tarif }}$
+                    </td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td>{{ total }} $</td>
+                </tr>
+                <tr>
+                    <td>
+                        Todal a Payer <br>
+                        (Taux de conversion : 1$ US = {{ taux.taux }} BIF
+                    </td>
+                    <td>
+    
+                    </td>
+                    <td>
+                        {{ totals }} BIF
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+      
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-body">
+      <div class="d-flex justify-content-center align-items-center">
+      </div>
+      <p class="card-description">
+      
+      {% if certificat.facturer == 'non' %}
+<form class="forms-sample" method="POST">
+    {% csrf_token %}
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">certificat</label>
+      <div class="col-sm-9">
+        {{ form.certificat }}
+      </div>
+    </div>
+    <div class="form-group  row  d-none ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">tarif</label>
+      <div class="col-sm-9">
+        {{ form.tarif }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">taux</label>
+      <div class="col-sm-9">
+        {{ form.taux }}
+      </div>
+    </div>
+    <div class="form-group  row  d-none ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">total bif</label>
+      <div class="col-sm-9">
+        {{ form.total_bif }}
+      </div>
+    </div>
+    <div class="form-group  row d-none  ">
+      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">total</label>
+      <div class="col-sm-9">
+        {{ form.total }}
+      </div>
+    </div>
+    {% if certificat.facturer == 'non' %}
+    <button type="submit" class="btn btn-primary mr-2" value="">Enregistrer la facturer</button>
+    <a href="{% url 'ListCertHomAfact' %}"><button type="button" class="btn btn-light">retour</button></a>
+    {% else %}
+    <a href="{% url 'ListCertHomAfact' %}"><button type="button" class="btn btn-light">retour</button></a>
+    {% endif %}
+  </form>
+{% else %}
+  <a href="{% url 'ListCertHomAfact' %}"><button type="button" class="btn btn-primary">retour</button></a>
+{% endif %}
+      
+      <!-- <a href=""><button type="button" class="btn btn-primary ml-5">Certificat Agrement</button></a> -->
+     
+      </p>
+      
+  </div>
+</div>
+    
+{% endblock %}

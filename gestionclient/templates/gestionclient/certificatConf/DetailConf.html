@@ -60,8 +60,7 @@
                     <div class="col-sm-3 d-flex flex-start align-items-center">
                         <div class="mx-2   p-2">
                             <a href="{% url 'ListCertConf'  %}"><button type="button" class="btn btn-dark">retour</button></a>
-                            <a href="{% url 'updateCertConf' certificat.id %}"><button type="button" class="btn btn-dark"> Modifier</button></a>
-                        </div>
+                  </div>
                     </div>
                     <div class="col-sm-9 d-flex justify-content-center align-items-center">
                             {% if  certificat.dateExp <= today %}
@@ -70,12 +69,21 @@
                                 <a href="{% url 'renouvCertConf' certificat.id %}"><button type="button" class="btn btn-warning"><i class="icon-reload"></i></button></a>
                             </div>
                             {% endif %}
-                            
-                            
+                            {% if certificat.pourfact == 'non' %}
+                            <!-- <a href=""><button type="button" class="btn btn-dark"> Modifier</button></a> -->
+                            <div class="mx-2 row d-flex flex-column align-items-center  p-2">
+                                <label  class=""></label>
+                                <a href="{% url 'updateCertConf' certificat.id %}"><button type="button" class="btn btn-dark" >Modifier</button></a>
+                            </div>
+                            <div class="mx-2 row d-flex flex-column align-items-center  p-2">
+                                <label  class="">Envoyer pour facturation </label>
+                                <a href="{% url 'pourfactCertConf' certificat.id %}"><button type="button" class="btn btn-info" ><i class="icon-arrow-right" ></i></button></a>
+                            </div>
                             <div class="mx-2 row d-flex flex-column align-items-center  p-2">
                                 <label  class="">Supprimer </label>
                                 <a href=""><button type="button" class="btn btn-danger" ><i class="icon-cross"></i></button></a>
                             </div>
+                            {% endif %}
                             
 
                         

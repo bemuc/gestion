@@ -23,8 +23,9 @@
                         <th>Date attribution</th>
                         <th>Date expiration</th>
                         <th>Status</th>
+                        <th>Envoyer a la fact.</th>
                         <!-- <th>Status</th> -->
-                        <th colspan="5"></th>
+                        <th colspan="5">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,6 +46,11 @@
                         <td><label class="badge badge-danger">Expired</label></td>
                         {% else %}
                         <td><label class="badge badge-success">Valid</label></td>
+                        {% endif %}
+                        {% if certificat.pourfact == 'non'  %}
+                        <td><label class="badge badge-warning">{{ certificat.pourfact }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-success">{{ certificat.pourfact }}</label></td>
                         {% endif %}
                         <td>
                             <a href="{% url 'DetailConf' certificat.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye"></i></button></a>

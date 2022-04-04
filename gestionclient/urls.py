@@ -25,10 +25,11 @@ urlpatterns = [
     path('renouvCertAgr/<str:pk>', views.renouCertAgre,name='renouCertAgr_page'),
     path('ajoutCertAgr/', views.ajoutCert,name='ajoutCertAgr_page'),
     path('updateCertAgr/<str:pk>', views.updateCertAgre,name='updateCertAgr_page'),
-    # path('deactiverCertAgr/<str:pk>', views.deactiveCertAgr,name='deactiverCertAgr_page'),
-    # path('pourfactCertAgr/<str:pk>', views.pourFactCertAgr,name='pourfactCertAgr_page'),
+    path('deactiverCertAgr/<str:pk>', views.deactiveCertAgr,name='deactiverCertAgr_page'),
+    path('pourfactCertAgr/<str:pk>', views.pourFactCertAgr,name='pourfactCertAgr_page'),
     # path('printcert/<str:pk>', views.thepdf,name='printcert_page'),
-    # path('facturer/<str:pk>', views.facturer,name='facturer_page'),
+    path('Cert_Agr_facturer/', views.Certfacturer,name='ListCetAfact'),
+    path('facturer_cert_agre/<str:pk>', views.factCert,name = 'factCert'),
 
 # certificat conformite
 
@@ -37,6 +38,9 @@ urlpatterns = [
     path('ajoutCertConf/', views.ajoutCertConf,name='ajoutCertConf'),
     path('updateCertConf/<str:pk>', views.updateCertConf,name='updateCertConf'),
     path('renouvCertConf/<str:pk>', views.renouvCertConf,name='renouvCertConf'),
+    path('pourfactCertConf/<str:pk>', views.pourfactCertConf,name='pourfactCertConf'), 
+    path('Cert_Conf_facturer/', views.CertConfAfact,name='ListCertConfAfact'),
+    path('facturer_cert_conf/<str:pk>', views.factCertConf,name = 'factCertConf'),
 
 #Homologations
     
@@ -59,6 +63,10 @@ urlpatterns = [
     path('detail_Homologation/<str:pk>', views.detailHomologation,name='detailHomologation'),
     path('update_Homologation/<str:pk>', views.updateHomologation,name='updateHomologation'),
     path('modifier_Homologation/<str:pk>', views.modifierHomo,name='modifierHomo'),
+
+    path('pourfactCertHom/<str:pk>', views.pourfactCertHom,name='pourfactCertHom'), 
+    path('Cert_Hom_facturer/', views.CertHomAfact,name='ListCertHomAfact'),
+    path('facturer_cert_hom/<str:pk>', views.factCertHom,name = 'factCertHom'),
 
 
 #numerotation
@@ -105,6 +113,7 @@ urlpatterns = [
     path('liste_client_facturation_numero/', views.ListeCli,name='ListeCli'),
     path('liste_fiche_facturation_numero/', views.ListeFFNumero,name='ListeFFNumero'),
     path('ajouter_fiche_facturation_numero/<str:pk>', views.ajoutFFNumero,name='ajoutFFNumero'),
+    path('ajouter_fiche_facturation_numero_annuelle/<str:pk>', views.ajoutFFANumero,name='ajoutFFANumero'),
     path('details_fiche_facturation_numero/<str:pk>', views.detailsFFNumero,name='detailsFFNumero'),
     path('update_fiche_facturation_numero/<str:pk>', views.updateFFNumero,name='updateFFNumero'),
     path('facturer_fiche_facturation_numero/<str:pk>', views.facturerFFNumero,name='facturerFFNumero'),
@@ -124,11 +133,9 @@ urlpatterns = [
 
 #facturer
     path('liste_ff/', views.Listeff,name='Listeff'),
+    path('liste_facture_fiche/', views.Listefactfiche,name='Listefactfiche'),
     path('details_ff_numero/<str:pk>', views.detailsFFNum,name='detailsFFNum'),
     path('facturer_num/<str:pk>', views.facturerNum,name='facturerNum'),
-
-
-
 
 
     

@@ -42,7 +42,7 @@
                         {% endif %}
                         <td>
                             <a href="{% url 'ajoutFFNumero' client.id %}"><button type="button" class="btn btn-primary" >FF</button></a>
-                            <a href=""><button type="button" class="btn btn-primary" >FF annuelle </button></a>
+                            <a href="{% url 'ajoutFFANumero' client.id %}"><button type="button" class="btn btn-primary" >FF annuelle </button></a>
                         </td>
                     </tr>
                     {% endfor %}
