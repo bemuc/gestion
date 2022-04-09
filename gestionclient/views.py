@@ -87,9 +87,14 @@ def loginPage(request):
             return redirect('home')
         else:
             messages.info(request,'username or password incorect')
-            return render(request,'gestionclient/login.html')
+            # return render(request,'gestionclient/login.html')
+            return redirect('login_page')
 
     return render(request,'gestionclient/login.html')
+
+
+
+
 
 def logout_page(request):
     logout(request)
