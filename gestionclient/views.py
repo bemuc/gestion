@@ -49,7 +49,7 @@ def afacturer(request):
     conf = CertConf.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
     homolo = HomologationEqui.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
 
-    return {
+    context =  {
         'name':poste,
         #technique
         'afacturer':afacturer,
@@ -69,7 +69,7 @@ def afacturer(request):
 
     }
 
-    # return HttpResponse(context)
+    return (context)
 
 
 
