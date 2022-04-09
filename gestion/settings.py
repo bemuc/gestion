@@ -47,7 +47,7 @@ MIDDLEWARE = [
 
 
 
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 
 
 
