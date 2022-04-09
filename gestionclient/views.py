@@ -95,7 +95,7 @@ def afacturer(request):
         
     }
 
-@login_required(login_url='login_page')
+# @login_required(login_url='login_page')
 def home(request):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
