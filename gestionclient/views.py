@@ -39,7 +39,6 @@ def loginPage(request):
             messages.info(request,'username or password incorect')
             return render(request,'gestionclient/login.html')
 
-    # context ={}
     return render(request,'gestionclient/login.html')
 
 def logout_page(request):
@@ -108,7 +107,6 @@ def home(request):
         
     }
     return render(request,'gestionclient/base.html',context)
-    # return redirect('listeClient_page')
 
 
 @login_required(login_url='login_page')
