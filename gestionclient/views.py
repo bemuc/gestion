@@ -49,7 +49,7 @@ def afacturer(request):
     conf = CertConf.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
     homolo = HomologationEqui.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
 
-    context =  {
+    return {
         'name':poste,
         #technique
         'afacturer':afacturer,
@@ -69,32 +69,27 @@ def afacturer(request):
 
     }
 
-    return (context)
+    # return HttpResponse(context)
 
 
 
 
 # @unauthenticated_user
 def loginPage(request):
-    # if request.method == 'POST':
-    #     user_name = request.POST.get('username')
-    #     pass_word = request.POST.get('password')
+    if request.method == 'POST':
+        user_name = request.POST.get('username')
+        pass_word = request.POST.get('password')
 
-    #     user = authenticate(request, username=user_name, password=pass_word)
+        user = authenticate(request, username=user_name, password=pass_word)
 
-    #     if user is not None:
-    #         login(request,user)
-    #         return redirect('home')
-    #     else:
-    #         messages.info(request,'username or password incorect')
-    #         return render(request,'gestionclient/login.html')
-    #         return redirect('login_page')
+        if user is not None:
+            login(request,user)
+            return redirect('home')
+        else:
+            messages.info(request,'username or password incorect')
+            return render(request,'gestionclient/login.html')
 
     return render(request,'gestionclient/login.html')
-
-
-
-
 
 def logout_page(request):
     logout(request)
@@ -192,12 +187,12 @@ def deactiverClient(request,pk):
     context ={'item':client,'name':poste,}
     return render(request,'gestionclient/deactiver.html',context)
 
-# @login_required(login_url='login_page')
+@login_required(login_url='login_page')
 def listeClient(request):
-    # if request.user.groups.filter(name='finance'):
-    #     poste = 'finance'
-    # else:
-    #     poste = 'nothing'
+    if request.user.groups.filter(name='finance'):
+        poste = 'finance'
+    else:
+        poste = 'nothing'
 
     clients = Client.objects.all()
     myfilter = ClientFilter(request.GET, queryset=clients)
@@ -206,7 +201,7 @@ def listeClient(request):
         # 'clients': Client.objects.filter(status ="actif"),
         'clients':clients, 
         'myfilter':myfilter,
-        # 'name':poste,
+        'name':poste,
         }
     return render(request,'gestionclient/Clientts/listeClient.html',context)
 
