@@ -26,8 +26,9 @@ SECRET_KEY = 'django-insecure-y=-nk2!=(5*5+51)u43ap%+w3d#^=b3y%jsy+_obp#r$19t7a#
 DEBUG = False
 
 ALLOWED_HOSTS = ['gestion-client.herokuapp.com','127.0.0.1']
+# ALLOWED_HOSTS = []
 
-
+WHITENOISE_USE_FINDERS = True
 
 # Application definition
 
@@ -44,13 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-
-
-
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
-
-
-
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -128,6 +123,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 STATIC_URL = 'static/'
 
