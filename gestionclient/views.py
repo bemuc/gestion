@@ -24,30 +24,6 @@ from django.template.loader import get_template
 from .forms import *
 
 
-# @unauthenticated_user
-def loginPage(request):
-    if request.method == 'POST':
-        user_name = request.POST.get('username')
-        pass_word = request.POST.get('password')
-
-        user = authenticate(request, username=user_name, password=pass_word)
-
-        if user is not None:
-            login(request,user)
-            return redirect('home')
-        else:
-            messages.info(request,'username or password incorect')
-            return render(request,'gestionclient/login.html')
-
-    return render(request,'gestionclient/login.html')
-
-def logout_page(request):
-    logout(request)
-    return redirect('login_page')
-
-def is_group1(user):
-  return user.groups.filter(name='finance').exists()
-
 @login_required(login_url='login_page')
 def afacturer(request):
     if request.user.groups.filter(name='finance'):
@@ -91,9 +67,38 @@ def afacturer(request):
         'conf':conf,
         'homolo':homolo,
 
-
-        
     }
+
+    # return HttpResponse(context)
+
+
+
+
+# @unauthenticated_user
+def loginPage(request):
+    if request.method == 'POST':
+        user_name = request.POST.get('username')
+        pass_word = request.POST.get('password')
+
+        user = authenticate(request, username=user_name, password=pass_word)
+
+        if user is not None:
+            login(request,user)
+            return redirect('home')
+        else:
+            messages.info(request,'username or password incorect')
+            return render(request,'gestionclient/login.html')
+
+    return render(request,'gestionclient/login.html')
+
+def logout_page(request):
+    logout(request)
+    return redirect('login_page')
+
+def is_group1(user):
+  return user.groups.filter(name='finance').exists()
+
+
 
 # @login_required(login_url='login_page')
 def home(request):
