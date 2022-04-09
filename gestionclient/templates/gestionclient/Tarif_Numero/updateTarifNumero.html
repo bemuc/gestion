@@ -8,7 +8,7 @@
       <div class="card">
         <div class="card-body ">
           <div class="d-flex justify-content-center">
-            <h2 class="">{{ titre }} Tarif des FSVA</h2>
+            <h2 class="">Tarif {{ tarif.type }} </h2>
           </div>
           <p class="card-description">
             <br>
@@ -19,32 +19,33 @@
          
           <form class="forms-sample" method="POST">
             {% csrf_token %}
-            <div class="form-group row">
-              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Etude du dossier</label>
+            <div class="form-group row ">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Type</label>
               <div class="col-sm-9">
-                {{ form.etudeDossier }}
+                {{ tarif.type }}
               </div>
             </div>
             <div class="form-group row">
-                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Agrement des equipement</label>
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Etude du dossier</label>
+              <div class="col-sm-9">
+                {{ tarif.etudeDossier }}
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Frais de gestion Annuelle</label>
                 <div class="col-sm-9">
-                  {{ form.agrementEquip }}
+                  {{ tarif.fraisGestion }}
                 </div>
             </div>
             <div class="form-group row">
                 <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Redevance Annuelle</label>
                 <div class="col-sm-9">
-                  {{ form.redevanceAnn }}
+                  {{ tarif.redevanceAnn }}
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Autorisation de l'ARCT / Licence</label>
-                <div class="col-sm-9">
-                  {{ form.autorisationARCT }}
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
-            <a href="{% url 'ListeTarifFSVANum' %}"><button type="button" class="btn btn-light">retour</button></a>
+            <!-- <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button> -->
+            <a href="{% url 'updateTarifNumero' tarif.id %}"><button type="button" class="btn btn-primary">Desactiver</button></a>
+            <a href="{% url 'ListeTarifNum' %}"><button type="button" class="btn btn-light">retour</button></a>
           </form>
         </div>
       </div>

@@ -125,11 +125,32 @@ urlpatterns = [
     path('ajouter_taux/', views.ajouterTaux,name='ajouterTaux'),
     path('update_taux/<str:pk>', views.updateTaux,name='updateTaux'),
 
-#tarif
+#tarif numeros
     path('liste_tarifNumero/', views.ListeTarifNum,name='ListeTarifNum'),
     path('liste_tarifFSVANumero/', views.ListeTarifFSVANum,name='ListeTarifFSVANum'),
     path('ajouter_tarifNumero/', views.ajoutertarifNumero,name='ajoutertarifNumero'),
+    path('detail_tarifNumero/<str:pk>', views.detailtarifNumero,name='detailtarifNumero'),
+    path('detail_tarifFSVANumero/<str:pk>', views.detailtarifFSVANumero,name='detailtarifFSVANumero'),
+    path('deactiver_tarifNumero/<str:pk>', views.deactiverTarifNumero,name='deactiverTarifNumero'),
+    path('deactiver_tarifFSVANumero/<str:pk>', views.deactiverTarifFSVANumero,name='deactiverTarifFSVANumero'),
+    path('activer_tarifNumero/<str:pk>', views.activerTarifNum,name='activerTarifNum'),
     path('ajouter_tarifFSVANumero/', views.ajoutertarifFSVANumero,name='ajoutertarifFSVANumero'),
+
+#tarifs homologations
+    path('liste_tarifs_homologations/', views.ListeTarifsHomo,name='ListeTarifsHomo'),
+    path('ajouter_tarif_homologations/', views.ajoutertarifHomo,name='ajoutertarifHomo'),
+    path('detail_tarif_homologations/<str:pk>', views.detailtarifHomo,name='detailtarifHomo'),
+    path('deactiver_tarif_homologations/<str:pk>', views.deactiverTarifHomo,name='deactiverTarifHomo'),
+
+#tarif Agrements
+    path('liste_tarifs_agrement/', views.ListeTarifsAgr,name='ListeTarifsAgr'),
+    path('ajouter_tarif_agrement/', views.ajoutertarifAgr,name='ajoutertarifAgr'),
+    path('detail_tarif_agrement/<str:pk>', views.detailtarifAgr,name='detailtarifAgr'),
+    path('deactiver_tarif_agrement/<str:pk>', views.deactiverTarifAgr,name='deactiverTarifAgr'),
+
+#tarif conformite
+    path('liste_tarifs_conformite/', views.ListeTarifsConf,name='ListeTarifsConf'),
+    path('ajouter_tarif_conformite/', views.ajoutertarifConf,name='ajoutertarifConf'),
 
 #facturer
     path('liste_ff/', views.Listeff,name='Listeff'),

@@ -53,6 +53,16 @@ class CertAgreForm(ModelForm):
             'dateExp' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
 
+class TarifAgreForm(ModelForm):
+     class Meta:
+        model = TarifAgre
+        fields = '__all__'
+        exclude = ['etat']
+        widgets = {
+            'type' : forms.Select(attrs={'class':'form-control'}),
+            'tarifs': forms.TextInput(attrs={'class':'form-control','type':'number','min':0}),
+        }
+
 
 class CertConfForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -70,6 +80,16 @@ class CertConfForm(ModelForm):
             'dateExp' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
 
+
+class TarifConfForm(ModelForm):
+     class Meta:
+        model = CertConf
+        fields = '__all__'
+        exclude = ['etat']
+        widgets = {
+            'type' : forms.Select(attrs={'class':'form-control'}),
+            'tarif': forms.TextInput(attrs={'class':'form-control','type':'number','min':0}),
+        }
 
 class FactureConfForm(ModelForm):
     class Meta:
@@ -124,6 +144,8 @@ class EquipementForm(ModelForm):
             # 'dateExp' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
 
+
+
 class HomologationForm(ModelForm):
     class Meta:
         model = HomologationEqui
@@ -142,6 +164,18 @@ class HomologationForm(ModelForm):
             'dateAttri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
             'dateExp' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
+
+class TarifHomologation(ModelForm):
+     class Meta:
+        model = TarifHom
+        fields = '__all__'
+        exclude = ['etat']
+        widgets = {
+            'type' :  forms.Select(attrs={'class':'form-control'}),
+            'tarif': forms.TextInput(attrs={'class':'form-control','type':'number','min':0}),
+        }
+
+
 
 class NumeroCourtForm(ModelForm):
     class Meta:
@@ -324,21 +358,21 @@ class TauxForm(ModelForm):
     class Meta:
         model = Taux
         fields = '__all__'
-        exclude = ['etat']
+        exclude = ['etat','dateAtri','updated']
         widgets = {
             'taux' :  forms.TextInput(attrs={'class':'form-control'}),
             'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
 
-class TarifAgreForm(ModelForm):
-    class Meta:
-        model = TarifAgre
-        fields = '__all__'
-        exclude = ['etat','date']
-        widgets = {
-            'tarifs' :  forms.TextInput(attrs={'class':'form-control'}),
-            'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
-        }
+# class TarifAgreForm(ModelForm):
+#     class Meta:
+#         model = TarifAgre
+#         fields = '__all__'
+#         exclude = ['etat','date']
+#         widgets = {
+#             'tarifs' :  forms.TextInput(attrs={'class':'form-control'}),
+#             'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
+#         }
 
 class Facture_CertAgrForm(ModelForm):
     class Meta:

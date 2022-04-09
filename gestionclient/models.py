@@ -128,7 +128,8 @@ class CertAgr(models.Model):
 
 class Taux(models.Model):
     taux = models.FloatField(max_length=200, null=True)
-    dateAtri = models.DateField(auto_now= True, null= True)
+    dateAtri = models.DateField(auto_now_add=True,null=True)
+    updated = models.DateField(auto_now=True,null=True)
     etat = models.CharField(max_length=200, null=True, default='actif')
 
 class TarifAgre(models.Model):
@@ -140,7 +141,7 @@ class TarifAgre(models.Model):
     type = models.CharField(max_length=200,  null=True, choices=TYPE)
     tarifs = models.IntegerField(null=True)
     etat = models.CharField(max_length=200, null=True, default='actif')
-    date = models.DateField(auto_now= True, null= True)
+    date = models.DateField(auto_now_add= True, null= True)
 
     def __str__(self):
         return (self.type)
@@ -188,7 +189,7 @@ class TarifConf(models.Model):
     type = models.CharField(max_length=200,  null=True, choices=TYPE)
     tarif = models.IntegerField(null=True)
     etat = models.CharField(max_length=200, null=True, default='actif')
-    date = models.DateField(auto_now= True, null= True)
+    date = models.DateField(auto_now_add= True, null= True)
 
     def __str__(self):
         return (self.type)
@@ -268,7 +269,7 @@ class TarifHom(models.Model):
     type = models.CharField(max_length=200,  null=True, choices=TYPE)
     tarif = models.IntegerField(null=True)
     etat = models.CharField(max_length=200, null=True, default='actif')
-    date = models.DateField(auto_now= True, null= True)
+    date = models.DateField(auto_now_add= True, null= True)
 
     def __str__(self):
         return (self.type)
@@ -455,7 +456,7 @@ class TarifFFNumero(models.Model):
     fraisGestion = models.FloatField(max_length=200, null=True)
     redevanceAnn = models.FloatField(max_length=200, null=True)
     etat = models.CharField(max_length=200, null=True, default='actif')
-    dateAtri = models.DateField(auto_now= True, null= True)
+    dateAtri = models.DateField(auto_now_add= True, null= True)
 
 
 class Facture_FFNumero(models.Model):
@@ -474,7 +475,8 @@ class Facture_FFNumero(models.Model):
     q_cpti = models.IntegerField(null=True)
     fsva = models.IntegerField(null=True)
 
-    
+
+
 
 
 

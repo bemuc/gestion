@@ -189,6 +189,42 @@
               </ul>
             </div>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ListeTaux' %}">
+              <i class=" menu-icon"></i>
+              <span class="menu-title">Taux</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ListeTarifNum' %}">
+              <i class=" menu-icon"></i>
+              <span class="menu-title">Tarif Numero</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ListeTarifFSVANum' %}">
+              <i class=" menu-icon"></i>
+              <span class="menu-title">Tarif FSVA</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ListeTarifsHomo' %}">
+              <i class=" menu-icon"></i>
+              <span class="menu-title">Tarif Homologation</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ListeTarifsAgr' %}">
+              <i class=" menu-icon"></i>
+              <span class="menu-title">Tarif Agrement</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ListeTarifsConf' %}">
+              <i class=" menu-icon"></i>
+              <span class="menu-title">Tarif Conformite</span>
+            </a>
+          </li>
           {% elif name == 'technicien' %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'listeClient_page' %}">
@@ -214,7 +250,7 @@
                   {% endif %}
                 </a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ListeNumCourt' %}">Numero Court
-                  {% if numcourt > 0 %}
+                  {% if numcourt  > 0 %}
                 <label class="badge badge-warning">{{ numcourt }}</label>
                   {% endif %}
                 </a></li>

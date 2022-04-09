@@ -1,0 +1,64 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-2 grid-margin stretch-card"></div>
+  <div class="col-md-8 grid-margin">
+    <br>
+      <div class="card">
+        <div class="card-body ">
+          <div class="d-flex justify-content-center">
+            <h2 class="">Tarif {{ tarif.type }} </h2>
+          </div>
+          <p class="card-description">
+            <br>
+            
+            
+            <br>
+          </p>
+         
+          <!-- <form class="forms-sample" method="POST"> -->
+            
+            <div class="form-group row">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Etude du dossier</label>
+                <div class="col-sm-9">
+                  {{ tarif.etudeDossier }}
+                </div>
+              </div>
+              <div class="form-group row">
+                  <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Agrement des equipement</label>
+                  <div class="col-sm-9">
+                    {{ tarif.agrementEquip }}
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Redevance Annuelle</label>
+                  <div class="col-sm-9">
+                    {{ tarif.redevanceAnn }}
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Autorisation de l'ARCT / Licence</label>
+                  <div class="col-sm-9">
+                    {{ tarif.autorisationARCT }}
+                  </div>
+              </div>
+            <!-- <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button> -->
+            {% if tarif.etat == 'actif' %}
+            <a href="{% url 'deactiverTarifFSVANumero' tarif.id %}"><button type="button" class="btn btn-primary">Desactiver</button></a>
+            
+            {% else %}
+            <td>
+                <a href="{% url 'activerTarifNum' tarif.id %}"><button type="button" class="btn btn-primary" >Activer</button></a>
+            </td>
+            {% endif %}
+            <a href="{% url 'ListeTarifNum' %}"><button type="button" class="btn btn-light">retour</button></a>
+          <!-- </form> -->
+        </div>
+      </div>
+      <div></div>
+  </div>
+  <div class="col-md-2 grid-margin stretch-card"></div>
+</div>
+
+  {% endblock %}

@@ -49,7 +49,7 @@
                         <td><label class="badge badge-success">Valid</label></td>
                         {% endif %} -->
                         <td>
-                            <a href=""><button type="button" class="btn btn-primary" >Modifier</button></a>
+                            <a href="{% url 'detailtarifFSVANumero' tarifFSVA.id %}"><button type="button" class="btn btn-primary" ><i class = 'icon-eye' ></i></button></a>
                         </td>
                     </tr>
                     {% endfor %}

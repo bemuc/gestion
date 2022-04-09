@@ -12,6 +12,7 @@ from django.contrib.auth.models import Group
 from .decorators import *
 from .filters import *
 from django.forms import inlineformset_factory
+from django.utils import timezone
 
 ####
 
@@ -64,6 +65,8 @@ def afacturer(request):
     agre = CertAgr.objects.filter(porfact = 'non').count()
     confor = CertConf.objects.filter(etat = 'actif').filter(pourfact = 'non').count()
     homo = HomologationEqui.objects.filter(etat = 'actif').filter(pourfact = 'oui').count()
+    etatNum()
+    numeros = NumeroCourt.objects.filter( etat = 'deactif').exclude( periode = 0).count()
 
     #finance
     facturer = FF_Numero.objects.filter( efacturer = 'non').count()
@@ -75,9 +78,10 @@ def afacturer(request):
         'name':poste,
         #technique
         'afacturer':afacturer,
-        'numcourt':numcourt,
+        'numcourt':numcourt + numeros,
         'pq':pq,
-        'totalnum':afacturer + numcourt + pq,
+        'totalnum':afacturer + numcourt + pq + numeros,
+        # 'numeros':numeros,
         'agrements':agre,
         'confor':confor,
         'homo':homo,
@@ -1636,6 +1640,7 @@ def ajouterTaux(request):
     for taux in tauxs:
         if taux.dateAtri == today:
             count = count + 1
+
     if count > 0:
         messages.error(request, f'Taux du jour deja existant')
         return redirect('ListeTaux')
@@ -1644,7 +1649,10 @@ def ajouterTaux(request):
         if request.method == 'POST':
             form = TauxForm(request.POST)
             if form.is_valid():
-                form.save()
+                # taux = Taux.objects.all().last()
+                # taux.etat = 'deactivate'
+                # taux.save()
+                # form.save()
                 messages.success(request, f"Taux bien ajouter")
                 return redirect('ListeTaux')
                     
@@ -1690,21 +1698,259 @@ def updateTaux(request,pk):
 
     return render(request,'gestionclient/taux/ajoutTaux.html',context)
 
+# tarif conformite
+@login_required(login_url='login_page')
+def ListeTarifsConf(request):
+    context = {
+        'tarifs': TarifConf.objects.all().order_by('etat'),
+        'today':date.today(),
+    }
+
+    return render(request,'gestionclient/Tarif_Conf/ListeTConf.html',context)
+
+@login_required(login_url='login_page')
+def ajoutertarifConf(request):
+    today = date.today()
+    form = TarifAgreForm(initial={'date':today})
+    if request.method == 'POST':
+        form = TarifAgreForm(request.POST)
+        if form.is_valid():
+            type = form.cleaned_data.get('type')
+            tarifs = TarifAgre.objects.filter(type = type).filter(etat = 'actif').count()
+            if tarifs > 0:
+                messages.error(request, f'Tarif existe deja !')
+            else:
+                form.save()
+                messages.success(request, f"Tarif bien ajouter")
+                return redirect('ListeTarifsAgr')  
+        else:
+            messages.error(request, f' ERREUR formulaire invalide. Tarif non ajouter!')
+
+    context = {
+        'form':form,
+        'titre':"Ajouter",
+        }
+
+    return render(request,'gestionclient/Tarif_Conf/ajoutTConf.html',context)
+
+
+
+
+
+
+
+
+
+
+
+#tarif agrement
+@login_required(login_url='login_page')
+def ListeTarifsAgr(request):
+    context = {
+        'tarifs': TarifAgre.objects.all().order_by('etat'),
+        'today':date.today(),
+    }
+
+    return render(request,'gestionclient/Tarif_Agre/ListeTAgr.html',context)
+
+
+@login_required(login_url='login_page')
+def ajoutertarifAgr(request):
+    today = date.today()
+    form = TarifAgreForm(initial={'date':today})
+    if request.method == 'POST':
+        form = TarifAgreForm(request.POST)
+        if form.is_valid():
+            type = form.cleaned_data.get('type')
+            tarifs = TarifAgre.objects.filter(type = type).filter(etat = 'actif').count()
+            if tarifs > 0:
+                messages.error(request, f'Tarif existe deja !')
+            else:
+                form.save()
+                messages.success(request, f"Tarif bien ajouter")
+                return redirect('ListeTarifsAgr')  
+        else:
+            messages.error(request, f' ERREUR formulaire invalide. Tarif non ajouter!')
+
+    context = {
+        'form':form,
+        'titre':"Ajouter",
+        }
+
+    return render(request,'gestionclient/Tarif_Agre/ajoutTAgr.html',context)
+
+
+
+
+@login_required(login_url='login_page')
+def detailtarifAgr(request,pk):
+    tarif = TarifAgre.objects.get(id = pk)
+    
+    context = {
+        # 'form':form,
+        'titre':"Detail",
+        'tarif':tarif,
+        # 'tarifs': TarifFFNumero.objects.all().order_by('etat'),
+        }
+
+    return render(request,'gestionclient/Tarif_Agre/detailTAgr.html',context)
+
+@login_required(login_url='login_page')
+def deactiverTarifAgr(request,pk):
+    tarif = TarifAgre.objects.get(id = pk)
+    if tarif.etat == 'actif':
+        tarif.etat = 'deactif'
+        tarif.save()
+        messages.success(request, f"Tarif bien deasctiver")
+        return redirect('ListeTarifsAgr')
+    elif tarif.etat == 'deactif':
+        tarifs = TarifAgre.objects.filter(type = tarif.type).filter(etat = 'actif').count()
+        if tarifs > 0:
+                messages.error(request, f'Tarif existe deja !')
+        else:
+            tarif.etat = 'actif'
+            tarif.save()       
+            messages.success(request, f"Tarif bien activer")
+            return redirect('ListeTarifsAgr')
+  
+    context = {
+        'titre':"Desactiver",
+        'tarif':tarif,
+        'tarifs': TarifAgre.objects.all().order_by('etat'),
+        }
+
+    return render(request,'gestionclient/Tarif_Agre/detailTAgr.html',context)
+
+
+
+
+
+
+#tarif homologation
+@login_required(login_url='login_page')
+def ListeTarifsHomo(request):
+    context = {
+        'tarifs': TarifHom.objects.all().order_by('etat'),
+        'today':date.today(),
+    }
+
+    return render(request,'gestionclient/TarifHomo/ListeTHomo.html',context)
+
+
+
+@login_required(login_url='login_page')
+def ajoutertarifHomo(request):
+    today = date.today()
+    form = TarifHomologation(initial={'date':today})
+    if request.method == 'POST':
+        form = TarifHomologation(request.POST)
+        if form.is_valid():
+            type = form.cleaned_data.get('type')
+            tarifs = TarifHom.objects.filter(type = type).filter(etat = 'actif').count()
+            if tarifs > 0:
+                messages.error(request, f'Tarif existe deja !')
+            else:
+                form.save()
+                messages.success(request, f"Tarif bien ajouter")
+                return redirect('ListeTarifsHomo')  
+        else:
+            messages.error(request, f' ERREUR formulaire invalide. Tarif non ajouter!')
+
+    context = {
+        'form':form,
+        'titre':"Ajouter",
+        }
+
+    return render(request,'gestionclient/TarifHomo/ajoutTarifHomo.html',context)
+
+
+
+
+@login_required(login_url='login_page')
+def detailtarifHomo(request,pk):
+    tarif = TarifHom.objects.get(id = pk)
+    
+    context = {
+        # 'form':form,
+        'titre':"Detail",
+        'tarif':tarif,
+        # 'tarifs': TarifFFNumero.objects.all().order_by('etat'),
+        }
+
+    return render(request,'gestionclient/TarifHomo/detailTarifHomo.html',context)
+
+
+
+
+@login_required(login_url='login_page')
+def deactiverTarifHomo(request,pk):
+    tarif = TarifHom.objects.get(id = pk)
+    if tarif.etat == 'actif':
+        tarif.etat = 'deactif'
+        tarif.save()
+        messages.success(request, f"Tarif bien deasctiver")
+        return redirect('ListeTarifsHomo')
+    elif tarif.etat == 'deactif':
+        tarifs = TarifHom.objects.filter(type = tarif.type).filter(etat = 'actif').count()
+        if tarifs > 0:
+                messages.error(request, f'Tarif existe deja !')
+        else:
+            tarif.etat = 'actif'
+            tarif.save()       
+            messages.success(request, f"Tarif bien activer")
+            return redirect('ListeTarifsHomo')
+  
+    context = {
+        'titre':"Desactiver",
+        'tarif':tarif,
+        'tarifs': TarifHom.objects.all().order_by('etat'),
+        }
+
+    return render(request,'gestionclient/TarifHomo/detailTarifHomo.html',context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #tarif numero
 @login_required(login_url='login_page')
 def ListeTarifNum(request):
     context = {
-        'tarifs': TarifFFNumero.objects.all(),
+        'tarifs': TarifFFNumero.objects.all().order_by('etat'),
         'today':date.today(),
     }
 
     return render(request,'gestionclient/Tarif_Numero/ListeTarif.html',context)
 
+
 @login_required(login_url='login_page')
 def ListeTarifFSVANum(request):
     context = {
-        'tarifFSVAs': TarifFSVANumero.objects.filter(etat = 'actif'),
+        'tarifFSVAs': TarifFSVANumero.objects.all(),
         'today':date.today(),
     }
 
@@ -1734,6 +1980,92 @@ def ajoutertarifNumero(request):
         }
 
     return render(request,'gestionclient/Tarif_Numero/ajoutTarifNumero.html',context)
+
+
+
+@login_required(login_url='login_page')
+def detailtarifNumero(request,pk):
+    tarif = TarifFFNumero.objects.get(id = pk)
+    
+    context = {
+        # 'form':form,
+        'titre':"Detail",
+        'tarif':tarif,
+        # 'tarifs': TarifFFNumero.objects.all().order_by('etat'),
+        }
+
+    return render(request,'gestionclient/Tarif_Numero/detailNum.html',context)
+
+
+@login_required(login_url='login_page')
+def detailtarifFSVANumero(request,pk):
+    tarif = TarifFSVANumero.objects.get(id = pk)
+    
+    context = {
+        # 'form':form,
+        'titre':"Detail",
+        'tarif':tarif,
+        # 'tarifs': TarifFFNumero.objects.all().order_by('etat'),
+        }
+
+    return render(request,'gestionclient/Tarif_Numero/detailFSVANum.html',context)
+
+
+@login_required(login_url='login_page')
+def deactiverTarifNumero(request,pk):
+    tarif = TarifFFNumero.objects.get(id = pk)
+    if tarif.etat == 'actif':
+        tarif.etat = 'deactif'
+        tarif.save()
+        messages.success(request, f"Tarif bien deasctiver")
+        return redirect('ListeTarifNum')
+  
+    context = {
+        'titre':"Desactiver",
+        'tarif':tarif,
+        'tarifs': TarifFFNumero.objects.all().order_by('etat'),
+        }
+
+    return render(request,'gestionclient/Tarif_Numero/updateTarifNumero.html',context)
+
+
+@login_required(login_url='login_page')
+def deactiverTarifFSVANumero(request,pk):
+    tarif = TarifFSVANumero.objects.get(id = pk)
+    if tarif.etat == 'actif':
+        tarif.etat = 'deactif'
+        tarif.save()
+        messages.success(request, f"Tarif bien deasctiver")
+        return redirect('ListeTarifFSVANum')
+  
+    context = {
+        'titre':"Desactiver",
+        'tarif':tarif,
+        'tarifs': TarifFSVANumero.objects.all().order_by('etat'),
+        }
+
+    return render(request,'gestionclient/Tarif_Numero/detailFSVANum.html',context)
+
+@login_required(login_url='login_page')
+def activerTarifNum(request,pk):
+    tarif = TarifFFNumero.objects.get(id = pk)
+    if tarif.etat == 'deactif':
+        tarifs = TarifFFNumero.objects.filter(type = tarif.type).filter(etat = 'actif').count()
+        if tarifs > 0:
+                messages.error(request, f'Tarif existe deja !')
+        else:
+            tarif.etat = 'actif'
+            tarif.save()       
+            messages.success(request, f"Tarif bien activer")
+            return redirect('ListeTarifNum')
+    
+    context = {
+        # 'form':form,
+        'titre':"Activer",
+        'tarif':tarif,
+        }
+
+    return render(request,'gestionclient/Tarif_Numero/detailNum.html',context)
 
 
 @login_required(login_url='login_page')
@@ -1820,11 +2152,6 @@ def facturerNum(request,pk):
     q_cpti = TarifFFNumero.objects.filter( type = 'Code de preselection pour les transporteurs internationaux').filter(etat = 'actif').first()
     fsva = TarifFSVANumero.objects.filter(etat = 'actif').first()
     
-    if ff.q_pq > 0:
-        if ff.RN_redevanceAnn == True:
-            total = total + q_ordinaire.etudeDossier
-            a = q_pq.redevanceAnn * ff.q_pq
-            total = total + a
 
     if ff.FS_etudeDossier == True:
         total = total + fsva.etudeDossier
@@ -1832,6 +2159,14 @@ def facturerNum(request,pk):
         total = total + fsva.agrementEquip
     if ff.FS_autoARCT == True:
         total = total + fsva.autorisationARCT
+
+
+    if ff.q_pq > 0:
+        if ff.RN_redevanceAnn == True:
+            total = total + q_ordinaire.etudeDossier
+            a = round(q_pq.redevanceAnn * ff.q_pq)
+            total = total + a
+
         
     if ff.q_ordinaire > 0:
         
@@ -1840,73 +2175,78 @@ def facturerNum(request,pk):
         if ff.RN_fraisGestion == True:
             total = total + q_ordinaire.fraisGestion
         if ff.RN_redevanceAnn == True:
-            b = q_ordinaire.redevanceAnn * ff.q_ordinaire
+            b = round(q_ordinaire.redevanceAnn * ff.q_ordinaire)
             total = total + b
             if ff.periode >  0:
-                b = b * (ff.periode/365)
+                b = round(b * (ff.periode/365))
                 total = total * b
 
     if ff.q_ussd > 0:
-        c = q_ussd.redevanceAnn * ff.q_ussd
+        c = round(q_ussd.redevanceAnn * ff.q_ussd)
         total = total + c
         if ff.periode >  0:
-            c = c * (ff.periode/365)
+            c = round(c * (ff.periode/365))
             total = total * c
 
         if ff.RN_etudeDossier == True:
             total = total + q_ussd.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_ussd.fraisGestion
+
     if ff.q_mnemonique > 0:
-        d = q_mnemonique.redevanceAnn * ff.q_mnemonique
+        d = round(q_mnemonique.redevanceAnn * ff.q_mnemonique)
         total = total + d
         if ff.periode >  0:
-            d = d * (ff.periode/365)
+            d = round(d * (ff.periode/365))
             total = total * d
 
         if ff.RN_etudeDossier == True:
             total = total + q_mnemonique.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_mnemonique.fraisGestion
+
     if ff.q_mnc > 0:
-        e = (q_mnc.redevanceAnn * ff.q_mnc)
+        e = round(q_mnc.redevanceAnn * ff.q_mnc)
         total = total + e
         if ff.periode >  0:
-            e = e * (ff.periode/365)
+            e = round(e * (ff.periode/365))
             total = total * e
 
         if ff.RN_etudeDossier == True:
             total = total + q_mnc.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_mnc.fraisGestion
+
     if ff.q_nspc > 0:
-        f = (q_nspc.redevanceAnn * ff.q_nspc)
+        f = round(q_nspc.redevanceAnn * ff.q_nspc)
         total = total + f
         if ff.periode >  0:
-            f = f * (ff.periode/365)
+            f = round(f * (ff.periode/365))
             total = total * f
 
         if ff.RN_etudeDossier == True:
             total = total + q_nspc.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_nspc.fraisGestion
+
     if ff.q_ispc > 0:
-        g = (q_ispc.redevanceAnn * ff.q_ispc)
+        g = round(q_ispc.redevanceAnn * ff.q_ispc)
         total = total + g
         if ff.periode >  0:
-            g = g * (ff.periode/365)
+            g = round(g * (ff.periode/365))
             total = total * g
 
         if ff.RN_etudeDossier == True:
             total = total + q_ispc.etudeDossier
         if ff.RN_fraisGestion == True:
             total = total + q_ispc.fraisGestion
+
     if ff.q_cpti > 0:
-        h = (q_cpti.redevanceAnn * ff.q_cpti)
-        total = total + h
+        h = round(q_cpti.redevanceAnn * ff.q_cpti)
         if ff.periode >  0:
-            h = h * (ff.periode/365)
+            h = round(h * (ff.periode/365))
             total = total * h
+        total = total + h
 
         if ff.RN_etudeDossier == True:
             total = total + q_cpti.etudeDossier
@@ -1989,7 +2329,7 @@ def ListeFFNumero(request):
 def ajoutFFANumero(request,pk):
     client = Client.objects.get(id = pk)
     today = date.today()
-    numCourt = NumeroCourt.objects.filter(client = client).count()
+    numCourt = NumeroCourt.objects.filter(client = client).filter(periode = 0).count()
     numlong = PQ.objects.filter(client = client).count()
     if numCourt + numlong > 0:
         state = 'Client Existant'
@@ -2075,6 +2415,15 @@ def ajoutFFANumero(request,pk):
 
     return render(request,'gestionclient/FF_numero/ajoutFFNumero.html',context)
 
+
+def etatNum():
+    numeros = NumeroCourt.objects.filter( etat = 'actif').exclude( periode = 0)
+    today = date.today()
+    for numero in numeros:
+        delais = today - numero.dateAtri
+        if delais.days > numero.periode:
+            numero.etat = 'deactif'
+            numero.save()
 
 
 @login_required(login_url='login_page')

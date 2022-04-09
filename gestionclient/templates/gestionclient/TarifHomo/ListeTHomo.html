@@ -7,21 +7,21 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-center">
-                   <h4>Liste des Tarifs des Numeros</h4> 
+                   <h4>Liste des Tarifs des Certificats d'Homologations</h4> 
                 </div>
                 
                 <p class="card-description">
-                <a href="{% url 'ajoutertarifNumero' %}"><button type="button" class="btn btn-primary">Ajouter un numero</button></a>
+                <a href="{% url 'ajoutertarifHomo' %}"><button type="button" class="btn btn-primary">Ajouter</button></a>
                   </p>
                 <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>Type</th>
-                        <th>Etude du dossier</th>
-                        <th>Frais de gestion</th>
-                        <th>Redevance Annuelle</th>
-                        <th>Date d'attribution</th>
+                        <th>Prix($)</th>
+                        <!-- <th>Prix</th> -->
+                        <!-- <th>Redevance Annuelle</th>
+                        <th>Date d'attribution</th> -->
                         <th>Status</th>
                         <th colspan="5"></th>
                     </tr>
@@ -31,10 +31,10 @@
                     {% for tarif in tarifs %}
                     <tr>
                         <td>{{ tarif.type }}</td>
-                        <td>{{ tarif.etudeDossier }}</td>
-                        <td>{{ tarif.fraisGestion }}</td>
+                        <td>{{ tarif.tarif }} $</td>
+                        <!-- <td>{{ tarif.fraisGestion }}</td>
                         <td>{{ tarif.redevanceAnn }}</td>
-                        <td>{{ tarif.dateAtri }}</td>
+                        <td>{{ tarif.dateAtri }}</td> -->
                         <!-- <td>{{ numcourt.etat }}</td> -->
                         <!-- <td>{{ constructeur.fax }}</td> -->
                         <!-- <td>{{ constructeur.email }}</td> -->
@@ -50,12 +50,12 @@
                         {% endif %} -->
                         
                         <td>
-                            <a href="{% url 'detailtarifNumero' tarif.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye" ></i></button></a>
+                            <a href="{% url 'detailtarifHomo' tarif.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye" ></i></button></a>
                         </td>
                     </tr>
                     {% endfor %}
                     {% else %}
-                            <h2>Pas de certificat</h2>
+                            <h2>Pas de Tarif</h2>
                     {% endif %}
                     </tbody>
                 </table>

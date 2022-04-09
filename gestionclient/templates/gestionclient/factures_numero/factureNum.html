@@ -67,7 +67,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <h3>Frais etude du dossier</h3>
+                        <h6>Frais d'etude du dossier</h6>
                     {% if ff.RN_etudeDossier is True %}
                     <ul>
                     {% if ff.q_ordinaire > 0 %}
@@ -137,7 +137,7 @@
                 <tr>
                     <td>
                     {% if ff.RN_fraisGestion is True %}
-                    <h3>Frais de gestion annuelle:</h3>
+                    <h6>Frais de gestion annuelle:</h6>
                         <ul>
                         {% if ff.q_ordinaire > 0 %}
                         <li>Numeros courts-codes ordinaires</li>
@@ -205,7 +205,7 @@
                 <tr>
                     <td>
                     {% if ff.RN_redevanceAnn is True %}
-                    <h3>Frais de gestion annuelle:</h3>
+                    <h6>Rdevance annuelle:</h6>
                         <ul>  
                         {% if ff.q_pq > 0 %}
                         <li>{{ff.q_pq}} PQ </li>

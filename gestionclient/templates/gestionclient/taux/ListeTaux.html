@@ -21,6 +21,7 @@
                 <tr>
                     <th>Date</th>
                     <th>Taux</th>
+                    <th>today</th>
                     <th>Status</th>
                     <th colspan="2">Actions</th>
                 </tr>
@@ -30,6 +31,7 @@
                 <tr>
                     <td>{{ taux.dateAtri }}</td>
                     <td>{{ taux.taux }}</td>
+                    <td>{{ today }}</td>
                     {% if taux.etat == 'actif' %}
                     <td><label class="badge badge-success">{{ taux.etat }}</label></td>
                     {% else %}
