@@ -1,0 +1,1 @@
+web gunicorn gestion.wsgi.py --log-file -
