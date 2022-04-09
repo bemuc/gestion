@@ -192,12 +192,12 @@ def deactiverClient(request,pk):
     context ={'item':client,'name':poste,}
     return render(request,'gestionclient/deactiver.html',context)
 
-@login_required(login_url='login_page')
+# @login_required(login_url='login_page')
 def listeClient(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     clients = Client.objects.all()
     myfilter = ClientFilter(request.GET, queryset=clients)
@@ -206,7 +206,7 @@ def listeClient(request):
         # 'clients': Client.objects.filter(status ="actif"),
         'clients':clients, 
         'myfilter':myfilter,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/Clientts/listeClient.html',context)
 
