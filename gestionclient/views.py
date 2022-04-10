@@ -77,6 +77,10 @@ def afacturer(request):
         'conf':conf,
         'homolo':homolo,
     }
+
+
+
+
 #  'name':poste,
         #technique
         #finance
@@ -126,7 +130,6 @@ def home(request):
 
     context={
         'name':poste,
-        
     }
     return render(request,'gestionclient/base.html',context)
 
