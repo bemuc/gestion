@@ -33,7 +33,7 @@ def Qui(request):
         poste = 'admin'
 
     return {
-        'poste':poste,
+        'name':poste,
     }
 
 
@@ -2007,10 +2007,8 @@ def detailtarifNumero(request,pk):
     tarif = TarifFFNumero.objects.get(id = pk)
     
     context = {
-        # 'form':form,
         'titre':"Detail",
         'tarif':tarif,
-        # 'tarifs': TarifFFNumero.objects.all().order_by('etat'),
         }
 
     return render(request,'gestionclient/Tarif_Numero/detailNum.html',context)
@@ -2021,10 +2019,8 @@ def detailtarifFSVANumero(request,pk):
     tarif = TarifFSVANumero.objects.get(id = pk)
     
     context = {
-        # 'form':form,
         'titre':"Detail",
         'tarif':tarif,
-        # 'tarifs': TarifFFNumero.objects.all().order_by('etat'),
         }
 
     return render(request,'gestionclient/Tarif_Numero/detailFSVANum.html',context)
@@ -2079,7 +2075,6 @@ def activerTarifNum(request,pk):
             return redirect('ListeTarifNum')
     
     context = {
-        # 'form':form,
         'titre':"Activer",
         'tarif':tarif,
         }
@@ -2143,8 +2138,6 @@ def detailsFFNum(request,pk):
 
     context = {
         'FF_Numero': FF_Numero.objects.get(id = pk),
-        # 'client': FF_Numero.objects.get(id = pk),
-        # 'abs': AB.objects.filter(pq = pk),
         'today': date.today(),
         'name':poste,
     }
@@ -2541,8 +2534,6 @@ def detailsFFNumero(request,pk):
 
     context = {
         'FF_Numero': FF_Numero.objects.get(id = pk),
-        # 'client': FF_Numero.objects.get(id = pk),
-        # 'abs': AB.objects.filter(pq = pk),
         'today': date.today(),
         'name':poste,
     }
