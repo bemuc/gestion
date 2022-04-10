@@ -7,7 +7,7 @@ from datetime import date,timedelta
 from datetime import datetime
 # from.forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import Group
 from .decorators import *
 from .filters import *
@@ -57,7 +57,7 @@ def afacturer(request):
     homo = HomologationEqui.objects.filter(etat = 'actif').filter(pourfact = 'oui').count()
     # etatNum()
     numeros = NumeroCourt.objects.filter( etat = 'deactif').exclude( periode = 0).count()
-
+    
     #finance
     facturer = FF_Numero.objects.filter( efacturer = 'non').count()
     certAgr = CertAgr.objects.filter(porfact = 'oui').filter(facturer = 'non').count()
@@ -117,21 +117,30 @@ def logout_page(request):
 def is_group1(user):
   return user.groups.filter(name='finance').exists()
 
-
-
-# @login_required(login_url='login_page')
-def home(request):
-    if request.user.groups.filter(name='finance'):
+def is_member(user):
+    if user.groups.filter(name='finance').exists():
         poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
+    elif user.groups.filter(name='technicien').exists():
         poste = 'technicien'
     else:
         poste = 'admin'
+    return {poste}
+
+
+# @login_required(login_url='login_page')
+@user_passes_test(is_member)
+def home(request):
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context={
-        'name':poste
+        # 'name':poste
     }
-    return render(request,'gestionclient/base.html',context)
+    return render(request,'gestionclient/base.html')
 
 
 @login_required(login_url='login_page')
