@@ -24,50 +24,50 @@ from django.template.loader import get_template
 from .forms import *
 
 
-@login_required(login_url='login_page')
-def afacturer(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif  request.user.groups.filter(name='technicien') :
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+# @login_required(login_url='login_page')
+# def afacturer(request):
+#     if request.user.groups.filter(name='finance'):
+#         poste = 'finance'
+#     elif  request.user.groups.filter(name='technicien') :
+#         poste = 'technicien'
+#     else:
+#         poste = 'admin'
 
-    # technique
-    afacturer = FF_Numero.objects.filter( facturer = 'non').count()
-    numcourt = NumeroCourt.objects.filter( numero = None).count()
-    pq = PQ.objects.filter( pq = None).count()
-    agre = CertAgr.objects.filter(porfact = 'non').count()
-    confor = CertConf.objects.filter(etat = 'actif').filter(pourfact = 'non').count()
-    homo = HomologationEqui.objects.filter(etat = 'actif').filter(pourfact = 'oui').count()
-    etatNum()
-    numeros = NumeroCourt.objects.filter( etat = 'deactif').exclude( periode = 0).count()
+#     # technique
+#     afacturer = FF_Numero.objects.filter( facturer = 'non').count()
+#     numcourt = NumeroCourt.objects.filter( numero = None).count()
+#     pq = PQ.objects.filter( pq = None).count()
+#     agre = CertAgr.objects.filter(porfact = 'non').count()
+#     confor = CertConf.objects.filter(etat = 'actif').filter(pourfact = 'non').count()
+#     homo = HomologationEqui.objects.filter(etat = 'actif').filter(pourfact = 'oui').count()
+#     etatNum()
+#     numeros = NumeroCourt.objects.filter( etat = 'deactif').exclude( periode = 0).count()
 
-    #finance
-    facturer = FF_Numero.objects.filter( efacturer = 'non').count()
-    certAgr = CertAgr.objects.filter(porfact = 'oui').filter(facturer = 'non').count()
-    conf = CertConf.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
-    homolo = HomologationEqui.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
+#     #finance
+#     facturer = FF_Numero.objects.filter( efacturer = 'non').count()
+#     certAgr = CertAgr.objects.filter(porfact = 'oui').filter(facturer = 'non').count()
+#     conf = CertConf.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
+#     homolo = HomologationEqui.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
 
-    return {
-        'name':poste,
-        #technique
-        'afacturer':afacturer,
-        'numcourt':numcourt + numeros,
-        'pq':pq,
-        'totalnum':afacturer + numcourt + pq + numeros,
-        # 'numeros':numeros,
-        'agrements':agre,
-        'confor':confor,
-        'homo':homo,
+#     return {
+#         'name':poste,
+#         #technique
+#         'afacturer':afacturer,
+#         'numcourt':numcourt + numeros,
+#         'pq':pq,
+#         'totalnum':afacturer + numcourt + pq + numeros,
+#         # 'numeros':numeros,
+#         'agrements':agre,
+#         'confor':confor,
+#         'homo':homo,
         
-    #finance
-        'facturer':facturer,
-        'certAgr':certAgr,
-        'conf':conf,
-        'homolo':homolo,
+#     #finance
+#         'facturer':facturer,
+#         'certAgr':certAgr,
+#         'conf':conf,
+#         'homolo':homolo,
 
-    }
+#     }
 
     # return HttpResponse(context)
 
