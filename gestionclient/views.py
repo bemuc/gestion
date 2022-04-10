@@ -25,10 +25,6 @@ from .forms import *
 
 
 
-
-
-
-
 @login_required(login_url='login_page')
 def afacturer(request):
 
@@ -87,7 +83,7 @@ def logout_page(request):
 def is_group1(user):
   return user.groups.filter(name='finance').exists()
 
-
+@login_required(login_url='login_page')
 def home(request):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
@@ -98,7 +94,9 @@ def home(request):
 
     context={
         'name':poste,
-    }
+        'un':poste,
+        'deux':poste,
+        }
     return render(request,'gestionclient/base.html',context)
 
 
