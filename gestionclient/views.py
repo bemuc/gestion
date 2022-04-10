@@ -31,12 +31,6 @@ from .forms import *
 
 @login_required(login_url='login_page')
 def afacturer(request):
-    # if request.user.groups.filter(name='finance'):
-    #     poste = 'finance'
-    # elif  request.user.groups.filter(name='technicien') :
-    #     poste = 'technicien'
-    # else:
-    #     poste = 'admin'
 
     # technique
     afacturer = FF_Numero.objects.filter( facturer = 'non').count()
@@ -68,18 +62,6 @@ def afacturer(request):
         'conf':conf,
         'homolo':homolo,
     }
-#  'name':poste,
-        #technique
-        #finance
-         # 'numeros':numeros,
-    # return HttpResponse(context)
-
-
-
-
-# @unauthenticated_user
-
-
 
 def loginPage(request):
     if request.method == 'POST':
@@ -90,12 +72,6 @@ def loginPage(request):
 
         if user is not None:
             login(request,user)
-            # if request.user.groups.filter(name='finance'):
-            #     poste = 'finance'
-            # elif  request.user.groups.filter(name='technicien') :
-            #     poste = 'technicien'
-            # else:
-            #     poste = 'admin'
 
             return redirect('home')
         else:
@@ -112,17 +88,16 @@ def is_group1(user):
   return user.groups.filter(name='finance').exists()
 
 
-
-# @login_required(login_url='login_page')
 def home(request):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
-    else:
+    elif request.user.groups.filter(name='technicien'):
         poste = 'technicien'
+    else:
+        poste = 'admin'
 
     context={
         'name':poste,
-        
     }
     return render(request,'gestionclient/base.html',context)
 
