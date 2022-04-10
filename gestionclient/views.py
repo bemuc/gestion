@@ -33,7 +33,7 @@ from .forms import *
 #         poste = 'admin'
 
 #     return {
-#         'name':poste,
+        # 'name':poste,
 #     }
 
 
@@ -121,27 +121,27 @@ def is_group1(user):
 
 # @login_required(login_url='login_page')
 def home(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context={
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/base.html',context)
 
 
 @login_required(login_url='login_page')
 def ajoutClient(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     
     if request.method == 'POST':
@@ -164,18 +164,18 @@ def ajoutClient(request):
     context = {
         'form':form,
         'titre': "Ajouter",
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/Clientts/ajoutClient.html',context)
 
 @login_required(login_url='login_page')
 def modifierClient(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     
     client = Client.objects.get(id=pk)
@@ -189,7 +189,7 @@ def modifierClient(request,pk):
     context = {
         'form':form,
         'titre':"Modifier",
-        'name':poste,
+        # 'name':poste,
         }
 
     return render(request,'gestionclient/Clientts/ajoutClient.html',context)
@@ -197,12 +197,12 @@ def modifierClient(request,pk):
 
 @login_required(login_url='login_page')
 def deactiverClient(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     
     client = Client.objects.get(id=pk)
@@ -212,18 +212,18 @@ def deactiverClient(request,pk):
         return redirect ('listeClient_page')
     context ={
         'item':client,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/deactiver.html',context)
 
 @login_required(login_url='login_page')
 def listeClient(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     clients = Client.objects.all()
     myfilter = ClientFilter(request.GET, queryset=clients)
@@ -231,25 +231,25 @@ def listeClient(request):
     context = {
         'clients':clients, 
         'myfilter':myfilter,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/Clientts/listeClient.html',context)
 
 @login_required(login_url='login_page')
 def detailsClient(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
 
     context = {
         'client': Client.objects.get(id = pk),
         'certificats': CertAgr.objects.filter(client__id = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/Clientts/detailsClient.html',context)
 
@@ -278,7 +278,7 @@ def detailsClient(request,pk):
 #     else:
 #         form = PersonneContactForm()
 #     context = {
-#         'name':poste,
+        # 'name':poste,
 #         'form':form,
 #     }
 #     return render(request,'gestionclient/ajoutPContact.html',context)
@@ -292,25 +292,25 @@ def detailsClient(request,pk):
     
 #     context = {
 #         'contacts': PersonneContact.objects.all(),
-#         'name':poste,
+        # 'name':poste,
 #         }
 #     return render(request,'gestionclient/listePContact.html',context)
 
 @login_required(login_url='login_page')
 def listeCertAgr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     
     context = {
         'certificats': CertAgr.objects.filter(client__id = pk).filter(etat = 'actif'),
         'client':Client.objects.get(id=pk),
         'today':date.today(),
-        'name':poste,
+        # 'name':poste,
     }
 
     return render(request,'gestionclient/certificatAgrement/certiAgrement.html',context)
@@ -318,12 +318,12 @@ def listeCertAgr(request,pk):
 @login_required(login_url='login_page')
 @allowed_users(allowed_roles=['technicien'])
 def ajoutCert(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     
     clients = Client.objects.all()
@@ -364,7 +364,7 @@ def ajoutCert(request):
         'form':form,
         'titre':"Ajouter",
         'client': clients,
-        'name':poste,
+        # 'name':poste,
         }
 
     return render(request,'gestionclient/certificatAgrement/ajoutCertAgr.html',context)
@@ -373,12 +373,12 @@ def ajoutCert(request):
 @login_required(login_url='login_page')
 @allowed_users(allowed_roles=['technicien'])
 def renouCertAgre(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     
     certiAgrs = CertAgr.objects.get(id=pk)
@@ -399,7 +399,7 @@ def renouCertAgre(request,pk):
         'form':form,
         'titre':'Renouvellemet',
         'client': Client.objects.get(id=certiAgrs.client.id),
-        'name':poste,
+        # 'name':poste,
         }
     
     return render(request,'gestionclient/certificatAgrement/ajoutCertAgr.html',context)
@@ -407,12 +407,12 @@ def renouCertAgre(request,pk):
 @login_required(login_url='login_page')
 @allowed_users(allowed_roles=['technicien'])
 def updateCertAgre(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     certiAgrs = CertAgr.objects.get(id=pk)
     form = CertAgreForm(instance = certiAgrs)
@@ -429,7 +429,7 @@ def updateCertAgre(request,pk):
         'form':form,
         'titre':'Modifier',
         'client': Client.objects.get(id=certiAgrs.client.id),
-        'name':poste,
+        # 'name':poste,
         }
 
     return render(request,'gestionclient/certificatAgrement/ajoutCertAgr.html',context)
@@ -437,12 +437,12 @@ def updateCertAgre(request,pk):
 @login_required(login_url='login_page')
 @allowed_users(allowed_roles=['technicien'])
 def deactiveCertAgr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     certiAgrs = CertAgr.objects.get(id=pk)
     if request.method == 'POST':
@@ -454,19 +454,19 @@ def deactiveCertAgr(request,pk):
 
     context ={
         'certificat':certiAgrs,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/certificatAgrement/deactiverCertAgr.html',context)
 
 # !!!!!!!!!!!!!
 @allowed_users(allowed_roles=['technicien'])
 def pourFactCertAgr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     certiAgrs = CertAgr.objects.get(id=pk)
     if certiAgrs.porfact == 'non' and date.today() < certiAgrs.dateExp:
@@ -477,19 +477,19 @@ def pourFactCertAgr(request,pk):
         messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
         'certificat':certiAgrs,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/ficheCertAgr.html',context)
 
 
 @allowed_users(allowed_roles=['finance'])
 def Certfacturer(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
     certiAgrs = CertAgr.objects.all()
     # if certiAgrs.porfact == 'non' and date.today() < certiAgrs.dateExp:
     #     certiAgrs.porfact = 'oui'
@@ -499,18 +499,18 @@ def Certfacturer(request):
     #     messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
         'certificats':certiAgrs,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/certificatAgrement/CertAfacturer.html',context)
 
 @allowed_users(allowed_roles=['finance'])
 def factCert(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
     certificat = CertAgr.objects.get(id = pk)
     type = certificat.type
     if type == 'VENDEUR':
@@ -537,7 +537,7 @@ def factCert(request,pk):
             messages.error(request, f' ERREUR facture non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'certificat':certificat,
         'tarif':tarif,
@@ -551,17 +551,17 @@ def factCert(request,pk):
 
 @login_required(login_url='login_page')
 def detailCertAgr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
         'certificat': CertAgr.objects.get(id = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/certificatAgrement/ficheCertAgr.html',context)
 
@@ -592,17 +592,17 @@ def detailCertAgr(request,pk):
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!
 def thepdf(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
         'certificat': CertAgr.objects.get(id = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/CertAgrpdf.html',context)
 
@@ -625,24 +625,24 @@ def thepdf(request,pk):
 #         'certificat': certificat,
 #         'category': category,
 #         'today': today ,
-#         'name':poste,
+        # 'name':poste,
 #         }
 #     return render(request,'gestionclient/facturationCertAgr.html',context)
 
 @login_required(login_url='login_page')
 def CertListAgr(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     
     context = {
         'certificats': CertAgr.objects.all(),
         'today':date.today(),
-        'name':poste,
+        # 'name':poste,
     }
 
     return render(request,'gestionclient/certificatAgrement/certListagr.html',context)
@@ -652,43 +652,43 @@ def CertListAgr(request):
 
 @login_required(login_url='login_page')
 def ListCertConf(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
     context = {
         'certificats': CertConf.objects.all().filter(etat='actif'),
         'today':date.today(),
-        'name':poste,
+        # 'name':poste,
     }
 
     return render(request,'gestionclient/certificatConf/ListCertConf.html',context)
 
 @login_required(login_url='login_page')
 def DetailConf(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
     context = {
         'certificat': CertConf.objects.get(id = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/certificatConf/DetailConf.html',context)
 
 @login_required(login_url='login_page')
 def ajoutCertConf(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     clients = Client.objects.all()
     today = date.today()
@@ -726,19 +726,19 @@ def ajoutCertConf(request):
         'form':form,
         'titre':"Ajouter",
         'client': clients,
-        'name':poste,
+        # 'name':poste,
         }
 
     return render(request,'gestionclient/certificatConf/ajoutCertConf.html',context)
 
 @login_required(login_url='login_page')
 def updateCertConf(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     certiConf = CertConf.objects.get(id=pk)
     form = CertConfForm(instance = certiConf)
@@ -752,7 +752,7 @@ def updateCertConf(request,pk):
             messages.warning(request, f"Erreur form invalid")
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':'Modifier',
         'client': Client.objects.get(id=certiConf.client.id),
@@ -762,12 +762,12 @@ def updateCertConf(request,pk):
 
 @login_required(login_url='login_page')
 def renouvCertConf(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     certiAgrs = CertConf.objects.get(id=pk)
     today = date.today()
@@ -784,7 +784,7 @@ def renouvCertConf(request,pk):
             messages.warning(request, f"Erreur form invalid")
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':'Renouvellemet',
         'client': Client.objects.get(id=certiAgrs.client.id),
@@ -794,12 +794,12 @@ def renouvCertConf(request,pk):
 
 @allowed_users(allowed_roles=['technicien'])
 def pourfactCertConf(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     certiConf = CertConf.objects.get(id=pk)
     if certiConf.pourfact == 'non' and date.today() < certiConf.dateExp:
@@ -810,7 +810,7 @@ def pourfactCertConf(request,pk):
     else:
         messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
-        'name':poste,
+        # 'name':poste,
         'certificat':certiConf,
         }
     return render(request,'gestionclient/certificatConf/DetailConf.html',context)
@@ -818,12 +818,12 @@ def pourfactCertConf(request,pk):
 
 @allowed_users(allowed_roles=['finance'])
 def CertConfAfact(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     certiconf = CertConf.objects.filter(pourfact = 'oui')
     # if certiAgrs.porfact == 'non' and date.today() < certiAgrs.dateExp:
@@ -834,18 +834,18 @@ def CertConfAfact(request):
     #     messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
         'certificats':certiconf,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/certificatConf/CertConfAfact.html',context)
 
 @allowed_users(allowed_roles=['finance'])
 def factCertConf(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     certificat = CertConf.objects.get(id = pk)
     type = certificat.type
@@ -872,7 +872,7 @@ def factCertConf(request,pk):
             messages.error(request, f' ERREUR facture non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
             'form':form,
             'certificat':certificat,
             'tarif':tarif,
@@ -890,15 +890,15 @@ def factCertConf(request,pk):
 
 @login_required(login_url='login_page')
 def ListConstructeur(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'constructeurs': Constructeur.objects.all(),
         'today':date.today(),
     }
@@ -907,12 +907,12 @@ def ListConstructeur(request):
 
 @login_required(login_url='login_page')
 def ajoutConstructeur(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     # clients = Client.objects.all()
     today = date.today()
@@ -939,7 +939,7 @@ def ajoutConstructeur(request):
             messages.error(request, f' ERREUR Certificat invalid non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -948,12 +948,12 @@ def ajoutConstructeur(request):
 
 @login_required(login_url='login_page')
 def updateConstr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     constructeur = Constructeur.objects.get(id=pk)
     form = ConstructeurForm(instance = constructeur)
@@ -967,7 +967,7 @@ def updateConstr(request,pk):
             messages.warning(request, f"Erreur form invalid")
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':'Modifier',
         }
@@ -979,15 +979,15 @@ def updateConstr(request,pk):
 
 @login_required(login_url='login_page')
 def ListEqui(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'equipements': Equipement.objects.all(),
         'today':date.today(),
     }
@@ -996,12 +996,12 @@ def ListEqui(request):
 
 @login_required(login_url='login_page')
 def ajoutEquipement(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
     # clients = Client.objects.all()
     today = date.today()
     form = EquipementForm(initial={'dateAttri':today})
@@ -1027,7 +1027,7 @@ def ajoutEquipement(request):
             messages.error(request, f' ERREUR Certificat invalid non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -1036,12 +1036,12 @@ def ajoutEquipement(request):
 
 @login_required(login_url='login_page')
 def updateEquip(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     equipement = Equipement.objects.get(id=pk)
     form = EquipementForm(instance = equipement)
@@ -1067,7 +1067,7 @@ def updateEquip(request,pk):
             messages.error(request, f' ERREUR Certificat invalid non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':'Modifier',
         }
@@ -1078,12 +1078,12 @@ def updateEquip(request,pk):
 
 @allowed_users(allowed_roles=['finance'])
 def factCertHom(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     certificat = HomologationEqui.objects.get(id = pk)
     type = certificat.categorie
@@ -1112,7 +1112,7 @@ def factCertHom(request,pk):
             messages.error(request, f' ERREUR facture non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
             'form':form,
             'certificat':certificat,
             'tarif':tarif,
@@ -1131,16 +1131,16 @@ def factCertHom(request,pk):
 
 @allowed_users(allowed_roles=['finance'])
 def CertHomAfact(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     homologation = HomologationEqui.objects.filter(pourfact = 'oui')
     context ={
-        'name':poste,
+        # 'name':poste,
         'homologations':homologation,
         'today':date.today(),
         }
@@ -1149,12 +1149,12 @@ def CertHomAfact(request):
 
 @allowed_users(allowed_roles=['technicien'])
 def pourfactCertHom(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     homologation = HomologationEqui.objects.get(id=pk)
     if homologation.pourfact == 'non' and date.today() < homologation.dateExp:
@@ -1166,22 +1166,22 @@ def pourfactCertHom(request,pk):
         messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
         'homologation':homologation,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/certificatHomo/DetailHomo.html',context)
 
 
 @login_required(login_url='login_page')
 def ListeHomo(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'homologations': HomologationEqui.objects.all().filter(etat = 'actif'),
         'today':date.today(),
     }
@@ -1190,12 +1190,12 @@ def ListeHomo(request):
 
 @login_required(login_url='login_page')
 def ajoutHomologation(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     # clients = Client.objects.all()
     today = date.today()
@@ -1230,7 +1230,7 @@ def ajoutHomologation(request):
             messages.error(request, f' ERREUR Homologation invalid non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -1239,15 +1239,15 @@ def ajoutHomologation(request):
 
 @login_required(login_url='login_page')
 def detailHomologation(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'homologation': HomologationEqui.objects.get(id = pk),
         'today': date.today(),
     }
@@ -1255,12 +1255,12 @@ def detailHomologation(request,pk):
 
 @login_required(login_url='login_page')
 def modifierHomo(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     homologation = HomologationEqui.objects.get(id=pk)
     today = date.today()
@@ -1275,7 +1275,7 @@ def modifierHomo(request,pk):
             messages.warning(request, f"Erreur form invalid")
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':'Modifier',
         'homologation':homologation,
@@ -1285,12 +1285,12 @@ def modifierHomo(request,pk):
 
 @login_required(login_url='login_page')
 def updateHomologation(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     homologation = HomologationEqui.objects.get(id=pk)
     today = date.today()
@@ -1307,7 +1307,7 @@ def updateHomologation(request,pk):
             messages.warning(request, f"Erreur form invalid")
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':'Renouveller',
         'homologation':homologation,
@@ -1319,15 +1319,15 @@ def updateHomologation(request,pk):
 
 @login_required(login_url='login_page')
 def ListeNumCourt(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'numcourts': NumeroCourt.objects.all(),
         'today':date.today(),
     }
@@ -1336,12 +1336,12 @@ def ListeNumCourt(request):
 
 @login_required(login_url='login_page')
 def ajoutnumCourt(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = NumeroCourtForm(initial={'dateAtri':today})
@@ -1372,7 +1372,7 @@ def ajoutnumCourt(request):
             messages.error(request, f' ERREUR formulaire invalide. Numero non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -1381,12 +1381,12 @@ def ajoutnumCourt(request):
 
 @login_required(login_url='login_page')
 def updateNumcourt(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     numero = NumeroCourt.objects.get(id=pk)
     form = NumeroCourtForm(instance = numero,initial={'etat':'actif'})
@@ -1417,7 +1417,7 @@ def updateNumcourt(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. Numero non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':'Modifier',
         'modifier': True,
@@ -1430,15 +1430,15 @@ def updateNumcourt(request,pk):
 
 @login_required(login_url='login_page')
 def ListePQ(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'pqs': PQ.objects.all(),
         'today':date.today(),
     }
@@ -1447,12 +1447,12 @@ def ListePQ(request):
 
 @login_required(login_url='login_page')
 def ajoutPQ(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = PQForm(initial={'dateAtri':today})
@@ -1479,7 +1479,7 @@ def ajoutPQ(request):
             messages.error(request, f' ERREUR formulaire invalide. PQ non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -1488,12 +1488,12 @@ def ajoutPQ(request):
 
 @login_required(login_url='login_page')
 def ajoutAB(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     pq = PQ.objects.get(id = pk)
@@ -1521,7 +1521,7 @@ def ajoutAB(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. AB non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         'pq':pq,
@@ -1531,30 +1531,30 @@ def ajoutAB(request,pk):
 
 @login_required(login_url='login_page')
 def detailsPQ(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
 
     context = {
         'pq': PQ.objects.get(id = pk),
         'abs': AB.objects.filter(pq = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/numeroLong/PQ/detailPQ.html',context)
 
 @login_required(login_url='login_page')
 def updateAB(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     ab = AB.objects.get(id=pk)
     pq = PQ.objects.get(id = pk)
@@ -1582,7 +1582,7 @@ def updateAB(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. AB non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Modifier",
         'pq':pq,
@@ -1592,12 +1592,12 @@ def updateAB(request,pk):
 
 @login_required(login_url='login_page')
 def updatePQ(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     # ab = AB.objects.get(id=pk)
     pq = PQ.objects.get(id = pk)
@@ -1625,7 +1625,7 @@ def updatePQ(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. PQ non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Modifier",
         }
@@ -1636,15 +1636,15 @@ def updatePQ(request,pk):
 
 @login_required(login_url='login_page')
 def ListeMegas(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'megas': Megas.objects.all(),
         'today':date.today(),
     }
@@ -1653,12 +1653,12 @@ def ListeMegas(request):
 
 @login_required(login_url='login_page')
 def ajoutMegas(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = MegasForm(initial={'dateAtri':today})
@@ -1685,7 +1685,7 @@ def ajoutMegas(request):
             messages.error(request, f' ERREUR formulaire invalide. Megas non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -1694,12 +1694,12 @@ def ajoutMegas(request):
 
 @login_required(login_url='login_page')
 def updateMegas(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     mega = Megas.objects.get(id = pk)
     form = MegasForm(instance = mega)
@@ -1715,7 +1715,7 @@ def updateMegas(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. Megas non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Modifier",
         }
@@ -1734,12 +1734,12 @@ def ListeMinutes(request):
 
 @login_required(login_url='login_page')
 def ajoutMinutes(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = MinutesForm(initial={'dateAtri':today})
@@ -1754,7 +1754,7 @@ def ajoutMinutes(request):
             messages.error(request, f' ERREUR formulaire invalide. Minutes non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -1763,12 +1763,12 @@ def ajoutMinutes(request):
 
 @login_required(login_url='login_page')
 def updateMinutes(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     minutes = Minutes.objects.get(id = pk)
     form = MinutesForm(instance = minutes)
@@ -1784,7 +1784,7 @@ def updateMinutes(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. Minutes non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Modifier",
         }
@@ -1794,15 +1794,15 @@ def updateMinutes(request,pk):
 #chiffre d'affaire
 @login_required(login_url='login_page')
 def ListeCA(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'cas': ChiffreAffaire.objects.all(),
         'today':date.today(),
     }
@@ -1811,12 +1811,12 @@ def ListeCA(request):
 
 @login_required(login_url='login_page')
 def ajoutCA(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = CAForm(initial={'dateAtri':today})
@@ -1831,7 +1831,7 @@ def ajoutCA(request):
             messages.error(request, f' ERREUR formulaire invalide. CA non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -1840,12 +1840,12 @@ def ajoutCA(request):
 
 @login_required(login_url='login_page')
 def updateCA(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     ca = ChiffreAffaire.objects.get(id = pk)
     form = CAForm(instance = ca)
@@ -1860,7 +1860,7 @@ def updateCA(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. ca non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Modifier",
         }
@@ -1870,15 +1870,15 @@ def updateCA(request,pk):
 # frequence radio
 @login_required(login_url='login_page')
 def ListeFR(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'frs': FrequenceRadio.objects.all(),
         'today':date.today(),
     }
@@ -1887,12 +1887,12 @@ def ListeFR(request):
 
 @login_required(login_url='login_page')
 def ajoutFR(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = FrForm(initial={'dateAtri':today})
@@ -1907,7 +1907,7 @@ def ajoutFR(request):
             messages.error(request, f' ERREUR formulaire invalide. FrequenceRadio non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -1916,12 +1916,12 @@ def ajoutFR(request):
 
 @login_required(login_url='login_page')
 def updateFR(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     fr = FrequenceRadio.objects.get(id = pk)
     form = FrForm(instance = fr)
@@ -1936,7 +1936,7 @@ def updateFR(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. Frequence Radio non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Modifier",
         }
@@ -1946,15 +1946,15 @@ def updateFR(request,pk):
 #faisceaux hertzien
 @login_required(login_url='login_page')
 def ListeFH(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'fhs': FaisceauxHertzien.objects.all(),
         'today':date.today(),
     }
@@ -1963,12 +1963,12 @@ def ListeFH(request):
 
 @login_required(login_url='login_page')
 def ajoutFH(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = FhForm(initial={'dateAtri':today})
@@ -1983,7 +1983,7 @@ def ajoutFH(request):
             messages.error(request, f' ERREUR formulaire invalide. Faisceaux Hertzien non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -1992,12 +1992,12 @@ def ajoutFH(request):
 
 @login_required(login_url='login_page')
 def updateFH(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     fh = FaisceauxHertzien.objects.get(id = pk)
     form = FhForm(instance = fh)
@@ -2012,7 +2012,7 @@ def updateFH(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. Faisceaux Hertzien non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Modifier",
         }
@@ -2024,14 +2024,14 @@ def updateFH(request,pk):
 
 @login_required(login_url='login_page')
 def ListeTaux(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
     context = {
-        'name':poste,
+        # 'name':poste,
         'tauxs': Taux.objects.all(),
         'today':date.today(),
     }
@@ -2040,12 +2040,12 @@ def ListeTaux(request):
 
 @login_required(login_url='login_page')
 def ajouterTaux(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     tauxs = Taux.objects.all()
@@ -2073,7 +2073,7 @@ def ajouterTaux(request):
                 messages.error(request, f' ERREUR formulaire invalide. Taux non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         'date':today,
@@ -2085,12 +2085,12 @@ def ajouterTaux(request):
 
 @login_required(login_url='login_page')
 def updateTaux(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     taux = Taux.objects.get(id = pk)
@@ -2112,7 +2112,7 @@ def updateTaux(request,pk):
                 messages.error(request, f' ERREUR formulaire invalide. Taux non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Modifer",
         'date':today,
@@ -2123,15 +2123,15 @@ def updateTaux(request,pk):
 # tarif conformite
 @login_required(login_url='login_page')
 def ListeTarifsConf(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'tarifs': TarifConf.objects.all().order_by('etat'),
         'today':date.today(),
     }
@@ -2140,12 +2140,12 @@ def ListeTarifsConf(request):
 
 @login_required(login_url='login_page')
 def ajoutertarifConf(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = TarifAgreForm(initial={'date':today})
@@ -2164,7 +2164,7 @@ def ajoutertarifConf(request):
             messages.error(request, f' ERREUR formulaire invalide. Tarif non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -2184,15 +2184,15 @@ def ajoutertarifConf(request):
 #tarif agrement
 @login_required(login_url='login_page')
 def ListeTarifsAgr(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'tarifs': TarifAgre.objects.all().order_by('etat'),
         'today':date.today(),
     }
@@ -2202,12 +2202,12 @@ def ListeTarifsAgr(request):
 
 @login_required(login_url='login_page')
 def ajoutertarifAgr(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = TarifAgreForm(initial={'date':today})
@@ -2226,7 +2226,7 @@ def ajoutertarifAgr(request):
             messages.error(request, f' ERREUR formulaire invalide. Tarif non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -2238,17 +2238,17 @@ def ajoutertarifAgr(request):
 
 @login_required(login_url='login_page')
 def detailtarifAgr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     tarif = TarifAgre.objects.get(id = pk)
     
     context = {
-        'name':poste,
+        # 'name':poste,
         'titre':"Detail",
         'tarif':tarif,
         }
@@ -2257,12 +2257,12 @@ def detailtarifAgr(request,pk):
 
 @login_required(login_url='login_page')
 def deactiverTarifAgr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     tarif = TarifAgre.objects.get(id = pk)
     if tarif.etat == 'actif':
@@ -2281,7 +2281,7 @@ def deactiverTarifAgr(request,pk):
             return redirect('ListeTarifsAgr')
   
     context = {
-        'name':poste,
+        # 'name':poste,
         'titre':"Desactiver",
         'tarif':tarif,
         'tarifs': TarifAgre.objects.all().order_by('etat'),
@@ -2297,14 +2297,14 @@ def deactiverTarifAgr(request,pk):
 #tarif homologation
 @login_required(login_url='login_page')
 def ListeTarifsHomo(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
     context = {
-        'name':poste,
+        # 'name':poste,
         'tarifs': TarifHom.objects.all().order_by('etat'),
         'today':date.today(),
     }
@@ -2315,12 +2315,12 @@ def ListeTarifsHomo(request):
 
 @login_required(login_url='login_page')
 def ajoutertarifHomo(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = TarifHomologation(initial={'date':today})
@@ -2339,7 +2339,7 @@ def ajoutertarifHomo(request):
             messages.error(request, f' ERREUR formulaire invalide. Tarif non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -2351,17 +2351,17 @@ def ajoutertarifHomo(request):
 
 @login_required(login_url='login_page')
 def detailtarifHomo(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     tarif = TarifHom.objects.get(id = pk)
     
     context = {
-        'name':poste,
+        # 'name':poste,
         'titre':"Detail",
         'tarif':tarif,
         }
@@ -2373,12 +2373,12 @@ def detailtarifHomo(request,pk):
 
 @login_required(login_url='login_page')
 def deactiverTarifHomo(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     tarif = TarifHom.objects.get(id = pk)
     if tarif.etat == 'actif':
@@ -2397,7 +2397,7 @@ def deactiverTarifHomo(request,pk):
             return redirect('ListeTarifsHomo')
   
     context = {
-        'name':poste,
+        # 'name':poste,
         'titre':"Desactiver",
         'tarif':tarif,
         'tarifs': TarifHom.objects.all().order_by('etat'),
@@ -2411,15 +2411,15 @@ def deactiverTarifHomo(request,pk):
 #tarif numero
 @login_required(login_url='login_page')
 def ListeTarifNum(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'tarifs': TarifFFNumero.objects.all().order_by('etat'),
         'today':date.today(),
     }
@@ -2429,15 +2429,15 @@ def ListeTarifNum(request):
 
 @login_required(login_url='login_page')
 def ListeTarifFSVANum(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'tarifFSVAs': TarifFSVANumero.objects.all(),
         'today':date.today(),
     }
@@ -2446,12 +2446,12 @@ def ListeTarifFSVANum(request):
 
 @login_required(login_url='login_page')
 def ajoutertarifNumero(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = TarifFFNumeroForm(initial={'dateAtri':today})
@@ -2470,7 +2470,7 @@ def ajoutertarifNumero(request):
             messages.error(request, f' ERREUR formulaire invalide. Tarif non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -2481,17 +2481,17 @@ def ajoutertarifNumero(request):
 
 @login_required(login_url='login_page')
 def detailtarifNumero(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     tarif = TarifFFNumero.objects.get(id = pk)
     
     context = {
-        'name':poste,
+        # 'name':poste,
         'titre':"Detail",
         'tarif':tarif,
         }
@@ -2501,17 +2501,17 @@ def detailtarifNumero(request,pk):
 
 @login_required(login_url='login_page')
 def detailtarifFSVANumero(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     tarif = TarifFSVANumero.objects.get(id = pk)
     
     context = {
-        'name':poste,
+        # 'name':poste,
         'titre':"Detail",
         'tarif':tarif,
         }
@@ -2521,12 +2521,12 @@ def detailtarifFSVANumero(request,pk):
 
 @login_required(login_url='login_page')
 def deactiverTarifNumero(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     tarif = TarifFFNumero.objects.get(id = pk)
     if tarif.etat == 'actif':
@@ -2536,7 +2536,7 @@ def deactiverTarifNumero(request,pk):
         return redirect('ListeTarifNum')
   
     context = {
-        'name':poste,
+        # 'name':poste,
         'titre':"Desactiver",
         'tarif':tarif,
         'tarifs': TarifFFNumero.objects.all().order_by('etat'),
@@ -2547,12 +2547,12 @@ def deactiverTarifNumero(request,pk):
 
 @login_required(login_url='login_page')
 def deactiverTarifFSVANumero(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     tarif = TarifFSVANumero.objects.get(id = pk)
     if tarif.etat == 'actif':
@@ -2562,7 +2562,7 @@ def deactiverTarifFSVANumero(request,pk):
         return redirect('ListeTarifFSVANum')
   
     context = {
-        'name':poste,
+        # 'name':poste,
         'titre':"Desactiver",
         'tarif':tarif,
         'tarifs': TarifFSVANumero.objects.all().order_by('etat'),
@@ -2572,12 +2572,12 @@ def deactiverTarifFSVANumero(request,pk):
 
 @login_required(login_url='login_page')
 def activerTarifNum(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     tarif = TarifFFNumero.objects.get(id = pk)
     if tarif.etat == 'deactif':
@@ -2591,7 +2591,7 @@ def activerTarifNum(request,pk):
             return redirect('ListeTarifNum')
     
     context = {
-        'name':poste,
+        # 'name':poste,
         'titre':"Activer",
         'tarif':tarif,
         }
@@ -2601,12 +2601,12 @@ def activerTarifNum(request,pk):
 
 @login_required(login_url='login_page')
 def ajoutertarifFSVANumero(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     today = date.today()
     form = TarifFSVANumeroForm(initial={'dateAtri':today})
@@ -2624,7 +2624,7 @@ def ajoutertarifFSVANumero(request):
             messages.error(request, f' ERREUR formulaire invalide. Tarif non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         }
@@ -2635,15 +2635,15 @@ def ajoutertarifFSVANumero(request):
 # factures
 @login_required(login_url='login_page')
 def Listeff(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'ffs': FF_Numero.objects.filter(efacturer = 'non'),
         'today':date.today(),
     }
@@ -2652,15 +2652,15 @@ def Listeff(request):
 
 @login_required(login_url='login_page')
 def Listefactfiche(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'ffs': FF_Numero.objects.filter(efacturer = 'oui'),
         'today':date.today(),
     }
@@ -2669,29 +2669,29 @@ def Listefactfiche(request):
 
 @login_required(login_url='login_page')
 def detailsFFNum(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
 
     context = {
         'FF_Numero': FF_Numero.objects.get(id = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/factures_numero/detailffNum.html',context)
 
 @login_required(login_url='login_page')
 def facturerNum(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     ff = FF_Numero.objects.get(id = pk)
     total = 0
@@ -2832,7 +2832,7 @@ def facturerNum(request,pk):
             messages.error(request, f' ERREUR facture non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
             'form':form,
             'total': round(total,1),
             'totals': totals ,
@@ -2871,15 +2871,15 @@ def facturerNum(request,pk):
 # fiche facturation
 @login_required(login_url='login_page')
 def ListeCli(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'clients': Client.objects.all().filter(type = 'FSVA' and 'Operateur telephonique').filter(status = 'actif'),
         'today':date.today(),
     }
@@ -2888,15 +2888,15 @@ def ListeCli(request):
 
 @login_required(login_url='login_page')
 def ListeFFNumero(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'FF_numeros': FF_Numero.objects.all().filter(etat = 'actif').order_by('-id'),
         'today':date.today(),
     }
@@ -2906,12 +2906,12 @@ def ListeFFNumero(request):
 
 @login_required(login_url='login_page')
 def ajoutFFANumero(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     client = Client.objects.get(id = pk)
     today = date.today()
@@ -2993,7 +2993,7 @@ def ajoutFFANumero(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. Fiche facturation non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         'client' : client,
@@ -3015,12 +3015,12 @@ def etatNum():
 
 @login_required(login_url='login_page')
 def ajoutFFNumero(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     client = Client.objects.get(id = pk)
     today = date.today()
@@ -3094,7 +3094,7 @@ def ajoutFFNumero(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. Fiche facturation non ajouter!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Ajouter",
         'client' : client,
@@ -3105,29 +3105,29 @@ def ajoutFFNumero(request,pk):
 
 @login_required(login_url='login_page')
 def detailsFFNumero(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
 
     context = {
         'FF_Numero': FF_Numero.objects.get(id = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/FF_numero/detailsFFNumero.html',context)
 
 @login_required(login_url='login_page')
 def updateFFNumero(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     ffnumero = FF_Numero.objects.get(id = pk)
     date = ffnumero.dateAtri
@@ -3242,7 +3242,7 @@ def updateFFNumero(request,pk):
             messages.error(request, f' ERREUR formulaire invalide. Fiche facturation non modifer!')
 
     context = {
-        'name':poste,
+        # 'name':poste,
         'form':form,
         'titre':"Modifier",
         'client' : client,
