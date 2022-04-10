@@ -121,15 +121,15 @@ def is_group1(user):
 
 # @login_required(login_url='login_page')
 def home(request):
-    # if request.user.groups.filter(name='finance'):
-    #     poste = 'finance'
-    # elif request.user.groups.filter(name='technicien'):
-    #     poste = 'technicien'
-    # else:
-    #     poste = 'admin'
+    if request.user.groups.filter(name='finance'):
+        poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
+    else:
+        poste = 'admin'
 
     context={
-        # 'name':poste,
+        'name':poste
     }
     return render(request,'gestionclient/base.html',context)
 
