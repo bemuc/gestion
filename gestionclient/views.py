@@ -119,8 +119,10 @@ def is_group1(user):
 def home(request):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
-    else:
+    elif request.user.groups.filter(name='technicien'):
         poste = 'technicien'
+    else:
+        poste = 'admin'
 
     context={
         'name':poste,
@@ -133,8 +135,10 @@ def home(request):
 def ajoutClient(request):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
     
     if request.method == 'POST':
@@ -165,8 +169,10 @@ def ajoutClient(request):
 def modifierClient(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
     
     client = Client.objects.get(id=pk)
@@ -190,8 +196,10 @@ def modifierClient(request,pk):
 def deactiverClient(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
     
     client = Client.objects.get(id=pk)
@@ -213,7 +221,6 @@ def listeClient(request):
     myfilter = ClientFilter(request.GET, queryset=clients)
     clients = myfilter.qs
     context = {
-        # 'clients': Client.objects.filter(status ="actif"),
         'clients':clients, 
         'myfilter':myfilter,
         'name':poste,
@@ -224,8 +231,10 @@ def listeClient(request):
 def detailsClient(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
 
     context = {
@@ -283,8 +292,10 @@ def detailsClient(request,pk):
 def listeCertAgr(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
     
     context = {
@@ -301,8 +312,10 @@ def listeCertAgr(request,pk):
 def ajoutCert(request):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
     
     clients = Client.objects.all()
@@ -354,8 +367,10 @@ def ajoutCert(request):
 def renouCertAgre(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
     
     certiAgrs = CertAgr.objects.get(id=pk)
@@ -386,8 +401,10 @@ def renouCertAgre(request,pk):
 def updateCertAgre(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
     certiAgrs = CertAgr.objects.get(id=pk)
     form = CertAgreForm(instance = certiAgrs)
@@ -427,7 +444,6 @@ def deactiveCertAgr(request,pk):
 
     context ={
         'certificat':certiAgrs,
-        # 'name':poste,
         }
     return render(request,'gestionclient/certificatAgrement/deactiverCertAgr.html',context)
 
@@ -448,7 +464,6 @@ def pourFactCertAgr(request,pk):
         messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
         'certificat':certiAgrs,
-        # 'name':poste,
         }
     return render(request,'gestionclient/ficheCertAgr.html',context)
 
@@ -514,10 +529,8 @@ def detailCertAgr(request,pk):
     #     poste = 'nothing'
 
     context = {
-        # 'client': Client.objects.get(id = pk),
         'certificat': CertAgr.objects.get(id = pk),
         'today': date.today(),
-        # 'name':poste,
     }
     return render(request,'gestionclient/certificatAgrement/ficheCertAgr.html',context)
 
@@ -550,8 +563,10 @@ def detailCertAgr(request,pk):
 def thepdf(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
     context = {
         'certificat': CertAgr.objects.get(id = pk),
@@ -592,11 +607,8 @@ def CertListAgr(request):
 
     
     context = {
-        # 'certificats': CertAgr.objects.all().filter(etat = 'actif'),
         'certificats': CertAgr.objects.all(),
-        # 'client':Client.objects.get(id=pk),
         'today':date.today(),
-        # 'name':poste,
     }
 
     return render(request,'gestionclient/certificatAgrement/certListagr.html',context)
@@ -725,7 +737,6 @@ def pourfactCertConf(request,pk):
         messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
         'certificat':certiConf,
-        # 'name':poste,
         }
     return render(request,'gestionclient/certificatConf/DetailConf.html',context)
 
@@ -844,7 +855,6 @@ def updateConstr(request,pk):
     context = {
         'form':form,
         'titre':'Modifier',
-        # 'client': Client.objects.get(id=certiConf.client.id),
         }
 
     return render(request,'gestionclient/constructeur/ajoutConstructeur.html',context)
@@ -922,7 +932,6 @@ def updateEquip(request,pk):
     context = {
         'form':form,
         'titre':'Modifier',
-        # 'client': Client.objects.get(id=certiConf.client.id),
         }
 
     return render(request,'gestionclient/equipement/ajoutEquipement.html',context)
@@ -997,7 +1006,6 @@ def pourfactCertHom(request,pk):
         messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
         'homologation':homologation,
-        # 'name':poste,
         }
     return render(request,'gestionclient/certificatHomo/DetailHomo.html',context)
 
@@ -1056,10 +1064,8 @@ def ajoutHomologation(request):
 def detailHomologation(request,pk):
 
     context = {
-        # 'client': Client.objects.get(id = pk),
         'homologation': HomologationEqui.objects.get(id = pk),
         'today': date.today(),
-        # 'name':poste,
     }
     return render(request,'gestionclient/certificatHomo/DetailHomo.html',context)
 
@@ -1081,7 +1087,6 @@ def modifierHomo(request,pk):
         'form':form,
         'titre':'Modifier',
         'homologation':homologation,
-        # 'client': Client.objects.get(id=certiConf.client.id),
         }
 
     return render(request,'gestionclient/certificatHomo/ajoutHomolo.html',context)
@@ -1106,7 +1111,6 @@ def updateHomologation(request,pk):
         'form':form,
         'titre':'Renouveller',
         'homologation':homologation,
-        # 'client': Client.objects.get(id=certiConf.client.id),
         }
 
     return render(request,'gestionclient/certificatHomo/updateHomo.html',context)
@@ -1194,7 +1198,6 @@ def updateNumcourt(request,pk):
         'titre':'Modifier',
         'modifier': True,
         'numero':numero,
-        # 'client': Client.objects.get(id=certiConf.client.id),
         }
 
     return render(request,'gestionclient/numeroCourt/ajoutNumCourt.html',context)
@@ -1282,8 +1285,10 @@ def ajoutAB(request,pk):
 def detailsPQ(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
 
     context = {
@@ -1805,10 +1810,8 @@ def detailtarifAgr(request,pk):
     tarif = TarifAgre.objects.get(id = pk)
     
     context = {
-        # 'form':form,
         'titre':"Detail",
         'tarif':tarif,
-        # 'tarifs': TarifFFNumero.objects.all().order_by('etat'),
         }
 
     return render(request,'gestionclient/Tarif_Agre/detailTAgr.html',context)
@@ -1889,10 +1892,8 @@ def detailtarifHomo(request,pk):
     tarif = TarifHom.objects.get(id = pk)
     
     context = {
-        # 'form':form,
         'titre':"Detail",
         'tarif':tarif,
-        # 'tarifs': TarifFFNumero.objects.all().order_by('etat'),
         }
 
     return render(request,'gestionclient/TarifHomo/detailTarifHomo.html',context)
@@ -2134,8 +2135,10 @@ def Listefactfiche(request):
 def detailsFFNum(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
 
     context = {
@@ -2530,8 +2533,10 @@ def ajoutFFNumero(request,pk):
 def detailsFFNumero(request,pk):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
+    elif request.user.groups.filter(name='technicien'):
+        poste = 'technicien'
     else:
-        poste = 'nothing'
+        poste = 'admin'
 
 
     context = {
