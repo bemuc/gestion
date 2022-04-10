@@ -97,7 +97,7 @@ def home(request):
         'un':poste,
         'deux':poste,
         }
-    return render(request,'gestionclient/base.html',context)
+    return render(request,'gestionclient/base.html',{'context':context})
 
 
 @login_required(login_url='login_page')
