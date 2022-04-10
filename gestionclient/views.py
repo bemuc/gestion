@@ -75,6 +75,9 @@ def afacturer(request):
 
 
 # @unauthenticated_user
+
+
+
 def loginPage(request):
     if request.method == 'POST':
         user_name = request.POST.get('username')
