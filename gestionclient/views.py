@@ -23,15 +23,30 @@ from django.template.loader import get_template
 
 from .forms import *
 
-
 @login_required(login_url='login_page')
-def afacturer(request):
+def Qui(request):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
     elif  request.user.groups.filter(name='technicien') :
         poste = 'technicien'
     else:
         poste = 'admin'
+
+    return {
+        'poste':poste,
+    }
+
+
+
+
+@login_required(login_url='login_page')
+def afacturer(request):
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif  request.user.groups.filter(name='technicien') :
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     # technique
     afacturer = FF_Numero.objects.filter( facturer = 'non').count()
@@ -40,7 +55,7 @@ def afacturer(request):
     agre = CertAgr.objects.filter(porfact = 'non').count()
     confor = CertConf.objects.filter(etat = 'actif').filter(pourfact = 'non').count()
     homo = HomologationEqui.objects.filter(etat = 'actif').filter(pourfact = 'oui').count()
-    etatNum()
+    # etatNum()
     numeros = NumeroCourt.objects.filter( etat = 'deactif').exclude( periode = 0).count()
 
     #finance
@@ -50,7 +65,6 @@ def afacturer(request):
     homolo = HomologationEqui.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
 
     return {
-        'name':poste,
         'afacturer':afacturer,
         'numcourt':numcourt + numeros,
         'pq':pq,
@@ -63,7 +77,7 @@ def afacturer(request):
         'conf':conf,
         'homolo':homolo,
     }
-# 
+#  'name':poste,
         #technique
         #finance
          # 'numeros':numeros,
@@ -88,8 +102,8 @@ def loginPage(request):
             return redirect('home')
         else:
             messages.info(request,'username or password incorect')
-            return render(request,'gestionclient/login.html')
-
+            # return render(request,'gestionclient/login.html')
+    
     return render(request,'gestionclient/login.html')
 
 def logout_page(request):
@@ -193,7 +207,7 @@ def listeClient(request):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
     else:
-        poste = 'nothing'
+        poste = 'technicien'
 
     clients = Client.objects.all()
     myfilter = ClientFilter(request.GET, queryset=clients)
