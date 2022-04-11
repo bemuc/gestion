@@ -40,7 +40,7 @@ def afacturer(request):
     agre = CertAgr.objects.filter(porfact = 'non').count()
     confor = CertConf.objects.filter(etat = 'actif').filter(pourfact = 'non').count()
     homo = HomologationEqui.objects.filter(etat = 'actif').filter(pourfact = 'oui').count()
-    etatNum()
+    # etatNum()
     numeros = NumeroCourt.objects.filter( etat = 'deactif').exclude( periode = 0).count()
 
     #finance
@@ -62,6 +62,7 @@ def afacturer(request):
         'conf':conf,
         'homolo':homolo,
     }
+    
 
     # return HttpResponse(context)
 
@@ -74,17 +75,19 @@ def afacturer(request):
 
 def loginPage(request):
     if request.method == 'POST':
-        user_name = request.POST.get('username')
-        pass_word = request.POST.get('password')
+        # user_name = request.POST.get('username')
+        # pass_word = request.POST.get('password')
 
-        user = authenticate(request, username=user_name, password=pass_word)
+        # user = authenticate(request, username=user_name, password=pass_word)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request,user)
             return redirect('home')
         else:
             messages.info(request,'username or password incorect')
-            # return render(request,'gestionclient/login.html')
 
     return render(request,'gestionclient/login.html')
 
@@ -97,18 +100,15 @@ def is_group1(user):
 
 
 
-# @login_required(login_url='login_page')
+@login_required(login_url='login_page')
 def home(request):
     if request.user.groups.filter(name='finance'):
         poste = 'finance'
     else:
         poste = 'technicien'
 
-    context={
-        'name':poste,
-        
-    }
-    return render(request,'gestionclient/base.html',context)
+    
+    return render(request,'gestionclient/base.html',{'name':poste})
 
 
 @login_required(login_url='login_page')
