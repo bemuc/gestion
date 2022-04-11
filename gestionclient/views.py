@@ -50,23 +50,17 @@ def afacturer(request):
     homolo = HomologationEqui.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
 
     return {
-        # 'name':poste,
-        #technique
         'afacturer':afacturer,
         'numcourt':numcourt + numeros,
         'pq':pq,
         'totalnum':afacturer + numcourt + pq + numeros,
-        # 'numeros':numeros,
         'agrements':agre,
         'confor':confor,
         'homo':homo,
-        
-    #finance
         'facturer':facturer,
         'certAgr':certAgr,
         'conf':conf,
         'homolo':homolo,
-
     }
 
     # return HttpResponse(context)
@@ -90,7 +84,7 @@ def loginPage(request):
             return redirect('home')
         else:
             messages.info(request,'username or password incorect')
-            return render(request,'gestionclient/login.html')
+            # return render(request,'gestionclient/login.html')
 
     return render(request,'gestionclient/login.html')
 
