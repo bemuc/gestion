@@ -24,6 +24,22 @@ from django.template.loader import get_template
 from .forms import *
 
 
+def loginPage(request):
+    if request.method == 'POST':
+        user_name = request.POST.get('username')
+        pass_word = request.POST.get('password')
+
+        user = authenticate(request, username=user_name, password=pass_word)
+
+        if user is not None:
+            login(request,user)
+
+            return redirect('home')
+        else:
+            messages.info(request,'username or password incorect')
+            # return render(request,'gestionclient/login.html')
+    
+    return render(request,'gestionclient/login.html')
 
 @login_required(login_url='login_page')
 def afacturer(request):
@@ -57,24 +73,10 @@ def afacturer(request):
         'certAgr':certAgr,
         'conf':conf,
         'homolo':homolo,
+        
     }
 
-def loginPage(request):
-    if request.method == 'POST':
-        user_name = request.POST.get('username')
-        pass_word = request.POST.get('password')
 
-        user = authenticate(request, username=user_name, password=pass_word)
-
-        if user is not None:
-            login(request,user)
-
-            return redirect('home')
-        else:
-            messages.info(request,'username or password incorect')
-            # return render(request,'gestionclient/login.html')
-    
-    return render(request,'gestionclient/login.html')
 
 def logout_page(request):
     logout(request)
@@ -85,19 +87,20 @@ def is_group1(user):
 
 @login_required(login_url='login_page')
 def home(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif request.user.groups.filter(name='technicien'):
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif request.user.groups.filter(name='technicien'):
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
-    context={
-        'name':poste,
-        'un':poste,
-        'deux':poste,
-        }
-    return render(request,'gestionclient/base.html',{'context':context})
+    # context={
+    #     'name':poste,
+    #     'un':poste,
+    #     'deux':poste,
+    #     }
+    # return render(request,'gestionclient/base.html',{'name':poste})
+    return render(request,'gestionclient/base.html')
 
 
 @login_required(login_url='login_page')
@@ -184,7 +187,6 @@ def listeClient(request):
     myfilter = ClientFilter(request.GET, queryset=clients)
     clients = myfilter.qs
     context = {
-        # 'clients': Client.objects.filter(status ="actif"),
         'clients':clients, 
         'myfilter':myfilter,
         'name':poste,

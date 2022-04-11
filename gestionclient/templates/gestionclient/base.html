@@ -94,7 +94,8 @@
               </ul>
             </div>
           </li> -->
-          {% if name == 'finance' %}
+          {% load auth_extras %}
+          {% if request.user|has_group:"finance" %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'listeClient_page' %}">
               <i class="fa-solid fa-user-group menu-icon"></i>
@@ -225,7 +226,8 @@
               <span class="menu-title">Tarif Conformite</span>
             </a>
           </li>
-          {% elif name == 'technicien' %}
+          {% endif %}
+          {% if request.user|has_group:"technicien" %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'listeClient_page' %}">
               <i class="fa-solid fa-user-group menu-icon"></i>
@@ -329,7 +331,8 @@
             </div>
           </li>
           <!-- {% elif request.user.is_staff %} -->
-          {% elif name == 'admin' %}
+          {% endif %}
+          {% if user.is_superuser %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'listeClient_page' %}">
               <i class="fa-solid fa-user-group menu-icon"></i>
