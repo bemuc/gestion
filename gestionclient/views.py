@@ -26,12 +26,12 @@ from .forms import *
 
 @login_required(login_url='login_page')
 def afacturer(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    elif  request.user.groups.filter(name='technicien') :
-        poste = 'technicien'
-    else:
-        poste = 'admin'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # elif  request.user.groups.filter(name='technicien') :
+    #     poste = 'technicien'
+    # else:
+    #     poste = 'admin'
 
     # technique
     afacturer = FF_Numero.objects.filter( facturer = 'non').count()
@@ -50,7 +50,7 @@ def afacturer(request):
     homolo = HomologationEqui.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
 
     return {
-        'name':poste,
+        # 'name':poste,
         #technique
         'afacturer':afacturer,
         'numcourt':numcourt + numeros,
