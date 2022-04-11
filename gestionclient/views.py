@@ -95,7 +95,7 @@ def home(request):
     #     poste = 'admin'
 
     # context={
-    #     'name':poste,
+        # 'name':poste,
     #     'un':poste,
     #     'deux':poste,
     #     }
@@ -105,10 +105,10 @@ def home(request):
 
 @login_required(login_url='login_page')
 def ajoutClient(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     
     if request.method == 'POST':
@@ -131,16 +131,16 @@ def ajoutClient(request):
     context = {
         'form':form,
         'titre': "Ajouter",
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/Clientts/ajoutClient.html',context)
 
 @login_required(login_url='login_page')
 def modifierClient(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     
     client = Client.objects.get(id=pk)
@@ -154,7 +154,7 @@ def modifierClient(request,pk):
     context = {
         'form':form,
         'titre':"Modifier",
-        'name':poste,
+        # 'name':poste,
         }
 
     return render(request,'gestionclient/Clientts/ajoutClient.html',context)
@@ -162,10 +162,10 @@ def modifierClient(request,pk):
 
 @login_required(login_url='login_page')
 def deactiverClient(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     
     client = Client.objects.get(id=pk)
@@ -173,15 +173,15 @@ def deactiverClient(request,pk):
         client.status = "deactiver"
         client.save()
         return redirect ('listeClient_page')
-    context ={'item':client,'name':poste,}
+    # context ={'item':client,'name':poste,}
     return render(request,'gestionclient/deactiver.html',context)
 
 @login_required(login_url='login_page')
 def listeClient(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'technicien'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'technicien'
 
     clients = Client.objects.all()
     myfilter = ClientFilter(request.GET, queryset=clients)
@@ -189,23 +189,23 @@ def listeClient(request):
     context = {
         'clients':clients, 
         'myfilter':myfilter,
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/Clientts/listeClient.html',context)
 
 @login_required(login_url='login_page')
 def detailsClient(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
 
     context = {
         'client': Client.objects.get(id = pk),
         'certificats': CertAgr.objects.filter(client__id = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/Clientts/detailsClient.html',context)
 
@@ -234,7 +234,7 @@ def detailsClient(request,pk):
 #     else:
 #         form = PersonneContactForm()
 #     context = {
-#         'name':poste,
+        # 'name':poste,
 #         'form':form,
 #     }
 #     return render(request,'gestionclient/ajoutPContact.html',context)
@@ -248,23 +248,23 @@ def detailsClient(request,pk):
     
 #     context = {
 #         'contacts': PersonneContact.objects.all(),
-#         'name':poste,
+        # 'name':poste,
 #         }
 #     return render(request,'gestionclient/listePContact.html',context)
 
 @login_required(login_url='login_page')
 def listeCertAgr(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     
     context = {
         'certificats': CertAgr.objects.filter(client__id = pk).filter(etat = 'actif'),
         'client':Client.objects.get(id=pk),
         'today':date.today(),
-        'name':poste,
+        # 'name':poste,
     }
 
     return render(request,'gestionclient/certificatAgrement/certiAgrement.html',context)
@@ -272,10 +272,10 @@ def listeCertAgr(request,pk):
 @login_required(login_url='login_page')
 @allowed_users(allowed_roles=['technicien'])
 def ajoutCert(request):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     
     clients = Client.objects.all()
@@ -316,7 +316,7 @@ def ajoutCert(request):
         'form':form,
         'titre':"Ajouter",
         'client': clients,
-        'name':poste,
+        # 'name':poste,
         }
 
     return render(request,'gestionclient/certificatAgrement/ajoutCertAgr.html',context)
@@ -325,10 +325,10 @@ def ajoutCert(request):
 @login_required(login_url='login_page')
 @allowed_users(allowed_roles=['technicien'])
 def renouCertAgre(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     
     certiAgrs = CertAgr.objects.get(id=pk)
@@ -349,7 +349,7 @@ def renouCertAgre(request,pk):
         'form':form,
         'titre':'Renouvellemet',
         'client': Client.objects.get(id=certiAgrs.client.id),
-        'name':poste,
+        # 'name':poste,
         }
     
     return render(request,'gestionclient/certificatAgrement/ajoutCertAgr.html',context)
@@ -357,10 +357,10 @@ def renouCertAgre(request,pk):
 @login_required(login_url='login_page')
 @allowed_users(allowed_roles=['technicien'])
 def updateCertAgre(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     certiAgrs = CertAgr.objects.get(id=pk)
     form = CertAgreForm(instance = certiAgrs)
@@ -377,7 +377,7 @@ def updateCertAgre(request,pk):
         'form':form,
         'titre':'Modifier',
         'client': Client.objects.get(id=certiAgrs.client.id),
-        'name':poste,
+        # 'name':poste,
         }
 
     return render(request,'gestionclient/certificatAgrement/ajoutCertAgr.html',context)
@@ -400,7 +400,7 @@ def deactiveCertAgr(request,pk):
 
     context ={
         'certificat':certiAgrs,
-        # 'name':poste,
+        'name':poste,
         }
     return render(request,'gestionclient/certificatAgrement/deactiverCertAgr.html',context)
 
@@ -421,7 +421,7 @@ def pourFactCertAgr(request,pk):
         messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
         'certificat':certiAgrs,
-        # 'name':poste,
+        'name':poste,
         }
     return render(request,'gestionclient/ficheCertAgr.html',context)
 
@@ -490,7 +490,7 @@ def detailCertAgr(request,pk):
         # 'client': Client.objects.get(id = pk),
         'certificat': CertAgr.objects.get(id = pk),
         'today': date.today(),
-        # 'name':poste,
+        'name':poste,
     }
     return render(request,'gestionclient/certificatAgrement/ficheCertAgr.html',context)
 
@@ -521,15 +521,15 @@ def detailCertAgr(request,pk):
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!
 def thepdf(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
     context = {
         'certificat': CertAgr.objects.get(id = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
         }
     return render(request,'gestionclient/CertAgrpdf.html',context)
 
@@ -552,7 +552,7 @@ def thepdf(request,pk):
 #         'certificat': certificat,
 #         'category': category,
 #         'today': today ,
-#         'name':poste,
+        # 'name':poste,
 #         }
 #     return render(request,'gestionclient/facturationCertAgr.html',context)
 
@@ -1253,17 +1253,17 @@ def ajoutAB(request,pk):
 
 @login_required(login_url='login_page')
 def detailsPQ(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
 
     context = {
         'pq': PQ.objects.get(id = pk),
         'abs': AB.objects.filter(pq = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/numeroLong/PQ/detailPQ.html',context)
 
@@ -2105,10 +2105,10 @@ def Listefactfiche(request):
 
 @login_required(login_url='login_page')
 def detailsFFNum(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
 
     context = {
@@ -2116,7 +2116,7 @@ def detailsFFNum(request,pk):
         # 'client': FF_Numero.objects.get(id = pk),
         # 'abs': AB.objects.filter(pq = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/factures_numero/detailffNum.html',context)
 
@@ -2501,10 +2501,10 @@ def ajoutFFNumero(request,pk):
 
 @login_required(login_url='login_page')
 def detailsFFNumero(request,pk):
-    if request.user.groups.filter(name='finance'):
-        poste = 'finance'
-    else:
-        poste = 'nothing'
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'nothing'
 
 
     context = {
@@ -2512,7 +2512,7 @@ def detailsFFNumero(request,pk):
         # 'client': FF_Numero.objects.get(id = pk),
         # 'abs': AB.objects.filter(pq = pk),
         'today': date.today(),
-        'name':poste,
+        # 'name':poste,
     }
     return render(request,'gestionclient/FF_numero/detailsFFNumero.html',context)
 
