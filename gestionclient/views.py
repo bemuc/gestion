@@ -26,18 +26,14 @@ from .forms import *
 
 def loginPage(request):
     if request.method == 'POST':
-        user_name = request.POST.get('username')
-        pass_word = request.POST.get('password')
-
+        user_name = request.POST('username')
+        pass_word = request.POST('password')
         user = authenticate(request, username=user_name, password=pass_word)
-
         if user is not None:
             login(request,user)
-
             return redirect('home')
         else:
             messages.info(request,'username or password incorect')
-            # return render(request,'gestionclient/login.html')
     
     return render(request,'gestionclient/login.html')
 
