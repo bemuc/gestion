@@ -41,7 +41,7 @@ def loginPage(request):
     
     return render(request,'gestionclient/login.html')
 
-@login_required(login_url='login_page')
+# @login_required(login_url='login_page')
 def afacturer(request):
 
     # technique
