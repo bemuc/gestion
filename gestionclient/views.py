@@ -24,7 +24,7 @@ from django.template.loader import get_template
 from .forms import *
 
 
-@login_required(login_url='login_page')
+# @login_required(login_url='login_page
 def afacturer(request):
     # if request.user.groups.filter(name='finance'):
     #     poste = 'finance'
@@ -82,13 +82,11 @@ def loginPage(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-
         if user is not None:
             login(request,user)
             return redirect('home')
         else:
             messages.info(request,'username or password incorect')
-
     return render(request,'gestionclient/login.html')
 
 def logout_page(request):
