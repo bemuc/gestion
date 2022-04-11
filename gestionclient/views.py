@@ -24,15 +24,7 @@ from django.template.loader import get_template
 from .forms import *
 
 
-# @login_required(login_url='login_page
 def afacturer(request):
-    # if request.user.groups.filter(name='finance'):
-    #     poste = 'finance'
-    # elif  request.user.groups.filter(name='technicien') :
-    #     poste = 'technicien'
-    # else:
-    #     poste = 'admin'
-
     # technique
     afacturer = FF_Numero.objects.filter( facturer = 'non').count()
     numcourt = NumeroCourt.objects.filter( numero = None).count()
@@ -40,9 +32,7 @@ def afacturer(request):
     agre = CertAgr.objects.filter(porfact = 'non').count()
     confor = CertConf.objects.filter(etat = 'actif').filter(pourfact = 'non').count()
     homo = HomologationEqui.objects.filter(etat = 'actif').filter(pourfact = 'oui').count()
-    # etatNum()
     numeros = NumeroCourt.objects.filter( etat = 'deactif').exclude( periode = 0).count()
-
     #finance
     facturer = FF_Numero.objects.filter( efacturer = 'non').count()
     certAgr = CertAgr.objects.filter(porfact = 'oui').filter(facturer = 'non').count()
@@ -62,23 +52,9 @@ def afacturer(request):
         'conf':conf,
         'homolo':homolo,
     }
-    
-
-    # return HttpResponse(context)
-
-
-
-
-# @unauthenticated_user
-
-
 
 def loginPage(request):
     if request.method == 'POST':
-        # user_name = request.POST.get('username')
-        # pass_word = request.POST.get('password')
-
-        # user = authenticate(request, username=user_name, password=pass_word)
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
@@ -95,8 +71,6 @@ def logout_page(request):
 
 def is_group1(user):
   return user.groups.filter(name='finance').exists()
-
-
 
 @login_required(login_url='login_page')
 def home(request):

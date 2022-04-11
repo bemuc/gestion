@@ -57,7 +57,7 @@
                     <button type="button" class="btn btn-info font-weight-bold">Logout</button>
                 </a>
                 {% if request.user.is_staff %}
-                <a href="admin/" class="dropdown-item preview-item ">
+                <a href="{% url 'admin:index' %}" class="dropdown-item preview-item ">
                     <button type="button" class="btn btn-info font-weight-bold">Admin</button>
                 </a>
                 {% endif %}
@@ -330,7 +330,6 @@
               </ul>
             </div>
           </li>
-          <!-- {% elif request.user.is_staff %} -->
           {% endif %}
           {% if user.is_superuser %}
           <li class="nav-item">
