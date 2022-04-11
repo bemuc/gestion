@@ -22,6 +22,62 @@ from django.template.loader import get_template
 ###
 
 from .forms import *
+from django.views.generic import View
+from .process import html_to_pdf 
+
+from django.template.loader import render_to_string
+
+#Creating a class based view
+class GeneratePdf(View):
+     def get(self, request, *args, **kwargs):
+        data = Client.objects.all()
+        open('gestionclient/temp.html', "w").write(render_to_string('gestionclient/example.html', {'data': data}))
+
+        # Converting the HTML template into a PDF file
+        pdf = html_to_pdf('gestionclient/temp.html')
+         
+         # rendering the template
+        return HttpResponse(pdf, content_type='application/pdf')
+
+    # def get(self, request, *args, **kwargs):
+    #     data = Client.objects.all()
+    #     pdf = html_to_pdf('gestionclient/example.html', data)
+    #     return HttpResponse(pdf, content_type='application/pdf')
+
+
+def ko(request):
+    data = Client.objects.all()
+    return render(request,'gestionclient/example.html',{'data':data})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def afacturer(request):
@@ -66,8 +122,12 @@ def loginPage(request):
     return render(request,'gestionclient/login.html')
 
 def logout_page(request):
+    # logout(request)
+    # return redirect('login_page')
     logout(request)
-    return redirect('login_page')
+    response = redirect('app.home.views.home')
+    response.delete_cookie('user_location')
+    return response
 
 def is_group1(user):
   return user.groups.filter(name='finance').exists()

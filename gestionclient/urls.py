@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import *
 
 urlpatterns = [
     path('login/', views.loginPage,name='login_page'),
@@ -12,6 +13,8 @@ urlpatterns = [
     path('deactiverClient/<str:pk>', views.deactiverClient,name='deactiverClient_page'),
 
     
+    path('pdf/', GeneratePdf.as_view()),
+    path('ok/',views.ko),
     # path('ajoutPersonneContact/', views.ajoutPersonneContact,name='ajoutPersonneContact_page'),
     # path('listePContact/', views.listePContact,name='listePContact_page'), 
     

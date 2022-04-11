@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Python Guides</title>
+    <style>
+        h1 {
+          text-align: center;
+        }
+        td, th {
+          text-align: center;
+        }
+      </style>
+</head>
+<body>
+    
+      <h1>List of client</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>client ID</th>
+            <th>client type</th>
+            <th>client Name</th>
+            <th>NIF</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for person in data %}
+            <tr>
+              <td>{{ person.id }}</td>
+              <td>{{ person.type }}</td>
+              <td>{{ person.nom }}</td>
+              <td>{{ person.nif }}</td>
+            </tr>
+          {% endfor %}    
+        </tbody>
+      </table>
+</body>
+</html>
