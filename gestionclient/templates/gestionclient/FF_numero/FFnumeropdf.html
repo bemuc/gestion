@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF</title>
+
+    <style>
+        #id_client{
+            border: 1px solid black;
+            padding: 5px;
+        }
+        #titre{
+            border: 2px solid black;
+            padding: 5px;
+        }
+        #titre h3{
+            text-align:center;
+        }
+        .identifiant{
+            margin-right: 20px;
+        }
+        .valeurs{
+            font-weight: bold;
+        }
+        #contact,#type_cert{
+            border: 1px solid black;
+            padding: 15px;
+        }
+        #typecert{
+            border: 1px solid black;
+            padding: 15px;
+        }
+        table tr {border: none;}
+        #natcert{
+            border: 1px solid black;
+            border-bottom: 1px solid black;
+            padding: 15px;
+        }
+        .center{
+            margin-left: -45px;
+        }
+        #contactons{
+            display: flex;
+            justify-content: center;
+            border: 1px solid black;
+            padding: 15px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="titre">
+        {% if FF.client.type == 'FSVA' %}
+        <h3>FICHE DE FACTURATION POUR AUTORISATION DE FOURNITURE DES SERVICES A VALEUR AJOUTEE ET EXPLOITATION DES RESSOURCES EN NUMEROTATION</h3>
+        {% else %}
+        <h3>FICHE DE FACTURATION POUR  EXPLOITATION DES RESSOURCES EN NUMEROTATION</h3>
+        {% endif %}
+    </div>
+    <h5>1. IDENTIFICATION DU CLIENT</h5>
+    <div id="id_client">
+        <p>
+            <span class="identifiant">Nom et Prenon(s) ou Raison Social</span><span class="valeurs">:{{ FF.client.nom }}</span><br>
+            <span class="identifiant">Adresse Physique</span><span class="valeurs">:{{ FF.client.adresse }}</span><br>
+            <span class="identifiant">Téléphone</span><span class="valeurs">:{{ FF.client.téléphone }}</span><br>
+            <span class="identifiant">Fax</span><span class="valeurs">:{{ FF.client.fax }}</span><br>
+            <span class="identifiant">Email</span><span class="valeurs">:{{ FF.client.email }}</span><br>
+            <span class="identifiant">Site web</span><span class="valeurs">:{{ FF.client.siteweb }}</span><br>
+            <span class="identifiant">Boite Postale</span><span class="valeurs">:{{ FF.client.boite_postale }}</span>
+        </p>
+    </div>
+    <h5>2. PERSONNE DE CONTACT</h5>
+    <div id="contact">
+        <p>
+            <span class="identifiant">Nom et Prenon</span><span class="valeurs">:{{ FF.contact.nom }}</span><br>
+            <span class="identifiant">Téléphone</span><span class="valeurs">:{{ FF.contact.telephone }}</span><br>
+            <span class="identifiant">Email</span><span class="valeurs">:{{ FF.contact.email }}</span><br>
+            <span class="identifiant">Titre/Poste</span><span class="valeurs">:{{ FF.contact.poste }}</span><br>
+        </p>
+    </div>
+    <h5>3. NATURE DE FACTURATION</h5>
+    <div id="typecert">
+        <table >
+            <tr>
+                <td>
+                    <label for="exampleInputPassword2" class="">Nouveau Client :
+                    {% if FF.nature == 'Client Nouveau' %}
+                    X
+                    {% endif %}
+                </label>
+                </td>
+                <td><label for="exampleInputPassword2" class="">Renouvellement d'autorisation(client existant) : 
+                    {% if FF.nature == 'Client Existant' %}
+                    X
+                    {% endif %}
+                </label></td>
+            </tr>
+        </table>
+    </div>
+    <h5>4 . NATURE DU NUMERO</h5>
+    <div id="contactons">
+        <table >
+            <tr>
+                <td>
+                    <span class="identifiant">Numero long (PQ)</span><span class="valeurs">:
+                        {% if FF.q_pq > 0 %} X {% endif %}
+                    </span>
+                </td>
+                <td>
+                    <span class="nidentifiant">Ordinaire</span><span class="valeurs">:
+                    {% if FF.q_ordinaire > 0 %} X {% endif %}
+                    </span>
+                </td>
+                <td>
+                    <span class="nidentifiant">USSD</span><span class="valeurs">:
+                    {% if FF.q_ussd > 0 %} X {% endif %}
+                    </span>
+                </td>
+                <td>
+                    <span class="nidentifiant">Code Mnemonique</span><span class="valeurs">:
+                        {% if FF.q_mnemonique > 0 %} X {% endif %}
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="nidentifiant">MNC</span><span class="valeurs">:
+                        {% if FF.q_mnc > 0 %} X {% endif %}
+                    </span>
+                </td>
+                <td>
+                    <span class="nidentifiant">NSPC</span><span class="valeurs">:
+                        {% if FF.q_nspc > 0 %} X {% endif %}
+                    </span>
+                </td>
+                <td>
+                    <span class="nidentifiant">Code ISPC</span><span class="valeurs">:
+                        {% if FF.q_ispc > 0 %} X {% endif %}
+                    </span>
+                </td>
+                <td>
+                    <span class="nidentifiant">Code de preselection pour les transporteurs internationaux</span><span class="valeurs">:
+                        {% if FF.q_cpti > 0 %} X {% endif %}
+                    </span>
+                </td>
+            </tr>
+        </table>
+        
+    </div>
+    <h5>5 . QUANTITE</h5>
+    <div id="contact">
+        <p>
+            <span class="identifiant">{% if FF.q_pq > 0 %}{{FF.q_pq}} numero(s) long (PQ){% endif %}</span><br>
+            <span class="identifiant">{% if FF.q_ordinaire > 0 %}
+                {{FF.q_ordinaire}} numero(s) court Ordinaire 
+                {% endif %}</span><br>
+            <span class="identifiant">{% if FF.q_ussd > 0 %}
+                {{FF.q_ussd}} numero(s) court USSD 
+                {% endif %}</span><br>
+            <span class="identifiant">{% if FF.q_mnemonique > 0 %}
+                {{FF.q_mnemonique}} numero(s) court Code Mnemonique 
+                {% endif %}</span><br>
+            <span class="identifiant">{% if FF.q_mnc > 0 %}
+                {{FF.q_mnc}} numero(s) court MNC
+                {% endif %}</span><br>
+            <span class="identifiant">{% if FF.q_nspc > 0 %}
+                {{FF.q_nspc}} numero(s) court NSPC
+                {% endif %}</span><br>
+            <span class="identifiant">{% if FF.q_ispc > 0 %}
+                {{FF.q_ispc}} numero(s) court ISPC
+                {% endif %}</span><br>
+            <span class="identifiant">{% if FF.q_cpti > 0 %}
+                {{FF.q_cpti}} numero(s) court Code de preselection pour les transporteurs internationaux
+                {% endif %}</span><br>
+            
+        </p>
+    </div>
+    <h5>6 . RUBRIQUE DE FACTURATION</h5>
+    <h6>RESSOURCES EN NUMEROTATIONS</h6>
+    <div id="contact">
+                <table >
+                    <tr>
+                        <td>
+                            <label for="exampleInputPassword2" class="">ETUDE DU DOSSIER :
+                            {% if FF.RN_etudeDossier  %}
+                            X
+                            {% endif %}
+                        </label>
+                        </td>
+                        <td><label for="exampleInputPassword2" class="">FRAIS DE GESTION(annuelle) : 
+                            {% if FF.RN_fraisGestion %}
+                            X
+                            {% endif %}
+                        </label></td>
+                        <td><label for="exampleInputPassword2" class="">REDEVANCES ANNUELLES : 
+                            {% if FF.RN_redevanceAnn %}
+                            X
+                            {% endif %}
+                        </label></td>
+                    </tr>
+                </table>
+          
+           
+            
+        </ul>
+        <!-- <p>
+            <span class="identifiant">Nom et Prenon</span><span class="valeurs">:{{ FF.contact.nom }}</span><br>
+            <span class="identifiant">Téléphone</span><span class="valeurs">:{{ FF.contact.telephone }}</span><br>
+            <span class="identifiant">Email</span><span class="valeurs">:{{ FF.contact.email }}</span><br>
+            <span class="identifiant">Titre/Poste</span><span class="valeurs">:{{ FF.contact.poste }}</span><br>
+        </p> -->
+    </div>
+    
+    {% if FF.client.type == 'FSVA' %}
+    <h6>FOURNITURE DES SERVICES A VALEUR AJOUTEE</h6>
+        <table >
+            <tr>
+                <td>
+                    <label for="exampleInputPassword2" class="">ETUDE DU DOSSIER :
+                    {% if FF.FS_etudeDossier %}
+                    X
+                    {% endif %}
+                </label>
+                </td>
+                <td><label for="exampleInputPassword2" class="">Agrement des equipements : 
+                    {% if FF.FS_agreEquipe %}
+                    X
+                    {% endif %}
+                </label></td>
+                <td><label for="exampleInputPassword2" class="">Autorisation de l'ARCT : 
+                    {% if FF.FS_autoARCT %}
+                    X
+                    {% endif %}
+                </label></td>
+            </tr>
+        </table>
+
+    {% endif %}
+    <div>
+        <table>
+            <tr>
+                <td><br>
+                </td>
+                <td>
+                    <br>
+                    <br>
+                    <br>
+                    <label >Fait a Bujumbura le {{ certificat.dateAttri}}</label><br>
+                    <h6 class="center">Le Chef de service Normalisation reseaux et service "NR&S"</h6>
+                    <h4>???????</h4>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

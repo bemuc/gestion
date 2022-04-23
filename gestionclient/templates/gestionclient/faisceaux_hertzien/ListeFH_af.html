@@ -1,0 +1,76 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 grid-margin">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                   <h4>Liste des Frequences Hertzien distribue</h4> 
+                </div>
+                
+                <p class="card-description">
+                 </p>
+                <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>client</th>
+                        <th>Bande</th>
+                        <th>Bande Passante</th>
+                        <th>Nombre de canaux</th>
+                        <th>Date Attribution</th>
+                        <th>Facturer</th>
+                        <!-- <th>Type</th> -->
+                        <!-- <th>Modele</th> -->
+                        <!-- <th>Pays d'Origine</th> -->
+                        <!-- <th>Fax</th> -->
+                        <!-- <th></th> -->
+                        <!-- <th>Status</th> -->
+                        <th colspan="5">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if fhs %}
+                    {% for fh in fhs %}
+                    <tr>
+                        <td>{{ fh.client.nom }}</td>
+                        <td>{{ fh.bande }}</td>
+                        <td>{{ fh.bande_passante }}</td>
+                        <td>{{ fh.nombre_canaux }}</td>
+                        <td>{{ fh.dateAtri }}</td>
+                        {% if fh.efacturer == 'oui' %}
+                        <td><label class="badge badge-success" >{{ fh.facturer }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-warning" >{{ fh.facturer }}</label></td>
+                        {% endif %}
+                        <!-- {% if fh.etat == 'actif' %}
+                        <td><label class="badge badge-success" >{{ fh.etat }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-warning" >{{ fh.etat }}</label></td>
+                        {% endif %} -->
+                        <td>
+                            <a href="{% url 'detailFH' fh.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye" ></i></button></a>
+                            {% if fh.efacturer == 'non' %}
+                            <a href="{% url 'factFH' fh.id %}"><button type="button" class="btn btn-primary" >Facturer</button></a>
+                            {% else %}
+                            <a href="{% url 'factFH' fh.id %}"><button type="button" class="btn btn-primary" >voir facture</button></a>
+                            {% endif %}
+                        </td>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                            <h2>Pas de certificat</h2>
+                    {% endif %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-lg-2 grid-margin"></div> -->
+</div>
+    
+{% endblock %}

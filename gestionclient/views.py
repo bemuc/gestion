@@ -1,4 +1,5 @@
 from multiprocessing import context
+from os import listdir
 from unicodedata import category
 from django.shortcuts import render,redirect
 from django.contrib import messages
@@ -18,7 +19,7 @@ from django.utils import timezone
 
 from django.http import HttpResponse
 from django.template.loader import get_template
-# from xhtml2pdf import pisa
+from xhtml2pdf import pisa
 ###
 
 from .forms import *
@@ -29,14 +30,14 @@ from django.template.loader import render_to_string
 
 #Creating a class based view
 class GeneratePdf(View):
-     def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         data = Client.objects.all()
         open('gestionclient/temp.html', "w").write(render_to_string('gestionclient/example.html', {'data': data}))
 
         # Converting the HTML template into a PDF file
         pdf = html_to_pdf('gestionclient/temp.html')
-         
-         # rendering the template
+            
+            # rendering the template
         return HttpResponse(pdf, content_type='application/pdf')
 
     # def get(self, request, *args, **kwargs):
@@ -89,11 +90,13 @@ def afacturer(request):
     confor = CertConf.objects.filter(etat = 'actif').filter(pourfact = 'non').count()
     homo = HomologationEqui.objects.filter(etat = 'actif').filter(pourfact = 'oui').count()
     numeros = NumeroCourt.objects.filter( etat = 'deactif').exclude( periode = 0).count()
+    fh = FaisceauxHertzien.objects.filter( etat = 'actif').filter(facturer = 'non').count()
     #finance
     facturer = FF_Numero.objects.filter( efacturer = 'non').count()
     certAgr = CertAgr.objects.filter(porfact = 'oui').filter(facturer = 'non').count()
     conf = CertConf.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
     homolo = HomologationEqui.objects.filter(pourfact = 'oui').filter(facturer = 'non').count()
+    faisceaux = FaisceauxHertzien.objects.filter( facturer = 'oui').filter( efacturer = 'non').count()
 
     return {
         'afacturer':afacturer,
@@ -107,6 +110,8 @@ def afacturer(request):
         'certAgr':certAgr,
         'conf':conf,
         'homolo':homolo,
+        'fh':fh,
+        'fai':faisceaux,
     }
 
 def loginPage(request):
@@ -536,29 +541,103 @@ def detailCertAgr(request,pk):
     return render(request,'gestionclient/certificatAgrement/ficheCertAgr.html',context)
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# def render_pdf_view(request,pk):
-#     template_path = 'gestionclient/CertAgrpdf.html'
-#     context = {
-#         'certificat': CertAgr.objects.get(id = pk),
-#         'today': date.today(),
-#         }
-#     # Create a Django response object, and specify content_type as pdf
-#     response = HttpResponse(content_type='application/pdf')
-#     # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-#     #if display 
-#     # response['Content-Disposition'] = 'filename="certificatAgrement.pdf"'
-#     response['Content-Disposition'] = 'filename= certificat agrement'
-#     # find the template and render it.
-#     template = get_template(template_path)
-#     html = template.render(context)
+def render_pdf_view(request,pk):
+    template_path = 'gestionclient/certificatAgrement/certAgrpdf.html'
+    context = {
+        'certificat': CertAgr.objects.get(id = pk),
+        'today': date.today(),
+        }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    #if display 
+    response['Content-Disposition'] = 'filename="certificatAgrement.pdf"'
+    # response['Content-Disposition'] = 'filename= certificat agrement'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
 
-#     # create a pdf
-#     pisa_status = pisa.CreatePDF(
-#        html, dest=response)
-#     # if error then show some funy view
-#     if pisa_status.err:
-#        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-#     return response
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
+def render_pdf_conf(request,pk):
+    template_path = 'gestionclient/certificatConf/certConfpdf.html'
+    context = {
+        'certificat': CertConf.objects.get(id = pk),
+        'today': date.today(),
+        }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    #if display 
+    response['Content-Disposition'] = 'filename="certificatAgrement.pdf"'
+    # response['Content-Disposition'] = 'filename= certificat agrement'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+def render_pdf_homo(request,pk):
+    template_path = 'gestionclient/certificatHomo/certConfpdf.html'
+    context = {
+        'certificat': HomologationEqui.objects.get(id = pk),
+        'today': date.today(),
+        }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    #if display 
+    response['Content-Disposition'] = 'filename="certificatHomologation.pdf"'
+    # response['Content-Disposition'] = 'filename= certificat agrement'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
+def render_pdf_ffnumero(request,pk):
+    template_path = 'gestionclient/FF_numero/FFnumeropdf.html'
+    context = {
+        'FF': FF_Numero.objects.get(id = pk),
+        'today': date.today(),
+        }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    #if display 
+    response['Content-Disposition'] = 'filename="FicheFacturationNumerotation.pdf"'
+    # response['Content-Disposition'] = 'filename= certificat agrement'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!
 def thepdf(request,pk):
@@ -945,6 +1024,44 @@ def updateEquip(request,pk):
 
 @allowed_users(allowed_roles=['finance'])
 def factCertHom(request,pk):
+    certificat = HomologationEqui.objects.get(id = pk)
+    type = certificat.categorie
+    if type == 'Terminal Simple et de Faible Puissance':
+        tarif = TarifHom.objects.filter( type = 'Terminal Simple et de Faible Puissance').filter(etat = 'actif').first()
+    elif type == "Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise":
+        tarif = TarifHom.objects.filter( type = "Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise").filter(etat = 'actif').first()
+    elif type == 'Terminal Radioelectrique de Reseau':
+        tarif = TarifHom.objects.filter( type = 'Terminal Radioelectrique de Reseau').filter(etat = 'actif').first()
+    
+    taux = Taux.objects.get(etat = 'actif')
+    total = tarif.tarif
+    total_bif =round(total * taux.taux)
+
+    form = FactureHomForm(initial={'certificat':certificat,'tarif':tarif,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = FactureHomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            certificat.facturer = 'oui'
+            certificat.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListCertHomAfact')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+            'form':form,
+            'certificat':certificat,
+            'tarif':tarif,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            
+        }
+    return render(request,'gestionclient/certificatHomo/fiche_cert_homo.html',context)
+@allowed_users(allowed_roles=['finance'])
+def factFH(request,pk):
     certificat = HomologationEqui.objects.get(id = pk)
     type = certificat.categorie
     if type == 'Terminal Simple et de Faible Puissance':
@@ -1600,15 +1717,359 @@ def updateFR(request,pk):
 
     return render(request,'gestionclient/frequences_radio/ajoutFR.html',context)
 
+#tarif FH
+def ListeTFH(request):
+    context = {
+        'Tfhs': TarifFH.objects.all(),
+    }
+
+    return render(request,'gestionclient/faisceaux_hertzien/Liste_TFH.html',context)
+
+
+@login_required(login_url='login_page')
+def ajoutTFH(request):
+    form = TFhForm()
+    if request.method == 'POST':
+        form = TFhForm(request.POST)
+        if form.is_valid():
+            thebande = form.cleaned_data.get('nature')
+            tarifs = TarifFH.objects.filter(etat = 'actif')
+            count = 0
+            for tarif in tarifs:
+                if tarif.nature == thebande:
+                    count = count+1
+            if count > 0:
+                messages.error(request, f' tarif correspondant a la bande existe deja existe deja !')
+            else:
+                form.save()
+                messages.success(request, f"Tarif Faisceaux Hertzien bien ajouter")
+                return redirect('ListeTFH')
+                
+        else:
+            messages.error(request, f' ERREUR formulaire invalide. Faisceaux Hertzien non ajouter!')
+
+    context = {
+        'form':form,
+        'titre':"Ajouter",
+        }
+
+    return render(request,'gestionclient/faisceaux_hertzien/ajoutTFH.html',context)
+
+@login_required(login_url='login_page')
+def detailTFH(request,pk):
+    context = {
+        'Tfh': TarifFH.objects.get(id = pk),
+        'today':date.today(),
+    }
+
+    return render(request,'gestionclient/faisceaux_hertzien/detailTFH.html',context)
+
+@login_required(login_url='login_page')
+def ListeCliFH(request):
+    context = {
+        'clients': Client.objects.all().filter(status = 'actif'),
+        'today':date.today(),
+    }
+
+    return render(request,'gestionclient/faisceaux_hertzien/listeFHA.html',context)
+
+
+@login_required(login_url='login_page')
+def FaiseceauxAnn(request,pk):
+    today = date.today()
+    year = today.year
+    d = datetime.date(year, 7, 1)
+    client = Client.objects.get(id=pk)
+    count = 0
+    reperes = Repere.objects.all()
+    for rep in reperes:
+        if rep.client == client and rep.date_repere == d:
+            count = count + 1
+
+    if count > 0:
+        repera = Repere.objects.get( client = client, date_repere = d)
+        listes = ListeFHAnnuelle.objects.filter(repere = repera)
+        context={
+        'listes':listes,
+        'client':client,
+        'titre':"Ajouter",
+    }
+    else:
+        repere = Repere(client = client,date_repere = d)
+        repere.save()
+        repere = Repere.objects.all().last()
+        faisceaux = FaisceauxHertzien.objects.filter(etat = 'actif').filter(dateAtri__lt = d).filter(client = client)
+        if faisceaux.count() > 0:
+            for fai in faisceaux:
+                li = ListeFHAnnuelle(repere = repere,faisceaux = fai)
+                li.save()
+            messages.success(request, f"Tarif Faisceaux Hertzien bien ajouter")
+        else:
+            messages.error(request, f"Tarif Faisceaux Hertzien non ajouter")
+            return redirect('ListeCliFH')
+        
+        listes = ListeFHAnnuelle.objects.filter(repere = repere)
+        context={
+            'listes':listes,
+            'client':client,
+            'titre':"Ajouter",
+        }
+
+
+
+    return render(request,'gestionclient/faisceaux_hertzien/detailFHAnnuelle.html',context)
+
+@login_required(login_url='login_page')
+def Listerepere(request):
+    context = {
+        'reperes': Repere.objects.all(),
+    }
+
+    return render(request,'gestionclient/faisceaux_hertzien/Liste_repere.html',context)
+
+
+@login_required(login_url='login_page')
+def detailListerepere(request,pk):
+    repera = Repere.objects.get( id = pk)
+    client = Client.objects.get(id = repera.client.id)
+    listes = ListeFHAnnuelle.objects.filter(repere = repera)
+    context={
+        'listes':listes,
+        'client':client,
+        'titre':"Ajouter",
+    }
+    return render(request,'gestionclient/faisceaux_hertzien/detailFHAnnuelle.html',context)
+
+@login_required(login_url='login_page')
+def ListeRepAnn(request):
+    context = {
+        'clients': Client.objects.all().filter(status = 'actif'),
+        'today':date.today(),
+    }
+
+    return render(request,'gestionclient/faisceaux_hertzien/listeClinetRA.html',context)
+
+@login_required(login_url='login_page')
+def ListeRepAnnAF(request):
+    context = {
+        'reperes': Repere.objects.all().filter(facturer = 'oui'),
+    }
+
+    return render(request,'gestionclient/faisceaux_hertzien/ListeFHAfacturer.html',context)
+
+@login_required(login_url='login_page')
+def facturerFHA(request,pk):
+    repere =  Repere.objects.get(id = pk)
+    if repere.facturer == 'non':
+        repere.facturer = "oui"
+        repere.save()
+        return redirect('Listerepere')
+
+    return render(request,'gestionclient/faisceaux_hertzien/Liste_repere.html')
+
+@login_required(login_url='login_page')
+def facturerfacture(request,pk):
+    repere =  Repere.objects.get(id = pk)
+    client = Client.objects.get(id = repere.client.id)
+    liste = ListeFHAnnuelle.objects.filter( repere = repere)
+    listo = []
+    for gosto in liste:
+        listo.append(gosto.faisceaux)
+    lista =[]
+    data = []
+    liste_tarif =[]
+    taux = Taux.objects.get(etat = 'actif')
+    total = 0
+    total_bif = 0
+    liste_a =[]
+    liste_b =[]
+    # tarifs = TarifFH.objects.filter(etat = 'actif').order_by('-nature')
+    tarifs = TarifFH.objects.all().order_by('nature')
+    id_t = 0
+    for li in liste:
+        for tarif in tarifs:
+            if li.faisceaux.bande >= tarif.nature :
+                id_t = tarif.id
+                # fafa = FaisceauxHertzien.objects.get(id = li.faisceaux.id)
+                # id_t = fafa.id
+            
+            
+            
+        tarife = TarifFH.objects.get(id = id_t)
+        a = round(li.faisceaux.bande_passante * tarife.p_mhz)
+        b = round(li.faisceaux.nombre_canaux * tarife.p_canal)
+        total = total +(a + b)
+        lista.append([li,tarife,a,b])
+
+
+    total_bif = round(total * taux.taux)
+    form = FFacture_FH_A_Form(initial={'repere':repere,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = FFacture_FH_A_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            repere.efacturer = 'oui'
+            repere.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListeRepAnnAF')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+        'form':form,
+            'listes':lista,
+            'listess':listo,
+            'lista':liste_a,
+            'listb':liste_b,
+            'liste_t':liste_tarif,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            'repere':repere,
+            'client':client,
+            # 'n':len(lista),
+            'range': range(len(liste)),
+
+        }
+    return render(request,'gestionclient/faisceaux_hertzien/facutrefact.html',context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@allowed_users(allowed_roles=['finance'])
+def factfh(request,pk):
+    faisceaux = FaisceauxHertzien.objects.get(id = pk)
+    bande = faisceaux.bande
+    id_tarif =0
+    a =0
+    b =0
+    jours =0
+    tarifs = TarifFH.objects.filter(etat = 'actif').order_by('-nature')
+    for tarif in tarifs:
+        if bande >= tarif.nature :
+            id_tarif = tarif.id
+            break
+    tarife =  TarifFH.objects.filter(etat = 'actif').get(id = id_tarif)
+    taux = Taux.objects.get(etat = 'actif')
+    
+    today = date.today()
+    year = today.year
+    year_n = today.year + 1
+    d = datetime.date(year, 6, 30)
+    dn = datetime.date(year_n, 6, 30)
+    if faisceaux.dateAtri < d:
+        jours = d - faisceaux.dateAtri
+        datefin = d
+    else:
+        jours = dn - faisceaux.dateAtri
+        datefin = dn
+
+
+    a = faisceaux.bande_passante * tarife.p_mhz
+    b = faisceaux.nombre_canaux * tarife.p_canal
+    total = a + b
+    total_bif = round(total * taux.taux)
+
+    form = FactureFH_Form(initial={'faisceaux':faisceaux,'tarif':tarife,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = FactureFH_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            faisceaux.efacturer = 'oui'
+            faisceaux.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListeFH_af')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+            'form':form,
+            'fh':faisceaux,
+            'tarif':tarife,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            'datefin':datefin,
+            'jours':jours,
+            'a':a,
+            'b':b,
+            
+        }
+    return render(request,'gestionclient/faisceaux_hertzien/facture_FH.html',context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #faisceaux hertzien
 @login_required(login_url='login_page')
 def ListeFH(request):
     context = {
-        'fhs': FaisceauxHertzien.objects.all(),
+        'fhs': FaisceauxHertzien.objects.all().filter(client__status = 'actif'),
         'today':date.today(),
     }
 
     return render(request,'gestionclient/faisceaux_hertzien/ListeFH.html',context)
+
+
+@login_required(login_url='login_page')
+def ListeFH_af(request):
+    context = {
+        'fhs': FaisceauxHertzien.objects.filter(facturer = 'oui'),
+    }
+
+    return render(request,'gestionclient/faisceaux_hertzien/ListeFH_af.html',context)
 
 @login_required(login_url='login_page')
 def ajoutFH(request):
@@ -1648,9 +2109,32 @@ def updateFH(request,pk):
     context = {
         'form':form,
         'titre':"Modifier",
+        'date':date.today(),
         }
 
     return render(request,'gestionclient/faisceaux_hertzien/ajoutFH.html',context)
+
+@login_required(login_url='login_page')
+def detailFH(request,pk):
+    fh = FaisceauxHertzien.objects.get(id = pk)
+   
+    context = {
+        'fh':fh,
+        }
+
+    return render(request,'gestionclient/faisceaux_hertzien/detailsFH.html',context)
+
+@login_required(login_url='login_page')
+def pourFacturerFH(request,pk):
+    fh = FaisceauxHertzien.objects.get(id = pk)
+    fh.facturer = 'oui'
+    fh.save()
+   
+    context = {
+        'fh':fh,
+        }
+
+    return render(request,'gestionclient/faisceaux_hertzien/detailsFH.html',context)
 
 
 #taux
@@ -2195,7 +2679,8 @@ def facturerNum(request,pk):
 
     if ff.q_pq > 0:
         if ff.RN_redevanceAnn == True:
-            total = total + q_ordinaire.etudeDossier
+            # total = total + q_ordinaire.etudeDossier
+            total = total + 0
             a = round(q_pq.redevanceAnn * ff.q_pq)
             total = total + a
 

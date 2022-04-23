@@ -48,7 +48,7 @@
                         {% endif %} -->
                         <td>
                             <a href="{% url 'detailsFFNum' ff.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye"></i></button></a>
-                            {% if ff.efaturer == 'non' %}
+                            {% if ff.efacturer == 'non' %}
                             <a href="{% url 'facturerNum' ff.id %}"><button type="button" class="btn btn-primary" >Facturer</button></a>
                             {% else %}
                             <a href="{% url 'facturerNum' ff.id %}"><button type="button" class="btn btn-primary" >Voir facturer</button></a>

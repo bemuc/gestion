@@ -266,7 +266,7 @@ class FhForm(ModelForm):
     class Meta:
         model = FaisceauxHertzien
         fields = '__all__'
-        exclude = ['etat']
+        exclude = ['etat','facturer','efacturer','dateAtri']
         widgets = {
             'client' :  forms.Select(attrs={'class':'form-control',}),
             'bande' :  forms.TextInput(attrs={'class':'form-control',}),
@@ -274,6 +274,54 @@ class FhForm(ModelForm):
             'nombre_canaux' :  forms.TextInput(attrs={'class':'form-control',}),
             'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
+
+class TFhForm(ModelForm):
+    class Meta:
+        model = TarifFH
+        fields = '__all__'
+        exclude = ['etat','dateAtri']
+        widgets = {
+            'nature' :  forms.Select(attrs={'class':'form-control',}),
+            'p_canal' :  forms.TextInput(attrs={'class':'form-control',}),
+            'p_mhz' :  forms.TextInput(attrs={'class':'form-control',}),
+            # 'nombre_canaux' :  forms.TextInput(attrs={'class':'form-control',}),
+            # 'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
+        }
+
+class FactureFH_Form(ModelForm):
+    class Meta:
+        model = Facture_FH
+        fields = '__all__'
+        exclude = ['dateAtri']
+        widgets = {
+            'faisceaux' :  forms.Select(attrs={'class':'form-control',}),
+            'tarif' :  forms.Select(attrs={'class':'form-control',}),
+            'taux' :  forms.Select(attrs={'class':'form-control',}),
+            'total_bif' :  forms.TextInput(attrs={'class':'form-control',}),
+            'total' :  forms.TextInput(attrs={'class':'form-control',}),
+            'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
+            
+        }
+
+class FFacture_FH_A_Form(ModelForm):
+    class Meta:
+        model = Facture_FH_A
+        fields = '__all__'
+        exclude = ['dateAtri']
+        widgets = {
+            'repere' :  forms.Select(attrs={'class':'form-control',}),
+            'taux' :  forms.Select(attrs={'class':'form-control',}),
+            'total_bif' :  forms.TextInput(attrs={'class':'form-control',}),
+            'total' :  forms.TextInput(attrs={'class':'form-control',}),
+            'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
+            
+        }
+
+
+
+
+
+
 
 
 class FF_NumeroForm(ModelForm):

@@ -12,8 +12,14 @@ urlpatterns = [
     path('modifierClient/<str:pk>', views.modifierClient,name='modifierClient_page'),
     path('deactiverClient/<str:pk>', views.deactiverClient,name='deactiverClient_page'),
 
+
+
+    
+    
+
     
     path('pdf/', GeneratePdf.as_view()),
+    # path('pdf/<str:pk>', views.GeneratePdf),
     path('ok/',views.ko),
     # path('ajoutPersonneContact/', views.ajoutPersonneContact,name='ajoutPersonneContact_page'),
     # path('listePContact/', views.listePContact,name='listePContact_page'), 
@@ -32,6 +38,8 @@ urlpatterns = [
     path('Cert_Agr_facturer/', views.Certfacturer,name='ListCetAfact'),
     path('facturer_cert_agre/<str:pk>', views.factCert,name = 'factCert'),
 
+    path('cwrt_pdf/<str:pk>', views.render_pdf_view,name='pdfcertificat'),
+
 # certificat conformite
 
     path('liste_certificat_conformite/', views.ListCertConf,name='ListCertConf'),
@@ -42,6 +50,8 @@ urlpatterns = [
     path('pourfactCertConf/<str:pk>', views.pourfactCertConf,name='pourfactCertConf'), 
     path('Cert_Conf_facturer/', views.CertConfAfact,name='ListCertConfAfact'),
     path('facturer_cert_conf/<str:pk>', views.factCertConf,name = 'factCertConf'),
+
+    path('certificat_conformite_pdf/<str:pk>', views.render_pdf_conf,name='pdfcertificat_conf'),
 
 #Homologations
     
@@ -68,6 +78,9 @@ urlpatterns = [
     path('pourfactCertHom/<str:pk>', views.pourfactCertHom,name='pourfactCertHom'), 
     path('Cert_Hom_facturer/', views.CertHomAfact,name='ListCertHomAfact'),
     path('facturer_cert_hom/<str:pk>', views.factCertHom,name = 'factCertHom'),
+
+    path('certificat_homoloation_pdf/<str:pk>', views.render_pdf_homo,name='pdfcertificat_homo'),
+
 
 
 #numerotation
@@ -107,8 +120,57 @@ urlpatterns = [
 
 #faisceaux hertzien
     path('liste_fh/', views.ListeFH,name='ListeFH'),
+    path('liste_fh_af/', views.ListeFH_af,name='ListeFH_af'),
+    path('facturer_FH/<str:pk>', views.factfh,name = 'factFH'),
     path('ajouter_fh/', views.ajoutFH,name='ajoutFH'),
-    path('update_fh/<str:pk>', views.updateFH,name='updateFH'),
+    path('detail_fh/<str:pk>', views.detailFH,name='detailFH'),
+    path('update_fh/<str:pk>', views.updateFH,name='updateFH'), 
+    path('pour_facturer_fh/<str:pk>', views.pourFacturerFH,name='pourFacturerFH'),
+
+    #annuelle
+    path('faisceaux_Hertzien_annuelle/<str:pk>',views.FaiseceauxAnn,name='FaiseceauxAnn'),
+    path('liste_repere/', views.Listerepere,name='Listerepere'),
+    path('detai_liste_repere/<str:pk>', views.detailListerepere,name='detailListerepere'),
+    path('liste_client_repere_ann/', views.ListeRepAnn,name='ListeRepAnn'),
+    path('liste_client_repere_ann_af/', views.ListeRepAnnAF,name='ListeRepAnnAF'),
+    path('facturer_FH_annuelle/<str:pk>', views.facturerFHA,name='facturerFHA'),
+    path('facturer_facture_FH/<str:pk>', views.facturerfacture,name='facturerfacture'),
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#tarif FH
+    path('liste_Tfh/', views.ListeTFH,name='ListeTFH'),
+    path('ajouter_Tfh/', views.ajoutTFH,name='ajoutTFH'),
+    path('detail_Tfh/<str:pk>', views.detailTFH,name='detailTFH'),
+    path('liste_client_facturation_fh/', views.ListeCliFH,name='ListeCliFH'),
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #fiche facturation
     path('liste_client_facturation_numero/', views.ListeCli,name='ListeCli'),
@@ -120,6 +182,8 @@ urlpatterns = [
     path('facturer_fiche_facturation_numero/<str:pk>', views.facturerFFNumero,name='facturerFFNumero'),
     path('supprimer_fiche_facturation_numero/<str:pk>', views.supprimerFFNumero,name='supprimerFFNumero'),
     # path('ajouter_numeros/<str:pk>', views.ajoutNumeros,name='ajoutNumeros'),
+
+    path('fiche_facturation_numero_pdf/<str:pk>', views.render_pdf_ffnumero,name='pdf_ffnumero'),
 
 #taux
     path('liste_taux/', views.ListeTaux,name='ListeTaux'),

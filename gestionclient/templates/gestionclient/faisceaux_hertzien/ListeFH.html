@@ -7,11 +7,11 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-center">
-                   <h4>Liste dess Frequences Hertzien distribue</h4> 
+                   <h4>Liste des Frequences Hertzien distribue</h4> 
                 </div>
                 
                 <p class="card-description">
-                <a href="{% url 'ajoutFH' %}"><button type="button" class="btn btn-primary">Ajouter</button></a>
+                <a href="{% url 'ListeCliFH' %}"><button type="button" class="btn btn-primary">Ajouter</button></a>
                   </p>
                 <div class="table-responsive">
                 <table class="table table-hover">
@@ -22,6 +22,7 @@
                         <th>Bande Passante</th>
                         <th>Nombre de canaux</th>
                         <th>Date Attribution</th>
+                        <th>Pour facturation</th>
                         <!-- <th>Type</th> -->
                         <!-- <th>Modele</th> -->
                         <!-- <th>Pays d'Origine</th> -->
@@ -40,13 +41,18 @@
                         <td>{{ fh.bande_passante }}</td>
                         <td>{{ fh.nombre_canaux }}</td>
                         <td>{{ fh.dateAtri }}</td>
+                        {% if fh.facturer == 'oui' %}
+                        <td><label class="badge badge-success" >{{ fh.facturer }}</label></td>
+                        {% else %}
+                        <td><label class="badge badge-warning" >{{ fh.facturer }}</label></td>
+                        {% endif %}
                         {% if fh.etat == 'actif' %}
                         <td><label class="badge badge-success" >{{ fh.etat }}</label></td>
                         {% else %}
                         <td><label class="badge badge-warning" >{{ fh.etat }}</label></td>
                         {% endif %}
                         <td>
-                            <a href="{% url 'updateFH' fh.id %}"><button type="button" class="btn btn-primary" >Modifier</button></a>
+                            <a href="{% url 'detailFH' fh.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye" ></i></button></a>
                         </td>
                     </tr>
                     {% endfor %}

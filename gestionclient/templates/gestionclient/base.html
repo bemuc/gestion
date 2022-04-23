@@ -5,7 +5,7 @@
   <!-- Required meta tags --> 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Admin</title>
+  <title>Gestion des clients</title>
   <!-- base:css -->
   <link rel="stylesheet" href="{% static '/vendors/mdi/css/materialdesignicons.min.css' %}">
   <link rel="stylesheet" href="{% static '/vendors/feather/feather.css' %}">
@@ -191,6 +191,33 @@
             </div>
           </li>
           <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#fai-basic" aria-expanded="false" aria-controls="fai-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Faisceaux Hertzien
+                {% if fai > 0 %}
+                <label class="badge badge-warning">{{ fai }}</label>
+                {% endif %}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="fai-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeFH_af' %}">Liste Faisceaux
+                  {% if homolo > 0 %}
+                <label class="badge badge-warning">{{ fai }}</label>
+                {% endif %}
+                </a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeRepAnnAF' %}">Liste Faisceaux Annuelle
+                  {% if homolo > 0 %}
+                <label class="badge badge-warning">{{ fai }}</label>
+                {% endif %}
+                </a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'ListeTaux' %}">
               <i class=" menu-icon"></i>
               <span class="menu-title">Taux</span>
@@ -224,6 +251,12 @@
             <a class="nav-link" href="{% url 'ListeTarifsConf' %}">
               <i class=" menu-icon"></i>
               <span class="menu-title">Tarif Conformite</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ListeTFH' %}">
+              <i class=" menu-icon"></i>
+              <span class="menu-title">Tarif Faisceaux</span>
             </a>
           </li>
           {% endif %}
@@ -324,6 +357,33 @@
                   {% if homo > 0 %}
                 <label class="badge badge-warning">{{ homo }}</label>
                 {% endif %}
+                </a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#fh-basic" aria-expanded="false" aria-controls="fh-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Faisceaux Herziens
+                {% if fh > 0 %}
+                <label class="badge badge-warning">{{ fh }}</label>
+                {% endif %}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="fh-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeFH' %}">Liste des Faisceaux
+                 
+                <label class="badge badge-warning"></label>
+               
+                </a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'Listerepere' %}">Liste des Faisceaux annuelles
+                  
+                <label class="badge badge-warning"></label>
+               
                 </a></li>
                 <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->

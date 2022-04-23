@@ -1,0 +1,61 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-2 grid-margin stretch-card"></div>
+  <div class="col-md-8 grid-margin">
+    <br>
+      <div class="card">
+        <div class="card-body ">
+          <div class="d-flex justify-content-center">
+            <h2 class="">{{ titre }} Faisceaux Hertzien</h2>
+          </div>
+          <p class="card-description">
+            <br>
+            
+            
+            <br>
+          </p>
+         
+          
+            <div class="form-group row ">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Client</label>
+              <div class="col-sm-9">
+                {{ client.nom }}
+              </div>
+            </div>
+            <div class="table-responsive">
+
+            <table class="table table-hover">
+              <tr>
+                <th>Bande</th>
+                <th>Bande Passante</th>
+                <th>Nombre de canaux</th>
+              </tr>
+            {% for x in listes %}
+            <tr>
+              <td>{{ x.faisceaux.bande }}</td>
+              <td>{{ x.faisceaux.bande_passante }}</td>
+              <td>{{ x.faisceaux.nombre_canaux }}</td>
+            </tr>
+            {% endfor %}
+            </table>
+            </div>
+            <br>
+            <!-- <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button> -->
+            {% load auth_extras %}
+            {% if request.user|has_group:"finance" %}
+            <a href="{% url 'ListeRepAnnAF' %}"><button type="button" class="btn btn-primary">retour</button></a>
+            
+            {% endif %}
+            {% if request.user|has_group:"technicien" %}
+            <a href="{% url 'Listerepere' %}"><button type="button" class="btn btn-primary">retour</button></a>
+            {% endif %}
+        </div>
+      </div>
+      <div></div>
+  </div>
+  <div class="col-md-2 grid-margin stretch-card"></div>
+</div>
+
+  {% endblock %}

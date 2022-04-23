@@ -61,8 +61,10 @@
                         <div class="mx-2   p-2">
                             {% if name == 'technicien' %}
                             <a href="{% url 'ListeHomo'  %}"><button type="button" class="btn btn-dark">retour</button></a>
+                            <a href="{% url 'pdfcertificat_homo' homologation.id  %}"><button type="button" class="btn btn-dark">print</button></a>
                             {% else %}
-                            <a href="{% url 'ListCertHomAfact'  %}"><button type="button" class="btn btn-dark">retour</button></a>
+                            <a href="{% url 'ListCertHomAfact'  %}" ><button type="button" class="btn btn-dark">retour</button></a>
+                            <a href="{% url 'pdfcertificat_homo' homologation.id  %}" target="_blank"><button type="button" class="btn btn-dark">print</button></a>
                             {% endif %}
                             <!-- <a href="{% url 'modifierHomo' homologation.id %}"><button type="button" class="btn btn-dark"> Modifier</button></a> -->
                         </div>

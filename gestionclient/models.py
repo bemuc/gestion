@@ -329,21 +329,67 @@ class FrequenceRadio(models.Model):
     bande = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     bande_attribuee = models.DecimalField(max_digits=4, decimal_places=2, null=True)
     dateAtri = models.DateField(auto_now= False, null= True)
+    facturer = models.CharField(max_length=200, null=True, default='non')
+    efacturer = models.CharField(max_length=200, null=True, default='non')
     etat = models.CharField(max_length=200, null=True, default='actif')
 
-    class Meta:
-        ordering = ['client__nom','bande','-dateAtri']
+    
 
 class FaisceauxHertzien(models.Model):
     client  = models.ForeignKey(Client,on_delete=models.PROTECT)
-    bande = models.DecimalField(max_digits=6, decimal_places=2, null=True)
-    bande_passante = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    bande = models.FloatField(max_length=200, null=True)
+    bande_passante = models.FloatField(max_length=200, null=True)
     nombre_canaux = models.IntegerField(null=True)
-    dateAtri = models.DateField(auto_now= False, null= True)
+    dateAtri = models.DateField(auto_now_add= True, null= True)
+    facturer = models.CharField(max_length=200, null=True, default='non')
+    efacturer = models.CharField(max_length=200, null=True, default='non')
     etat = models.CharField(max_length=200, null=True, default='actif')
+  
+class TarifFH(models.Model):
+    NATURE = (
+        (23,'>23 Ghz'),
+        (13,'>13 Ghz'),
+        (3,'>3 Ghz'),
+        (0,'<3 Ghz'),
+    )
+    nature = models.IntegerField(null=True, choices=NATURE)
+    # repere =  models.IntegerField(null=True)
+    p_canal = models.FloatField(max_length=200, null=True)
+    p_mhz = models.FloatField(max_length=200, null=True)
+    etat = models.CharField(max_length=200, null=True, default='actif')
+    dateAtri = models.DateField(auto_now_add= True, null= True)
 
-    class Meta:
-        ordering = ['-dateAtri']
+class Facture_FH(models.Model):
+    faisceaux = models.ForeignKey(FaisceauxHertzien,on_delete=models.PROTECT)
+    tarif = models.ForeignKey(TarifFH,on_delete=models.PROTECT)
+    taux = models.ForeignKey(Taux,null=True,on_delete=models.PROTECT)
+    total_bif = models.IntegerField(null=True)
+    total = models.IntegerField(null=True)
+    dateAtri = models.DateField(auto_now_add= True, null= True)
+
+class Repere(models.Model):
+    client  = models.ForeignKey(Client,on_delete=models.PROTECT)
+    date_repere =models.DateField(auto_now= False, null= True)
+    dateAtri = models.DateField(auto_now_add= True, null= True)
+    facturer = models.CharField(max_length=200, null=True, default='non')
+    efacturer = models.CharField(max_length=200, null=True, default='non')
+
+class ListeFHAnnuelle(models.Model):
+    repere = models.ForeignKey(Repere,on_delete=models.PROTECT)
+    faisceaux = models.ForeignKey(FaisceauxHertzien,null=True,on_delete=models.PROTECT)
+
+class Facture_FH_A(models.Model):
+    repere = models.ForeignKey(Repere,on_delete=models.PROTECT)
+    taux = models.ForeignKey(Taux,null=True,on_delete=models.PROTECT)
+    total_bif = models.IntegerField(null=True)
+    total = models.IntegerField(null=True)
+    dateAtri = models.DateField(auto_now_add= True, null= True)
+
+
+
+
+
+
 
 class FF_Numero(models.Model):
     NATURE = (
@@ -372,9 +418,6 @@ class FF_Numero(models.Model):
     etat = models.CharField(max_length=200, null=True, default='actif')
     dateAtri = models.DateField(auto_now= True, null= True)
     observation = models.TextField(max_length= 300,null=True,default='-')
-
-    # def __str__(self):
-    #     return (self.pk)
 
 class NumeroCourt(models.Model):
     TYPE = (

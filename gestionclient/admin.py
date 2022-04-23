@@ -49,6 +49,14 @@ admin.site.register(TarifConf)
 admin.site.register(FactureConf)
 admin.site.register(TarifHom)
 admin.site.register(FactureHom)
+# admin.site.register(TarifFH)
+@admin.register(TarifFH)
+class TauxAdmin(admin.ModelAdmin):
+    list_display = ['nature','p_canal','p_mhz','etat','dateAtri']
+    ordering = ['-nature']
+admin.site.register(Facture_FH)
+admin.site.register(ListeFHAnnuelle)
+admin.site.register(Repere)
 
 
 

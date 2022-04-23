@@ -24,7 +24,7 @@
                             </div>
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Nature client :</label>
-                                <div class="col-sm-6">{{ FF_Numero.nature }}</div>
+                                <div class="col-sm-6">{{ FF_Numero.client.type }}</div>
                             </div>
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Numero long (PQ) :</label>
@@ -125,6 +125,7 @@
             </div>
             <div class="d-flex justify-content-start align-items-center">
                 <a href="{% url 'ListeFFNumero' %}"><button type="button" class="btn btn-primary ml-5 mr-3">Retour</button></a>
+                <a href="{% url 'pdf_ffnumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5 mr-3">print</button></a>
                 {% if FF_Numero.facturer == 'non' %}
                 <a href="{% url 'facturerFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Facturer</button></a>
                 <a href="{% url 'updateFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Modifier</button></a>

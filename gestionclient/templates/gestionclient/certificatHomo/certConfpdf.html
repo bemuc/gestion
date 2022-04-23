@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF</title>
+
+    <style>
+        #id_client{
+            border: 1px solid black;
+            padding: 15px;
+        }
+        #titre{
+            border: 2px solid black;
+            padding: 5px;
+        }
+        #titre h3{
+            text-align:center;
+        }
+        .identifiant{
+            margin-right: 20px;
+        }
+        .valeurs{
+            font-weight: bold;
+        }
+        #contact,#type_cert{
+            border: 1px solid black;
+            padding: 15px;
+        }
+        #typecert{
+            border: 1px solid black;
+            padding: 15px;
+        }
+        table tr {border: none;}
+        #natcert{
+            border: 1px solid black;
+            border-bottom: 1px solid black;
+            padding: 15px;
+        }
+        .center{
+            margin-left: -45px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="titre">
+        <h3>FICHE DE FACTURATION POUR OBTENTION D'UN CERTIFICAT D'HOMOLOGATION D'UN EQUIPEMENT OU D'UN TERMINAL RADIOELECTRIQUE</h3>
+    </div>
+    <h5>1. IDENTIFICATION DU CLIENT</h5>
+    <div id="id_client">
+        <p>
+            <span class="identifiant">Nom et Prenon(s) ou Raison Social</span><span class="valeurs">:{{ certificat.client.nom }}</span><br>
+            <span class="identifiant">Adresse Physique</span><span class="valeurs">:{{ certificat.client.adresse }}</span><br>
+            <span class="identifiant">Téléphone</span><span class="valeurs">:{{ certificat.client.téléphone }}</span><br>
+            <span class="identifiant">Fax</span><span class="valeurs">:{{ certificat.client.fax }}</span><br>
+            <span class="identifiant">Email</span><span class="valeurs">:{{ certificat.client.email }}</span><br>
+            <span class="identifiant">Site web</span><span class="valeurs">:{{ certificat.client.siteweb }}</span><br>
+            <span class="identifiant">Boite Postale</span><span class="valeurs">:{{ certificat.client.boite_postale }}</span>
+        </p>
+    </div>
+    <h5>2. IDENTIFICATION DU CONSTRUCTEUR</h5>
+    <div id="contact">
+        <p>
+            <span class="identifiant">Nom et Prenon ou Raison Social</span><span class="valeurs">:{{ certificat.equipement.constructeur.nom }}</span><br>
+            <span class="identifiant">Adresse Physique</span><span class="valeurs">:{{ certificat.equipement.constructeur.adresse }}</span><br>
+            <span class="identifiant">Téléphone</span><span class="valeurs">:{{ certificat.equipement.constructeur.téléphone }}</span><br>
+            <span class="identifiant">Fax</span><span class="valeurs">:{{ certificat.equipement.constructeur.fax }}</span><br>
+            <span class="identifiant">Email</span><span class="valeurs">:{{ ccertificat.equipement.constructeur.email }}</span><br>
+        </p>
+    </div>
+    <h5>3. INFORMATION SUR L'EQUIPEMENT OU LE TERMINAL</h5>
+    <div id="contact">
+        <p>
+            <span class="identifiant">Designation</span><span class="valeurs">:{{ certificat.equipement.designation }}</span><br>
+            <span class="identifiant">Marque</span><span class="valeurs">:{{ certificat.equipement.marque }}</span><br>
+            <span class="identifiant">Type</span><span class="valeurs">:{{ certificat.equipement.type }}</span><br>
+            <span class="identifiant">Modele</span><span class="valeurs">:{{ certificat.equipement.modele }}</span><br>
+            <span class="identifiant">Pays d'origine</span><span class="valeurs">:{{ certificat.equipement.pays_origine }}</span><br>
+        </p>
+    </div>
+    <h5>4 . CATEGORIE DE L'EQUIPEMENT OU DU TERMINAL</h5>
+    <div id="contact">
+        <p>
+            <span class="identifiant">Terminal Simple et de Faible Puissance</span><span class="valeurs">:
+                {% if certificat.categorie == 'Terminal Simple et de Faible Puissance' %} X {% endif %}
+            </span>
+            <br>
+            <span class="identifiant">Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise</span><span class="valeurs">:
+                {% if certificat.categorie == "Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise" %} X {% endif %}
+            </span>
+                <br>
+            <span class="identifiant">Terminal Radioelectrique de Reseau</span><span class="valeurs">:
+                {% if certificat.categorie == 'Terminal Radioelectrique de Reseau' %} X {% endif %}
+            </span>
+                <br>
+        </p>
+    </div>
+    <!-- <div id="natcert">
+        <table >
+            <tr>
+                <td>
+                    <label for="exampleInputPassword2" class="">Nouveau certificat :
+                        {% if certificat.nature == 'Nouveau certificat' %}
+                        X
+                        {% endif %}
+                </label>
+                </td>
+                <td><label for="exampleInputPassword2" class="">Renouvellement certificat : 
+                    {% if certificat.nature == 'Renouvellement certificat' %}
+                                        X
+                    {% endif %}
+                </label>
+                </td>
+            </tr>
+        </table>
+    </div> -->
+
+    <div>
+        <table>
+            <tr>
+                <td><br>
+                </td>
+                <td>
+                    <br>
+                    <br>
+                    <br>
+                    <label >Fait a Bujumbura le {{ certificat.dateAttri}}</label><br>
+                    <h6 class="center">Le Chef de service Normalisation reseaux et service "NR&S"</h6>
+                    <h4>???????</h4>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
