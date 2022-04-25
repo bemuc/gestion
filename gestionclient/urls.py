@@ -191,6 +191,7 @@ urlpatterns = [
     # path('ajouter_numeros/<str:pk>', views.ajoutNumeros,name='ajoutNumeros'),
 
     path('fiche_facturation_numero_pdf/<str:pk>', views.render_pdf_ffnumero,name='pdf_ffnumero'),
+    path('facturation_numero_pdf/<str:pk>', views.pdf_ffnumero,name='pdf_ffnumero_facture'),
 
 #taux
     path('liste_taux/', views.ListeTaux,name='ListeTaux'),

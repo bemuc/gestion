@@ -7,26 +7,451 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facture</title>
     <style>
-        #entete{
+        /* #entete{
             display: flex;
             justify-content: space-between;
-        }
+        } */
         #repub{
             text-align: left;
         }
+        #date{
+            /* position: relative;
+            top: -5px;
+            left: 200px; */
+            /* text-align: right; */
+            float: right;
+        }
+        #repu{
+            float: left;
+        }
+        #stirong{
+            margin-left: 20px;
+            padding-left: 50px;
+        }
+        #tablemain,#tablemain tr,#tablemain td{
+            border: 1px solid black;
+           
+        }
+        #tablemain td{
+            text-align: center;
+        }
+        .middle{
+            padding-top: 5px;
+        }
+        ul{
+            /* text-decoration: none; */
+            list-style:none;
+            list-style-type: none;
+        }
+        .identifiant{
+            margin-right: 20px;
+        }
+        .valeurs{
+            font-weight: bold;
+        }
+        #id_client{
+            /* border: 1px solid black; */
+            padding: 1px;
+        }
+        #red{
+            color: red;
+            width: 2px;
+        }
+        #blue{
+            color: green;
+            width: 30px;
+        }
+       #italic{
+           text-align: center;
+       }
+       #FOOT tr td{
+           text-align: center;
+       }
+       #inde{
+           text-align: left;
+       }
     </style>
 </head>
 <body>
-    <div id="entete" >
-        <div>
-            <h4 id="repub"> <strong> REPUBLIQUE DU BURUNDI <br> PRESIDENCE DE LA REPUBLIQUE <br> </strong>AGENCE DE REGULATION ET <br> DE CONTROLE DES TELECOMMUNICATIONS (ARCT) </h4>
-            <img src="{% static '/images/logoARCT.png%}" alt="">
-            <p>N/Ref : ARCT/      /D.M/DG/H.N/g.ni/2018     </p>
-        </div>
-        <div>
-            <h4>BUJUMBURA DATE?????</h4>
-        </div>
-    </div>
+            <table>
+                <tr> 
+                    <td><h4 id="repub"> <strong> REPUBLIQUE DU BURUNDI <br> PRESIDENCE DE LA REPUBLIQUE <br> </strong>AGENCE DE REGULATION ET <br> DE CONTROLE DES TELECOMMUNICATIONS (ARCT) </h4>
+                        <img src="static/images/logoARCT.png" width="100" height="120" alt="">
+                        <p>N/Ref:ARCT/......../D.M/DG/H.N/g.ni/...</p>
+                    </td>
+            <td></td>
+            <td></td>
+            <td VALIGN=TOP><h4>Bujumbura, le {{ today }}</h4></td>
+                </tr>
+            </table>
+           <br>
+            <table>
+                <tr>
+                    <td><h3>client: <span id="stirong">{{ FF.client.nom}}</span></h3></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>FACTURE N ...../......</td>
+                </tr>
+            </table>
+            <br>
+            <table id="tablemain" class="table table-bordered">
+                <tr>
+                    <th class="middle">Libelle</th>
+                    <th class="middle">Prix Unitaire</th>
+                    <th class="middle">Prix Total</th>
+                </tr>
+                <tr>
+                    <td class="middle">
+                        <h6>Frais d'etude du dossier</h6>
+                    {% if ff.RN_etudeDossier is True %}
+                    <ul>
+                    {% if ff.q_ordinaire > 0 %}
+                    <li>Numeros courts-codes ordinaires</li>
+                    {% endif %}
+                    {% if ff.q_ussd > 0  %}
+                    <li>Numeros courts-ussd</li>
+                    {% endif %}
+                    {% if ff.q_mnemonique > 0  %}
+                    <li>Numeros courts-code mnemonique</li>
+                    {% endif %}
+                    {% if ff.q_mnc > 0  %}
+                    <li>Numeros courts-MNC</li>
+                    {% endif %}
+                    {% if ff.q_nspc > 0  %}
+                    <li>Numeros courts-NSPC</li>
+                    {% endif %}
+                    {% if ff.q_ispc > 0  %}
+                    <li>Numeros courts-ISPC</li>
+                    {% endif %}
+                    {% if ff.q_cpti > 0  %}
+                    <li>Numeros courts-Code de preselection pour les transporteurs internationaux</li>
+                    {% endif %}
+                    {% endif %}
+                    </ul>
+                    {% if ff.FS_etudeDossier is True %}
+                    <ul>
+                        <li>FSVA</li>
+                    </ul>
+                    {% endif %}
+                    </td>
+                    <td>
+    
+                    </td>
+                    <td class="middle"><h1></h1><br>
+                    {% if ff.RN_etudeDossier is True %}
+                    <ul>
+                    {% if ff.q_ordinaire > 0 %}
+                    <li>{{ q_ordinaire.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_ussd > 0  %}
+                    <li>{{ q_ussd.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_mnemonique > 0  %}
+                    <li>{{ q_mnemonique.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_mnc > 0  %}
+                    <li>{{ q_mnc.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_nspc > 0  %}
+                    <li>{{ q_nspc.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_ispc > 0  %}
+                    <li>{{ q_ispc.etudeDossier }} $</li>
+                    {% endif %}
+                    {% if ff.q_cpti > 0  %}
+                    <li>{{ q_cpti.etudeDossier }} $</li>
+                    {% endif %}
+                    </ul>
+                    {% elif ff.FS_etudeDossier is True %}
+                        <ul>
+                            <li>{{ fsva.etudeDossier }}</li>
+                        </ul>
+                    {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="middle">
+                    {% if ff.RN_fraisGestion is True %}
+                    <h6>Frais de gestion annuelle:</h6>
+                        <ul>
+                        {% if ff.q_ordinaire > 0 %}
+                        <li>Numeros courts-codes ordinaires</li>
+                        {% endif %}
+                        {% if ff.q_ussd > 0  %}
+                        <li>Numeros courts-ussd</li>
+                        {% endif %}
+                        {% if ff.q_mnemonique > 0  %}
+                        <li>Numeros courts-code mnemonique</li>
+                        {% endif %}
+                        {% if ff.q_mnc > 0  %}
+                        <li>Numeros courts-MNC</li>
+                        {% endif %}
+                        {% if ff.q_nspc > 0  %}
+                        <li>Numeros courts-NSPC</li>
+                        {% endif %}
+                        {% if ff.q_ispc > 0  %}
+                        <li>Numeros courts-ISPC</li>
+                        {% endif %}
+                        {% if ff.q_cpti > 0  %}
+                        <li>Numeros courts-Code de preselection pour les transporteurs internationaux</li>
+                        {% endif %}
+                        </ul>
+                    {% elif ff.FS_agreEquipe is True %}
+                    <h3>Frais d'agrement des equipements:</h3>
+                        
+                    {% endif %}
+                    </td>
+                    <td>
+    
+                    </td>
+                    <td class="middle">
+                        <h1></h1><br>
+                        {% if ff.RN_fraisGestion is True %}
+                        <ul>
+                        {% if ff.q_ordinaire > 0 %}
+                        <li>{{ q_ordinaire.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_ussd > 0  %}
+                        <li>{{ q_ussd.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_mnemonique > 0  %}
+                        <li>{{ q_mnemonique.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_mnc > 0  %}
+                        <li>{{ q_mnc.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_nspc > 0  %}
+                        <li>{{ q_nspc.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_ispc > 0  %}
+                        <li>{{ q_ispc.fraisGestion }} $</li>
+                        {% endif %}
+                        {% if ff.q_cpti > 0  %}
+                        <li>{{ q_cpti.fraisGestion }} $</li>
+                        {% endif %}
+                        </ul>
+                        {% elif ff.FS_etudeDossier is True %}
+                            <ul>
+                                <li>{{ fsva.etudeDossier }} $</li>
+                            </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="middle">
+                    {% if ff.RN_redevanceAnn is True %}
+                    <h6>Rdevance annuelle:</h6>
+                        <ul>  
+                        {% if ff.q_pq > 0 %}
+                        <li>{{ff.q_pq}} PQ </li>
+                        {% endif %}
+                        {% if ff.q_ordinaire > 0 %}
+                        <li>{{ff.q_ordinaire}} Code court Ordinanire</li>
+                        {% endif %}
+                        {% if ff.q_ussd > 0  %}
+                        <li>{{ff.q_ussd}} Code court ussd</li>
+                        {% endif %}
+                        {% if ff.q_mnemonique > 0  %}
+                        <li>{{ ff.q_mnemonique }} Code court mnemonique</li>
+                        {% endif %}
+                        {% if ff.q_mnc > 0  %}
+                        <li>{{ ff.q_mnc  }} Code court MNC</li>
+                        {% endif %}
+                        {% if ff.q_nspc > 0  %}
+                        <li>{{ff.q_nspc}}Code court NSPC</li>
+                        {% endif %}
+                        {% if ff.q_ispc > 0  %}
+                        <li>{{ ff.q_ispc }}Code court ISPC</li>
+                        {% endif %}
+                        {% if ff.q_cpti > 0  %}
+                        <li>{{ ff.q_cpti }} Code courts de preselectionx</li>
+                        {% endif %}
+                        </ul>
+                        {% elif ff.FS_autoARCT is True  %}
+                        <h3>Autorisation de l'ARCT</h3>
+                        {% endif %}
+                    </td>
+                    <td class="middle">
+                        <h5 ></h5><br>
+                        {% if ff.RN_redevanceAnn is True %}
+                        <ul>
+                        {% if ff.q_pq > 0 %}
+                        <li>{{ q_pq.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_ordinaire > 0 %}
+                        <li>{{ q_ordinaire.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_ussd > 0  %}
+                        <li>{{ q_ussd.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_mnemonique > 0  %}
+                        <li>{{ q_mnemonique.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_mnc > 0  %}
+                        <li>{{ q_mnc.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_nspc > 0  %}
+                        <li>{{ q_nspc.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_ispc > 0  %}
+                        <li>{{ q_ispc.redevanceAnn }} $</li>
+                        {% endif %}
+                        {% if ff.q_cpti > 0  %}
+                        <li>{{ q_cpti.redevanceAnn }} $</li>
+                        {% endif %}
+                        </ul>
+                        {% elif ff.FS_autoARCT is True %}
+                            <ul>
+                                <li>{{ fsva.autorisationARCT }}</li>
+                            </ul>
+                        {% endif %}
+                    </td>
+                    <td class="middle"> 
+                        <p></p><br>
+                        {% if ff.RN_redevanceAnn is True %}
+                        <ul>
+                        {% if ff.q_pq > 0 %}
+                        <!-- <li>{% widthratio q_pq.redevanceAnn 1 ff.q_pq %}</li> -->
+                        <li>{{ a }}</li>
+                        <!-- <li>{% widthratio q_pq.redevanceAnn 1 ff.q_pq %}</li> -->
+                        {% endif %}
+                        {% if ff.q_ordinaire > 0 %}
+                        {% if ff.periode > 0 %}
+                        <!-- <li>{{ q_ordinaire.redevanceAnn }} * {{ ff.q_ordinaire }} * {{ ff.periode }} / 365 </li> -->
+                        <li>{{ q_ordinaire.redevanceAnn }} * {{ ff.q_ordinaire }} * {{ ff.periode }} / 365 = {{ b }} $</li>
+                        {% else %}
+                        <li>{% widthratio q_ordinaire.redevanceAnn 1 ff.q_ordinaire %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_ussd > 0 %}
+                        {% if ff.periode > 0 %}
+                        <li>{{ q_ussd.redevanceAnn }} * {{ ff.q_ussd }} * {{ ff.periode }} / 365 = {{ c }} $</li>
+                        {% else %}
+                        <li>{% widthratio q_ussd.redevanceAnn 1 ff.q_ussd %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_mnemonique > 0 %}
+                        {% if ff.periode > 0 %}
+                        <li>{{ q_mnemonique.redevanceAnn }} * {{ ff.q_mnemonique }} * {{ ff.periode }} / 365 ={{ d }} $</li>
+                        {% else %}
+                        <li>{% widthratio q_mnemonique.redevanceAnn 1 ff.q_mnemonique %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_mnc > 0 %}
+                        {% if ff.periode > 0 %}
+                        <!-- <li>{{ q_ordinaire.redevanceAnn }} * {{ ff.q_ordinaire }} * {{ ff.periode }} / 365 </li> -->
+                        <li>{{ q_mnc.redevanceAnn }} * {{ ff.q_mnc }} * {{ ff.periode }} / 365 ={{ e }} $</li>
+                        {% else %}
+                        <li>{% widthratio q_mnc.redevanceAnn 1 ff.q_mnc %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_nspc > 0 %}
+                        {% if ff.periode > 0 %}
+                        <li>{{ q_nspc.redevanceAnn }} * {{ ff.q_nspc }} * {{ ff.periode }} / 365 ={{ f }}$ </li>
+                        {% else %}
+                        <li>{% widthratio q_nspc.redevanceAnn 1 ff.q_nspc %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_ispc > 0 %}
+                        {% if ff.periode > 0 %}
+                        <li>{{ q_ispc.redevanceAnn }} * {{ ff.q_ispc }} * {{ ff.periode }} / 365 ={{ g }} $</li>
+                        {% else %}
+                        <li>{% widthratio q_ispc.redevanceAnn 1 ff.q_ispc %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        {% if ff.q_cpti > 0 %}
+                        {% if ff.periode > 0 %}
+                        <li>{{ q_cpti.redevanceAnn }} * {{ ff.q_cpti }} * {{ ff.periode }} / 365 ={{ h }}$ </li>
+                        {% else %}
+                        <li>{% widthratio q_cpti.redevanceAnn 1 ff.q_cpti %}$</li>
+                        {% endif %}
+                        {% endif %}
+                        </ul>
+                        {% elif ff.FS_autoARCT is True %}
+                            <ul>
+                                <li>{{ fsva.autorisationARCT }}</li>
+                            </ul>
+                        {% endif %}
+    
+                    </td>
+                </tr>
+                <tr >
+                    <td class="middle">Total</td>
+                    <td></td>
+                    <td class="middle">{{ total }} $</td>
+                </tr>
+                <tr>
+                    <td class="middle">
+                        Todal a Payer <br>
+                        (Taux de conversion : 1$ US = {{ taux }} BIF
+                    </td>
+                    <td>
+    
+                    </td>
+                    <td class="middle">
+                        {{ totals }} BIF
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <table>
+                <tr>
+                    <td> <h4> POUR ETABLISSEMENT</h4> 
+                        <br>
+                    </td>
+                    <td></td>
+                    <td> <h4>POUR ACCORD</h4>
+                        <br> 
+                    </td>
+                </tr>
+                <br>
+                <br>
+                <tr>
+                    <td  VALIGN=TOP>
+                        <h4> DIRECTEUR DE LA REGULATION ECONOMIQUE <br> DES FINANCES ET DES RESSOURCES HUMAINES </h4>
+                        <br>
+                        <br>
+                    </td>
+                    <td></td>
+                    <td  VALIGN=TOP> <h4>DIRECTEUR GENERAL</h4> 
+                        <br>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td><h1>Hermalas NAHIMANA</h1> </td>
+                    <td></td>
+                    <td> <h1> Dr. Samuel MUHIZI</h1></td>
+                </tr>
+            </table>
+            <br>
+            <br>
+            <h5><u> COORDONNEES BANCAIRES:</u></h5>
+            <span class="identifiant">Nom du Compte</span><span class="valeurs">: SOUS-COMPTE DE TRANSIT DES RECETTES NON FISCALES</span><br>
+            <span class="identifiant">Numero de Compte</span><span class="valeurs">: 1101/001.04</span><br>
+            <span class="identifiant">Adresse</span><span class="valeurs">: MINISTERE DES FINANCES</span><br>
+            <span class="identifiant">Banque</span><span class="valeurs">: BANQUE DE LA REPUBLIQUE DU BURUNDI</span><br>
+            <span class="identifiant">Code Swift</span><span class="valeurs">: BRBUBIBI</span><br>
+            <br>
+            <u id="red"></u>
+            <hr id="blue">
+            <p  id="italic"> <i> Agence de Regulation et de Controle des Telecommunications</i></p>
+            <table id="FOOT">
+                <tr>
+                    <td valign="middle">
+                        Tel : (00257) 22 21 0276 <br>
+                        Fax : (00257) 22 24 2832
+                    </td>
+                    <td class="inde">
+                        N.I.F : 4000004954 <br>
+                        B.P.  : 6702 BUJUBMBURA
+                    </td>
+                </tr>
+            </table>
+
+            
     
 </body>
 </html>

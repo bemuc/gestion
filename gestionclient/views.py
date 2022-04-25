@@ -681,6 +681,204 @@ def render_pdf_ffnumero(request,pk):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+
+def pdf_ffnumero(request,pk):
+    template_path = 'gestionclient/factures_numero/facturefactNumero.html'
+    ff = FF_Numero.objects.get(id = pk)
+    # cont = PersonneContact.objects.get(id = ff.client.id )
+    ff = FF_Numero.objects.get(id = pk)
+    total = 0
+    a = 0
+    b = 0
+    c = 0
+    d = 0
+    e = 0
+    f = 0
+    g = 0
+    h = 0
+    taux = Taux.objects.get(etat = 'actif')
+    q_pq = TarifFFNumero.objects.filter( type = 'PQ').filter(etat = 'actif').first()
+    q_ordinaire = TarifFFNumero.objects.filter( type = 'Code Ordinaire').filter(etat = 'actif').first()
+    q_ussd = TarifFFNumero.objects.filter( type = 'USSD').filter(etat = 'actif').first()
+    q_mnemonique = TarifFFNumero.objects.filter( type = 'Code Mnemonique').filter(etat = 'actif').first()
+    q_mnc = TarifFFNumero.objects.filter( type = 'MNC').filter(etat = 'actif').first()
+    q_nspc = TarifFFNumero.objects.filter( type = 'NSPC').filter(etat = 'actif').first()
+    q_ispc = TarifFFNumero.objects.filter( type = 'ISPC').filter(etat = 'actif').first()
+    q_cpti = TarifFFNumero.objects.filter( type = 'Code de preselection pour les transporteurs internationaux').filter(etat = 'actif').first()
+    fsva = TarifFSVANumero.objects.filter(etat = 'actif').first()
+    
+
+    if ff.FS_etudeDossier == True:
+        total = total + fsva.etudeDossier
+    if ff.FS_agreEquipe == True:
+        total = total + fsva.agrementEquip
+    if ff.FS_autoARCT == True:
+        total = total + fsva.autorisationARCT
+
+
+    if ff.q_pq > 0:
+        if ff.RN_redevanceAnn == True:
+            # total = total + q_ordinaire.etudeDossier
+            total = total + 0
+            a = round(q_pq.redevanceAnn * ff.q_pq)
+            total = total + a
+
+        
+    if ff.q_ordinaire > 0:
+        
+        if ff.RN_etudeDossier == True:
+            total = total + q_ordinaire.etudeDossier
+        if ff.RN_fraisGestion == True:
+            total = total + q_ordinaire.fraisGestion
+        if ff.RN_redevanceAnn == True:
+            b = round(q_ordinaire.redevanceAnn * ff.q_ordinaire)
+            total = total + b
+            if ff.periode >  0:
+                b = round(b * (ff.periode/365))
+                total = total * b
+
+    if ff.q_ussd > 0:
+        c = round(q_ussd.redevanceAnn * ff.q_ussd)
+        total = total + c
+        if ff.periode >  0:
+            c = round(c * (ff.periode/365))
+            total = total * c
+
+        if ff.RN_etudeDossier == True:
+            total = total + q_ussd.etudeDossier
+        if ff.RN_fraisGestion == True:
+            total = total + q_ussd.fraisGestion
+
+    if ff.q_mnemonique > 0:
+        d = round(q_mnemonique.redevanceAnn * ff.q_mnemonique)
+        total = total + d
+        if ff.periode >  0:
+            d = round(d * (ff.periode/365))
+            total = total * d
+
+        if ff.RN_etudeDossier == True:
+            total = total + q_mnemonique.etudeDossier
+        if ff.RN_fraisGestion == True:
+            total = total + q_mnemonique.fraisGestion
+
+    if ff.q_mnc > 0:
+        e = round(q_mnc.redevanceAnn * ff.q_mnc)
+        total = total + e
+        if ff.periode >  0:
+            e = round(e * (ff.periode/365))
+            total = total * e
+
+        if ff.RN_etudeDossier == True:
+            total = total + q_mnc.etudeDossier
+        if ff.RN_fraisGestion == True:
+            total = total + q_mnc.fraisGestion
+
+    if ff.q_nspc > 0:
+        f = round(q_nspc.redevanceAnn * ff.q_nspc)
+        total = total + f
+        if ff.periode >  0:
+            f = round(f * (ff.periode/365))
+            total = total * f
+
+        if ff.RN_etudeDossier == True:
+            total = total + q_nspc.etudeDossier
+        if ff.RN_fraisGestion == True:
+            total = total + q_nspc.fraisGestion
+
+    if ff.q_ispc > 0:
+        g = round(q_ispc.redevanceAnn * ff.q_ispc)
+        total = total + g
+        if ff.periode >  0:
+            g = round(g * (ff.periode/365))
+            total = total * g
+
+        if ff.RN_etudeDossier == True:
+            total = total + q_ispc.etudeDossier
+        if ff.RN_fraisGestion == True:
+            total = total + q_ispc.fraisGestion
+
+    if ff.q_cpti > 0:
+        h = round(q_cpti.redevanceAnn * ff.q_cpti)
+        if ff.periode >  0:
+            h = round(h * (ff.periode/365))
+            total = total * h
+        total = total + h
+
+        if ff.RN_etudeDossier == True:
+            total = total + q_cpti.etudeDossier
+        if ff.RN_fraisGestion == True:
+            total = total + q_cpti.fraisGestion
+    
+    totals = round(total*taux.taux)
+    today = date.today()
+    form = Facture_FFNumeroForm(initial={'ffnumero':ff,'dateAttri':today,'taux':taux.id,'q_pq':q_pq.id,'q_ordinaire':q_ordinaire.id,'q_ussd':q_ussd.id,'q_mnemonique':q_mnemonique.id,'q_mnc':q_mnc.id,'q_nspc':q_nspc.id,'q_ispc':q_ispc.id,'q_cpti':q_cpti.id,'fsva':fsva.id,'total':total,'total_bif':totals})
+    if request.method == 'POST':
+        form = Facture_FFNumeroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            ff.efacturer = 'oui'
+            ff.facturer = 'oui'
+            ff.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('Listeff')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+            'form':form,
+            'total': round(total,1),
+            'totals': totals ,
+            'taux':taux.taux,
+            'periodeee':ff.periode/365,
+            'ff':ff,
+            'q_pq':q_pq,
+            'q_ordinaire':q_ordinaire,
+            'q_ussd':q_ussd,
+            'q_mnemonique':q_mnemonique,
+            'q_mnc':q_mnc,
+            'q_nspc':q_nspc,
+            'q_ispc':q_ispc,
+            'q_cpti':q_cpti,
+            'fsva':fsva,
+            'a':a,
+            'b':b,
+            'c':c,
+            'd':d,
+            'e':e,
+            'f':f,
+            'g':g,
+            'h':h,
+            'FF': ff,
+        'today': date.today(),
+        # 'contact':cont,
+        'direction':Direction.objects.get(type = "Chef Service Normalisation,Reseaux et Servicess"),
+        }
+
+    # context = {
+    #     'FF': ff,
+    #     'today': date.today(),
+    #     'contact':cont,
+    #     'direction':Direction.objects.get(type = "Chef Service Normalisation,Reseaux et Servicess"),
+    #     }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    #if display 
+    response['Content-Disposition'] = 'filename="FicheFacturationNumerotation.pdf"'
+    # response['Content-Disposition'] = 'filename= certificat agrement'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 ##########
 
 
