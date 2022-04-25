@@ -3,12 +3,12 @@
 {% block content %}
 <div class="row">
   <div class="col-md-2 grid-margin stretch-card"></div>
-  <div class="col-md-8 grid-margin">
+  <div class="col-md-12 grid-margin">
     <br>
       <div class="card">
         <div class="card-body ">
           <div class="d-flex justify-content-center">
-            <h2 class="">{{ titre }} Faisceaux Hertzien</h2>
+            <h2 class="">Detail Faisceaux Hertzien</h2>
           </div>
           <p class="card-description">
             <br>
@@ -43,19 +43,48 @@
             </div>
             <br>
             <!-- <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button> -->
-            {% load auth_extras %}
-            {% if request.user|has_group:"finance" %}
-            <a href="{% url 'ListeRepAnnAF' %}"><button type="button" class="btn btn-primary">retour</button></a>
-            
-            {% endif %}
-            {% if request.user|has_group:"technicien" %}
-            <a href="{% url 'Listerepere' %}"><button type="button" class="btn btn-primary">retour</button></a>
-            {% endif %}
+           
+  </div>
         </div>
       </div>
       <div></div>
+  </div><br>
+  <div class="row">
+      <div class="col-md-12 ">
+          <br>
+          <div class="card">
+              <div class="card-body">
+                  <div class="row "> 
+                      <div class="col-sm-3 d-flex flex-start align-items-center">
+                          <div class="mx-2   p-2">
+                            {% load auth_extras %}
+                            {% if request.user|has_group:"finance" %}
+                            <a href="{% url 'ListeRepAnnAF' %}"><button type="button" class="btn btn-primary">retour</button></a>
+                           
+                            {% endif %}
+                            {% if request.user|has_group:"technicien" %}
+                            <a href="{% url 'Listerepere'  %}"><button type="button" class="btn btn-primary">retour</button></a>
+                          
+                            {% endif %}
+                           </div>
+                      </div>
+                      <div class="col-sm-9 d-flex justify-content-center align-items-center">
+                              
+                        {% if repere.facturer == 'non' %}
+              
+                        <div class="mx-2 row d-flex flex-column align-items-center  p-2">
+                            <label  class="">Supprimer </label>
+                            <a href="{% url 'supprimerListerepere' repere.id %}"><button type="button" class="btn btn-danger" ><i class="icon-cross"></i></button></a>
+                        </div>
+                        {% endif %}
+                  </div>
+              </div> 
+          </div>
+      </div>
+      <br>
+      <br>
   </div>
-  <div class="col-md-2 grid-margin stretch-card"></div>
-</div>
+  </div>
+  <br>
 
   {% endblock %}

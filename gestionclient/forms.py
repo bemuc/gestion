@@ -9,7 +9,7 @@ class ClientForm(ModelForm):
     class Meta:
         model = Client
         fields = '__all__'
-        exclude = ['status']
+        exclude = ['status','dateAtri']
         widgets = {
             'type': forms.Select(attrs={'class':'form-control', }),
             'nom' : forms.TextInput(attrs={'class':'form-control',}),
@@ -22,18 +22,18 @@ class ClientForm(ModelForm):
             'nif' : forms.TextInput(attrs={'class':'form-control', }),
             }
 
-# class PersonneContactForm(ModelForm):
-#     class Meta:
-#         model = PersonneContact
-#         fields = '__all__'
-#         exclude = ['status']
-#         widgets = {
-#             'client': forms.Select(attrs={'class':'form-control', }),
-#             'nom' : forms.TextInput(attrs={'class':'form-control',}),
-#             'telephone' : forms.TextInput(attrs={'class':'form-control',}),
-#             'email' : forms.EmailInput(attrs={'class':'form-control', }),
-#             'poste' : forms.TextInput(attrs={'class':'form-control', }),
-#             }
+class PersonneContactForm(ModelForm):
+    class Meta:
+        model = PersonneContact
+        fields = '__all__'
+        exclude = ['etat','dateAtri']
+        widgets = {
+            'client': forms.Select(attrs={'class':'form-control', }),
+            'nom' : forms.TextInput(attrs={'class':'form-control',}),
+            'telephone' : forms.TextInput(attrs={'class':'form-control',}),
+            'email' : forms.EmailInput(attrs={'class':'form-control', }),
+            'poste' : forms.TextInput(attrs={'class':'form-control', }),
+            }
 
 class CertAgreForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -196,10 +196,10 @@ class PQForm(ModelForm):
     class Meta:
         model = PQ
         fields = '__all__'
-        exclude = ['etat','dateAtri']
+        exclude = ['etat','dateAtri','ffnumero',]
         widgets = {
             'client' :  forms.Select(attrs={'class':'form-control',}),
-            'pq' :  forms.TextInput(attrs={'class':'form-control',}),
+            'pq' :  forms.TextInput(attrs={'class':'form-control','type':'number','min':0}),
             # 'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
 
@@ -208,10 +208,10 @@ class ABForm(ModelForm):
     class Meta:
         model = AB
         fields = '__all__'
-        exclude = ['etat']
+        exclude = ['etat','dateAtri']
         widgets = {
             'pq' :  forms.Select(attrs={'class':'form-control',}),
-            'ab' :  forms.TextInput(attrs={'class':'form-control',}),
+            'ab' :  forms.TextInput(attrs={'class':'form-control','type':'number','min':0}),
             'dateAtri' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
         }
 
@@ -328,7 +328,7 @@ class FF_NumeroForm(ModelForm):
     class Meta:
         model = FF_Numero
         fields = '__all__'
-        exclude = ['etat','facturer','efacturer','dateAtri','nature']
+        exclude = ['etat','facturer','efacturer','dateAtri']
         widgets = {
             'client' :  forms.Select(attrs={'class':'form-control'}),
             'q_pq' :  forms.TextInput(attrs={'class':'form-control','type':'number','min':0}),
@@ -450,6 +450,45 @@ class FactureHomForm(ModelForm):
             'total' :  forms.TextInput(attrs={'class':'form-control'}),
             'total_bif' :  forms.TextInput(attrs={'class':'form-control'}),
             'date' : forms.DateInput(attrs={'class':'form-control','type':'date' }),
+        }
+
+
+class DirectionForm(ModelForm):
+    class Meta:
+        model = Direction
+        fields = '__all__'
+        exclude = ['dateAtri','etat']
+        widgets = {
+            'type' :  forms.Select(attrs={'class':'form-control'}),
+            'nom' :  forms.TextInput(attrs={'class':'form-control'}),
+        }
+
+
+class constructeurForm(ModelForm):
+    class Meta:
+        model = Constructeur
+        fields = '__all__'
+        exclude = ['date_creation','etat']
+        widgets = {
+            'nom' :  forms.TextInput(attrs={'class':'form-control'}),
+            'adresse' :  forms.TextInput(attrs={'class':'form-control'}),
+            'téléphone' :  forms.TextInput(attrs={'class':'form-control'}),
+            'fax' :  forms.TextInput(attrs={'class':'form-control'}),
+            'email' :  forms.TextInput(attrs={'class':'form-control'}),
+        }
+
+class EquipementForm(ModelForm):
+    class Meta:
+        model = Equipement
+        fields = '__all__'
+        exclude = ['date_creation','etat']
+        widgets = {
+            'constructeur' :  forms.Select(attrs={'class':'form-control'}),
+            'designation' :  forms.TextInput(attrs={'class':'form-control'}),
+            'marque' :  forms.TextInput(attrs={'class':'form-control'}),
+            'type' :  forms.TextInput(attrs={'class':'form-control'}),
+            'modele' :  forms.TextInput(attrs={'class':'form-control'}),
+            'pays_origine' :  forms.TextInput(attrs={'class':'form-control'}),
         }
 
 

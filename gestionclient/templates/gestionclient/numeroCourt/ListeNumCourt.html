@@ -11,7 +11,7 @@
                 </div>
                 
                 <p class="card-description">
-                <a href="{% url 'ajoutnumCourt' %}"><button type="button" class="btn btn-primary">Ajouter un numero</button></a>
+                <!-- <a href="{% url 'ajoutnumCourt' %}"><button type="button" class="btn btn-primary">Ajouter un numero</button></a> -->
                   </p>
                 <div class="table-responsive">
                 <table class="table table-hover">
@@ -37,7 +37,11 @@
                         <td>{{ numcourt.client.nom }}</td>
                         <td>{{ numcourt.client.type }}</td>
                         <td>{{ numcourt.type }}</td>
+                        {% if numcourt.numero == None %}
+                        <td><label class="badge badge-warning" >ajouter num</label></td>
+                        {% else %}
                         <td>{{ numcourt.numero }}</td>
+                        {% endif %}
                         {% if numcourt.periode > 0  %}
                         <td><label class="badge badge-warning" >{{ numcourt.periode }}</label></td>
                         {% else %}

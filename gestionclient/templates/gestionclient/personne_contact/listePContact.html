@@ -12,7 +12,6 @@
             </div>
             
             <p class="card-description">
-            <!-- Add class <code>.table-hover</code> -->
             <a href="{% url 'ajoutPersonneContact_page' %}"><button type="button" class="btn btn-primary">Ajouter une personne de contact</button></a>
             </p>
             <div class="table-responsive">
@@ -24,10 +23,12 @@
                     <th>Titre ou Poste</th>
                     <th>Email</th>
                     <th>Téléphone</th>
+                    <th>Etat</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
+                {% if contacts %}
                 {% for contact in contacts %}
                 <tr>
                     <td>{{ contact.client.nom }}</td>
@@ -35,13 +36,22 @@
                     <td>{{ contact.poste }}</td>
                     <td>{{ contact.email }}</td>
                     <td>{{ contact.telephone }}</td>
+                    {% if contact.etat == 'actif' %}
+                    <td><label class="badge badge-success">{{ contact.etat }}</label></td>
+                    {% else %}
+                    <td><label class="badge badge-danger">{{ contact.etat }}</label></td>
+                    {% endif %}
                     <td>
-                        <a href="#"><button type="button" class="btn btn-outline-primary"><i class="icon-eye"></i></button></a>
+                        <a href="{% url 'detailPersonneContact' contact.id %}"><button type="button" class="btn btn-primary"><i class="icon-eye"></i></button></a>
                       </td>
-                    <!-- <td class="text-success"> 28.76% <i class="mdi mdi-arrow-up"></i></td>
-                    <td><label class="badge badge-danger">Pending</label></td> -->
                 </tr>
                 {% endfor %}
+                {% else %}
+                <p>Pas de contact</p>
+                <tr>
+                    <td>{% endif %}</td>
+                </tr>
+                
                 </tbody>
             </table>
             </div>

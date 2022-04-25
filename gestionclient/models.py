@@ -26,6 +26,7 @@ class Client(models.Model):
     boite_postale = models.CharField(max_length=200,  null=True)
     nif = models.CharField(max_length=200,  null=False)
     status = models.CharField(max_length=200, default= "actif",  null=False)
+    dateAtri = models.DateField(auto_now_add= True, null= True)
 
 
     def __str__(self):
@@ -34,52 +35,17 @@ class Client(models.Model):
     # class Meta:
     #     ordering = ['type']
 
-# class PersonneContact(models.Model):
-#     client = models.OneToOneField(Client,on_delete=models.PROTECT)
-#     nom = models.CharField(max_length=200,  null=False)
-#     telephone = models.CharField(max_length=200,  null=False)
-#     email = models.CharField(max_length=200,  null=False)
-#     poste = models.CharField(max_length=200,  null=False)
-#     status = models.CharField(max_length=200, default= "actif",  null=False)
+class PersonneContact(models.Model):
+    client = models.ForeignKey(Client,on_delete=models.PROTECT)
+    nom = models.CharField(max_length=200,  null=False)
+    telephone = models.CharField(max_length=200,  null=False)
+    email = models.CharField(max_length=200,  null=False)
+    poste = models.CharField(max_length=200,  null=False)
+    etat = models.CharField(max_length=200, default= "actif",  null=False)
+    dateAtri = models.DateField(auto_now_add= True, null= True)
 
-#     def __str__(self):
-#         return (self.nom+'/'+self.client.nom)
-
-
-
-
-# class Service(models.Model):
-#     TYPE = (
-#         ('Aucun','Aucun'),
-#         ('VHF-UHF','VHF-UHF'),
-#         ('HF','HF'),
-#         ('International','International'),
-#         ('National','National'),
-#         ('Province','Province'),
-#         ('Local','Local'),
-#         ('Numero long','Numero long'),
-#         ('Numero court','Numero court'),
-#         ("Codes attribues par l'ARCT","Codes attribues par l'ARCT"),
-#         ('Terminaux simples et de faible puissance','Terminaux simples et de faible puissance'),
-#         ('Terminaux simples et de faible puissance/Terminaux de communication','Terminaux simples et de faible puissance/Terminaux de communication'),
-#         ('Terminaux radioelectriques des reseaux','Terminaux radioelectriques des reseaux'),
-#     )
-#     CATEGORY = (
-#         ('Reseaux radioelectrique fixe et mobiles a usage prive(non commercial)','Reseaux radioelectrique fixe et mobiles a usage prive(non commercial)'),
-#         ('Reseaux ou services ouvert au public(commercial)','Reseaux ou services ouvert au public(commercial)'),
-#         ('Communication par satellite','Communication par satellite'),
-#         ('Station de radiodiffusion sonore et televisuelle','Station de radiodiffusion sonore et televisuelle'),
-#         ('Exploitation des ressources en numerotage','Exploitation des ressources en numerotage'),
-#         ("Certificat d'homologation des terminaux","Certificat d'homologation des terminaux"),
-#         ("Certificat de conformite des reseaux","Certificat de conformite des reseaux"),
-#         ("Certificat d'agrement","Certificat d'agrement"),
-#     )
-#     nom = models.CharField(max_length=200,  null=False)
-#     type = models.CharField(max_length=200, default='Aucun', null=True,choices=TYPE)
-#     categorie = models.CharField(max_length=200,  null=True,choices=CATEGORY)
-
-#     def __str__(self):
-#         return (self.nom +'/'+ self.categorie)
+    def __str__(self):
+        return (self.nom+'/'+self.client.nom)
 
 
 # class Exploite(models.Model):
@@ -208,7 +174,7 @@ class Constructeur(models.Model):
     téléphone = models.CharField(max_length=200,  null=True)
     fax = models.CharField(max_length=200,  null=True)
     email = models.CharField(max_length=200,  null=True)
-    date_creation = models.DateField(auto_now= True, null= True)
+    date_creation = models.DateField(auto_now_add= True, null= True)
     etat = models.CharField(max_length=200, null=True, default='actif')
 
     def __str__(self):
@@ -225,7 +191,7 @@ class Equipement(models.Model):
     modele = models.CharField(max_length=200,  null=False)
     pays_origine = models.CharField(max_length=200,  null=False)
     etat = models.CharField(max_length=200, null=True, default='actif')
-    date_creation = models.DateField(auto_now= True, null= True)
+    date_creation = models.DateField(auto_now_add= True, null= True)
 
     def __str__(self):
         return (self.designation +'/'+   self.constructeur.nom )
@@ -434,7 +400,7 @@ class NumeroCourt(models.Model):
     type = models.CharField(max_length=200, null=True,choices=TYPE)
     numero = models.CharField(max_length=200,  null=True)
     periode = models.IntegerField(null=True,default= 0)
-    dateAtri = models.DateField(auto_now= True, null= True)
+    dateAtri = models.DateField(auto_now_add= True, null= True)
     etat = models.CharField(max_length=200, null=True, default='actif')
 
     def __str__(self):
@@ -447,7 +413,7 @@ class PQ(models.Model):
     client = models.ForeignKey(Client,on_delete=models.PROTECT)
     ffnumero = models.ForeignKey(FF_Numero,null=True,on_delete=models.PROTECT)
     pq =  models.CharField(max_length=200, null=True)
-    dateAtri = models.DateField(auto_now= False, null= True)
+    dateAtri = models.DateField(auto_now_add= True, null= True)
     etat = models.CharField(max_length=200, null=True, default='actif')
 
     def __str__(self):
@@ -459,7 +425,7 @@ class PQ(models.Model):
 class AB(models.Model):
     pq = models.ForeignKey(PQ,on_delete=models.PROTECT)
     ab = models.CharField(max_length=200, null=True)
-    dateAtri = models.DateField(auto_now= False, null= True)
+    dateAtri = models.DateField(auto_now_add= True, null= True)
     etat = models.CharField(max_length=200, null=True, default='actif')
 
     def __str__(self):
@@ -519,27 +485,13 @@ class Facture_FFNumero(models.Model):
     fsva = models.IntegerField(null=True)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-# class factureCertAgr(models.Model):
-#     certificat = models.ForeignKey(CertAgr,null=True,on_delete=models.PROTECT)
-#     category = models.ForeignKey(Category,on_delete=models.PROTECT)
-#     taux = models.ForeignKey(Taux,on_delete=models.PROTECT)
-#     date = models.DateField(auto_now= True, null= True)
-
-#     def __str__(self):
-#         return (self.certificat.client.nom +'/'+ self.certificat.category.nom + '/'+ self.date)
-
-
-    
-
+class Direction(models.Model):
+    TYPE = (
+        ('DREF','DREF'),
+        ('DG','DG'),
+        ("Chef Service Normalisation,Reseaux et Servicess","Chef Service Normalisation,Reseaux et Servicess"),
+       )
+    nom = models.CharField(max_length=200,  null=False)
+    type = models.CharField(max_length=200, null=True,choices=TYPE)
+    etat = models.CharField(max_length=200, default= "deactif",  null=False)
+    dateAtri = models.DateField(auto_now_add= True, null= True)

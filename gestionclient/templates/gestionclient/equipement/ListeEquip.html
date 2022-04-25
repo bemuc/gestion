@@ -11,7 +11,7 @@
                 </div>
                 
                 <p class="card-description">
-                <a href="{% url 'ajoutEquipement' %}"><button type="button" class="btn btn-primary">Ajouter un Equipement</button></a>
+                <a href="{% url 'ajoutequipement' %}"><button type="button" class="btn btn-primary">Ajouter un Equipement</button></a>
                   </p>
                 <div class="table-responsive">
                 <table class="table table-hover">
@@ -23,8 +23,7 @@
                         <th>Type</th>
                         <th>Modele</th>
                         <th>Pays d'Origine</th>
-                        <!-- <th>Fax</th> -->
-                        <th>Status</th>
+                        <th>Date</th>
                         <!-- <th>Status</th> -->
                         <th colspan="5"></th>
                     </tr>
@@ -39,20 +38,14 @@
                         <td>{{ equipement.type }}</td>
                         <td>{{ equipement.modele }}</td>
                         <td>{{ equipement.pays_origine }}</td>
-                        <!-- <td>{{ constructeur.fax }}</td> -->
-                        <!-- <td>{{ constructeur.email }}</td> -->
-                        <!-- {% if certificat.facturer == 'oui' %}
-                        <td><label class="badge badge-success" >{{ certificat.facturer }}</label></td>
+                        <td>{{ equipement.date_creation }}</td>
+                        <!-- {% if equipement.etat == 'actif' %}
+                        <td><label class="badge badge-success" >{{ equipement.etat }}</label></td>
                         {% else %}
-                        <td><label class="badge badge-warning" >{{ certificat.facturer }}</label></td>
-                        {% endif %} -->
-                        <!-- {% if today >= certificat.dateExp  %}
-                        <td><label class="badge badge-danger">Expired</label></td>
-                        {% else %}
-                        <td><label class="badge badge-success">Valid</label></td>
+                        <td><label class="badge badge-warning" >{{ equipement.etat }}</label></td>
                         {% endif %} -->
                         <td>
-                            <a href="{% url 'updateEquip' equipement.id %}"><button type="button" class="btn btn-primary" >Modifier</button></a>
+                            <a href="{% url 'detailequipement' equipement.id  %}"><button type="button" class="btn btn-primary" ><i class="icon-eye" ></i></button></a>
                         </td>
                     </tr>
                     {% endfor %}

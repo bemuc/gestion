@@ -78,7 +78,7 @@
             <a class="nav-link" href="{% url 'home' %}">
               <i class="icon-box menu-icon"></i>
               <span class="menu-title">Dashboard</span>
-            </a>
+            </a> 
           </li> -->
           
           <!-- <li class="nav-item">
@@ -194,8 +194,8 @@
             <a class="nav-link" data-toggle="collapse" href="#fai-basic" aria-expanded="false" aria-controls="fai-basic">
               <i class="icon-circle-check menu-icon"></i>
               <span class="menu-title">Faisceaux Hertzien
-                {% if fai > 0 %}
-                <label class="badge badge-warning">{{ fai }}</label>
+                {% if listfhaf > 0 %}
+                <label class="badge badge-warning">{{ listfhaf }}</label>
                 {% endif %}
               </span>
               <i class="menu-arrow"></i>
@@ -203,13 +203,13 @@
             <div class="collapse" id="fai-basic">
               <ul class="nav flex-column ">
                 <li class="nav-item"><a class="nav-link" href="{% url 'ListeFH_af' %}">Liste Faisceaux
-                  {% if homolo > 0 %}
+                  {% if fai > 0 %}
                 <label class="badge badge-warning">{{ fai }}</label>
                 {% endif %}
                 </a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ListeRepAnnAF' %}">Liste Faisceaux Annuelle
-                  {% if homolo > 0 %}
-                <label class="badge badge-warning">{{ fai }}</label>
+                  {% if repo > 0 %}
+                <label class="badge badge-warning">{{ repo }}</label>
                 {% endif %}
                 </a></li>
                 <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
@@ -358,6 +358,12 @@
                 <label class="badge badge-warning">{{ homo }}</label>
                 {% endif %}
                 </a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeEquipement' %}">Liste Equipement
+                  
+                </a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Liste Constructeur
+                  
+                </a></li>
                 <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
               </ul>
@@ -367,26 +373,44 @@
             <a class="nav-link" data-toggle="collapse" href="#fh-basic" aria-expanded="false" aria-controls="fh-basic">
               <i class="icon-circle-check menu-icon"></i>
               <span class="menu-title">Faisceaux Herziens
-                {% if fh > 0 %}
-                <label class="badge badge-warning">{{ fh }}</label>
+                {% if totafh > 0 %}
+                <label class="badge badge-warning">{{ totafh }}</label>
                 {% endif %}
               </span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="fh-basic">
               <ul class="nav flex-column ">
-                <li class="nav-item"><a class="nav-link" href="{% url 'ListeFH' %}">Liste des Faisceaux
+                <li class="nav-item"><a class="nav-link" href="{% url 'ListeFH' %}">Liste Faisceaux H.
+                  {% if fh > 0 %}
+                <label class="badge badge-warning">{{ fh }}</label>
+                {% endif %}
+                </a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'Listerepere' %}">Liste F. H. annuelles
+                  {% if repe > 0 %}
+                <label class="badge badge-warning">{{ repe }}</label>
+                {% endif %}
+                </a></li> </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#pcontact-basic" aria-expanded="false" aria-controls="pcontact-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Pesronne de Contact</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="pcontact-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'listePContact_page' %}">Liste des Contacts
                  
                 <label class="badge badge-warning"></label>
                
                 </a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'Listerepere' %}">Liste des Faisceaux annuelles
+                <!-- <li class="nav-item"><a class="nav-link" href="">Liste des Faisceaux annuelles
                   
                 <label class="badge badge-warning"></label>
                
-                </a></li>
-                <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
+                </a></li>  -->
               </ul>
             </div>
           </li>
@@ -460,140 +484,14 @@
               </ul>
             </div>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ListeDirection' %}">
+              <i class="fa-solid fa-user-group menu-icon"></i>
+              <span class="menu-title">Direction</span>
+            </a>
+          </li>
 
           {% endif %}
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="{% url 'listeClient_page' %}">
-              <i class="fa-solid fa-user-group menu-icon"></i>
-              <span class="menu-title">Clients</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'CertListAgr_page' %}">
-              <i class="icon-clipboard menu-icon"></i>
-              <span class="menu-title">Certificat Agrement</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListCertConf' %}">
-              <i class="icon-paper menu-icon"></i>
-              <span class="menu-title">Certificat Conformite</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListeMegas' %}">
-              <i class="icon-bar-graph menu-icon"></i>
-              <span class="menu-title">Megas</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListeMinutes' %}">
-              <i class="icon-bar-graph menu-icon"></i>
-              <span class="menu-title">Minutes</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListeCA' %}">
-              <i class="icon-bar-graph menu-icon"></i>
-              <span class="menu-title">Chiffre d'Affaire</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListeFR' %}">
-              <i class=" menu-icon"></i>
-              <span class="menu-title">Frequence Radio</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListeFH' %}">
-              <i class=" menu-icon"></i>
-              <span class="menu-title">Faisceaux Hertzien</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListeFFNumero' %}">
-              <i class=" menu-icon"></i>
-              <span class="menu-title">Fiche Facturation</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListeTaux' %}">
-              <i class=" menu-icon"></i>
-              <span class="menu-title">Taux</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListeTarifNum' %}">
-              <i class=" menu-icon"></i>
-              <span class="menu-title">Tarif Numero</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListeTarifFSVANum' %}">
-              <i class=" menu-icon"></i>
-              <span class="menu-title">Tarif FSVA</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'Listeff' %}">
-              <i class=" menu-icon"></i>
-              
-              <span class="menu-title">Numeros a facturer
-                {% if afacturer > 0 %}
-                <label class="badge badge-warning">{{ afacturer }}</label>
-                {% endif %}
-              </span>
-            </a>
-          </li> -->
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="{% url 'ListCertConf' %}">
-              <i class="icon-paper menu-icon"></i>
-              <span class="menu-title">Certificat Homologation</span>
-            </a>
-          </li> -->
-          <!-- <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#u-basic" aria-expanded="false" aria-controls="u-basic">
-              <i class="icon-circle-check menu-icon"></i>
-              <span class="menu-title">Cert. Homologation</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="u-basic">
-              <ul class="nav flex-column ">
-                <li class="nav-item"><a class="nav-link" href="{% url 'ListeHomo' %}">Liste des Homologations</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Liste des constructeurs</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Liste des equipements</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#o-basic" aria-expanded="false" aria-controls="o-basic">
-              <i class="icon-square-plus menu-icon"></i>
-              <span class="menu-title">Numerotations</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="o-basic">
-              <ul class="nav flex-column ">
-                <li class="nav-item"><a class="nav-link" href="{% url 'ListeNumCourt' %}">Numero Court</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'ListeNumCourt' %}">Numero Court</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'ListePQ' %}">Numero Long</a></li>
-              </ul>
-            </div>
-          </li> -->
-      
-          
-          <!-- <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#uu-basic" aria-expanded="false" aria-controls="uu-basic">
-              <i class="fa-solid fa-user-group menu-icon"></i>
-              <span class="menu-title">Certificat</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="uu-basic">
-              <ul class="nav flex-column ">
-                <li class="nav-item"><a class="nav-link" href="">Agrement</a></li>
-                <li class="nav-item"><a class="nav-link" href="">Personne de contact</a></li>
-              </ul>
-            </div>
-          </li> -->
         </ul>
       </nav>
       <!-- partial -->

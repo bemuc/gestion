@@ -33,13 +33,13 @@
             <div class="form-group row">
                 <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Nature Facturation</label>
                 <div class="col-sm-9">
-                  {{ state}}
+                  {{ state }}
                 </div>
             </div>
-            <div class="form-group row d-none">
+            <div class="form-group row ">
                 <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Nature Facturation</label>
                 <div class="col-sm-9">
-                  {{ fom.nature}}
+                  {{ form.nature }}
                 </div>
             </div>
             <div class="form-group row">
@@ -151,7 +151,7 @@
             </div>
             
             <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
-            <a href="{% url 'ListeCli' %}"><button type="button" class="btn btn-light">retour</button></a>
+            <a href="{% url 'ListeFFNumero' %}"><button type="button" class="btn btn-light">retour</button></a>
           </form>
         </div>
       </div>

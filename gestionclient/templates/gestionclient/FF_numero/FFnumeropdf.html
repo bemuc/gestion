@@ -73,10 +73,12 @@
     <h5>2. PERSONNE DE CONTACT</h5>
     <div id="contact">
         <p>
-            <span class="identifiant">Nom et Prenon</span><span class="valeurs">:{{ FF.contact.nom }}</span><br>
-            <span class="identifiant">Téléphone</span><span class="valeurs">:{{ FF.contact.telephone }}</span><br>
-            <span class="identifiant">Email</span><span class="valeurs">:{{ FF.contact.email }}</span><br>
-            <span class="identifiant">Titre/Poste</span><span class="valeurs">:{{ FF.contact.poste }}</span><br>
+            {% if contact %}
+            <span class="identifiant">Nom et Prenon</span><span class="valeurs">:{{ contact.nom }}</span><br>
+            <span class="identifiant">Téléphone</span><span class="valeurs">:{{ contact.telephone }}</span><br>
+            <span class="identifiant">Email</span><span class="valeurs">:{{ contact.email }}</span><br>
+            <span class="identifiant">Titre/Poste</span><span class="valeurs">:{{ contact.poste }}</span><br>
+            {% endif %}
         </p>
     </div>
     <h5>3. NATURE DE FACTURATION</h5>
@@ -204,12 +206,6 @@
            
             
         </ul>
-        <!-- <p>
-            <span class="identifiant">Nom et Prenon</span><span class="valeurs">:{{ FF.contact.nom }}</span><br>
-            <span class="identifiant">Téléphone</span><span class="valeurs">:{{ FF.contact.telephone }}</span><br>
-            <span class="identifiant">Email</span><span class="valeurs">:{{ FF.contact.email }}</span><br>
-            <span class="identifiant">Titre/Poste</span><span class="valeurs">:{{ FF.contact.poste }}</span><br>
-        </p> -->
     </div>
     
     {% if FF.client.type == 'FSVA' %}
@@ -248,7 +244,7 @@
                     <br>
                     <label >Fait a Bujumbura le {{ certificat.dateAttri}}</label><br>
                     <h6 class="center">Le Chef de service Normalisation reseaux et service "NR&S"</h6>
-                    <h4>???????</h4>
+                    <h4>{{ direction.nom }}</h4>
                 </td>
             </tr>
         </table>

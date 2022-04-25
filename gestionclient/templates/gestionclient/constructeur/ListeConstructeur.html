@@ -18,10 +18,11 @@
                     <thead>
                     <tr>
                         <th>Nom</th>
-                        <th>Adresse</th>
+                        <!-- <th>Adresse</th> -->
                         <th>Telephone</th>
-                        <th>Email</th>
                         <!-- <th>Fax</th> -->
+                        <!-- <th>Email</th> -->
+                        <th>Date</th>
                         <th>Status</th>
                         <!-- <th>Status</th> -->
                         <th colspan="5"></th>
@@ -32,22 +33,18 @@
                     {% for constructeur in constructeurs %}
                     <tr>
                         <td>{{ constructeur.nom }}</td>
-                        <td>{{ constructeur.adresse }}</td>
+                        <!-- <td>{{ constructeur.adresse }}</td> -->
                         <td>{{ constructeur.téléphone }}</td>
                         <!-- <td>{{ constructeur.fax }}</td> -->
-                        <td>{{ constructeur.email }}</td>
-                        <!-- {% if certificat.facturer == 'oui' %}
-                        <td><label class="badge badge-success" >{{ certificat.facturer }}</label></td>
+                        <!-- <td>{{ constructeur.email }}</td> -->
+                        <td>{{ constructeur.date_creation }}</td>
+                        {% if constructeur.etat == 'actif' %}
+                        <td><label class="badge badge-success" >{{ constructeur.etat }}</label></td>
                         {% else %}
-                        <td><label class="badge badge-warning" >{{ certificat.facturer }}</label></td>
-                        {% endif %} -->
-                        <!-- {% if today >= certificat.dateExp  %}
-                        <td><label class="badge badge-danger">Expired</label></td>
-                        {% else %}
-                        <td><label class="badge badge-success">Valid</label></td>
-                        {% endif %} -->
+                        <td><label class="badge badge-warning" >{{ constructeur.etat }}</label></td>
+                        {% endif %}
                         <td>
-                            <a href="{% url 'updateConstr' constructeur.id %}"><button type="button" class="btn btn-primary" >Modifier</button></a>
+                            <a href="{% url 'detailconstructeur' constructeur.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye" ></i></button></a>
                         </td>
                     </tr>
                     {% endfor %}

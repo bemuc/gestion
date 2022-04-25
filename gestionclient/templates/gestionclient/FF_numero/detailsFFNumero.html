@@ -129,7 +129,7 @@
                 {% if FF_Numero.facturer == 'non' %}
                 <a href="{% url 'facturerFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Facturer</button></a>
                 <a href="{% url 'updateFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Modifier</button></a>
-                <a href="{% url 'facturerFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Supprimer</button></a>
+                <a href="{% url 'supprimerFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Supprimer</button></a>
                 
                 {% endif %}
                 </div>

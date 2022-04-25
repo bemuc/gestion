@@ -1,0 +1,75 @@
+{%  extends 'gestionclient/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <br>
+        <div class="card">
+            <div class="card-body ">
+                    <div class="d-flex justify-content-center">
+                        <u><h5 class="text-center text-uppercase">Details personne de contact</h5></u>
+                    </div>
+                    <p class="card-description">
+
+                    <br>
+                    <br>
+                    </p>  
+                    <div class=" p-1 mb-3">
+                        <div class=" row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Entreprise : </label>
+                            <div class="col-sm-9 text-uppercase">
+                                <h5>{{ contact.client.nom }}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Nom et Prenom : </label>
+                            <div class="col-sm-9 text-uppercase">
+                                <h5>{{ contact.nom }}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Telephone : </label>
+                            <div class="col-sm-9 text-uppercase">
+                                <h5>{{ contact.telephone }}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Email : </label>
+                            <div class="col-sm-9 text-uppercase">
+                                <h5>{{ contact.email }}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Poste : </label>
+                            <div class="col-sm-9 text-uppercase">
+                                <h5>{{ contact.poste }}</h5>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12 ">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="row "> 
+                    <div class="col-sm-3 d-flex flex-start align-items-center">
+                        <div class="mx-2   p-2">
+                            <a href="{% url 'listePContact_page'  %}"><button type="button" class="btn btn-dark">retour</button></a>
+                            <a href="{% url 'updatePersonneContact' contact.id %}"><button type="button" class="btn btn-dark">Modifier</button></a>
+                      </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <br>
+    <br>
+</div>
+<br>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture</title>
+    <style>
+        #entete{
+            display: flex;
+            justify-content: space-between;
+        }
+        #repub{
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="entete" >
+        <div>
+            <h4 id="repub"> <strong> REPUBLIQUE DU BURUNDI <br> PRESIDENCE DE LA REPUBLIQUE <br> </strong>AGENCE DE REGULATION ET <br> DE CONTROLE DES TELECOMMUNICATIONS (ARCT) </h4>
+            <img src="{% static '/images/logoARCT.png%}" alt="">
+            <p>N/Ref : ARCT/      /D.M/DG/H.N/g.ni/2018     </p>
+        </div>
+        <div>
+            <h4>BUJUMBURA DATE?????</h4>
+        </div>
+    </div>
+    
+</body>
+</html>

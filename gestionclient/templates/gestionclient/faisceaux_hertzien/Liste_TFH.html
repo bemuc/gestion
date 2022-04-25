@@ -29,7 +29,15 @@
                     {% if Tfhs %}
                     {% for Tfh in Tfhs %}
                     <tr>
-                        <td>{{ Tfh.nature }}</td>
+                        {% if Tfh.nature == 0 %}
+                        <td> < 3 Ghz</td>
+                        {% elif Tfh.nature == 3 %}
+                        <td> entre 3 Ghz et 13 Ghz </td>
+                        {% elif Tfh.nature == 13 %}
+                        <td> entre 13 Ghz et 23 Ghz </td>
+                        {% elif Tfh.nature == 23 %}
+                        <td> > 23 Ghz</td>
+                        {% endif %}
                         <td>{{ Tfh.p_canal }}</td>
                         <td>{{ Tfh.p_mhz }}</td>
                         <td>{{ Tfh.dateAtri }}</td>

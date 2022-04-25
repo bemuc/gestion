@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body ">
                     <div class="d-flex justify-content-center">
-                        <u><h5 class="text-center text-uppercase">Details du CERTIFICAT</h5></u>
+                        <u><h5 class="text-center text-uppercase">Details du constructeur</h5></u>
                     </div>
                     <p class="card-description">
 
@@ -16,33 +16,33 @@
                     </p>  
                     <div class=" p-1 mb-3">
                         <div class=" row">
-                            <label for="exampleInputPassword2" class="col-sm-3 ">Client : </label>
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Nom : </label>
                             <div class="col-sm-9 text-uppercase">
-                                <h5>{{ certificat.client.nom }}</h5>
+                                <h5>{{ constructeur.nom }}</h5>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="exampleInputPassword2" class="col-sm-3 ">Type de certificat : </label>
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Adresse: </label>
                             <div class="col-sm-9 text-uppercase">
-                                <h5>{{ certificat.type }}</h5>
+                                <h5>{{ constructeur.adresse }}</h5>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="exampleInputPassword2" class="col-sm-3 ">Nature certificat : </label>
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Téléphone : </label>
                             <div class="col-sm-9 text-uppercase">
-                                <h5>{{ certificat.nature }}</h5>
+                                <h5>{{ constructeur.téléphone }}</h5>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="exampleInputPassword2" class="col-sm-3 ">Date d'attribution : </label>
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Email : </label>
                             <div class="col-sm-9 text-uppercase">
-                                <h5>{{ certificat.dateAttri }}</h5>
+                                <h5>{{ constructeur.email }}</h5>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="exampleInputPassword2" class="col-sm-3 ">Date d'expiration : </label>
+                            <label for="exampleInputPassword2" class="col-sm-3 ">Date d'ajout : </label>
                             <div class="col-sm-9 text-uppercase">
-                                <h5>{{ certificat.dateExp }}</h5>
+                                <h5>{{ constructeur.date_creation }}</h5>
                             </div>
                         </div>
                     </div>
@@ -59,8 +59,9 @@
                 <div class="row "> 
                     <div class="col-sm-3 d-flex flex-start align-items-center">
                         <div class="mx-2   p-2">
-                            <a href="{% url 'CertListAgr_page'  %}"><button type="button" class="btn btn-dark">retour</button></a>
-                            <a href="{% url 'pdfcertificat' certificat.id  %}"><button type="button" class="btn btn-dark">Print</button></a>
+                            <a href="{% url 'ListeConstructeur'  %}"><button type="button" class="btn btn-dark">retour</button></a>
+                            <a href="{% url 'updateConstr' constructeur.id %}"><button type="button" class="btn btn-dark">Modifier</button></a>
+                            
                       </div>
                     </div>
                     <div class="col-sm-9 d-flex justify-content-center align-items-center">

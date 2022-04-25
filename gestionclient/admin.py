@@ -57,6 +57,8 @@ class TauxAdmin(admin.ModelAdmin):
 admin.site.register(Facture_FH)
 admin.site.register(ListeFHAnnuelle)
 admin.site.register(Repere)
+admin.site.register(PersonneContact)
+admin.site.register(Direction)
 
 
 

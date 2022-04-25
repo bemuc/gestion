@@ -59,7 +59,8 @@
                 <div class="row "> 
                     <div class="col-sm-3 d-flex flex-start align-items-center">
                         <div class="mx-2   p-2">
-                            {% if name == 'technicien' %}
+                            {% load auth_extras %}
+                            {% if request.user|has_group:"technicien" %}
                             <a href="{% url 'ListeHomo'  %}"><button type="button" class="btn btn-dark">retour</button></a>
                             <a href="{% url 'pdfcertificat_homo' homologation.id  %}"><button type="button" class="btn btn-dark">print</button></a>
                             {% else %}
@@ -84,7 +85,7 @@
                             </div>
                             <div class="mx-2 row d-flex flex-column align-items-center  p-2">
                                 <label  class="">Supprimer </label>
-                                <a href=""><button type="button" class="btn btn-danger" ><i class="icon-cross"></i></button></a>
+                                <a href="{% url 'supprimerHomologation' homologation.id %}"><button type="button" class="btn btn-danger" ><i class="icon-cross"></i></button></a>
                             </div>
                             {% endif %}
                 </div>

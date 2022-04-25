@@ -22,6 +22,12 @@
             <div class="form-group row ">
               <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Client</label>
               <div class="col-sm-9">
+                {{ pq.client.nom }}
+              </div>
+            </div>
+            <div class="form-group row d-none">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Client</label>
+              <div class="col-sm-9">
                 {{ form.client }}
               </div>
             </div>
@@ -34,7 +40,7 @@
             <div class="form-group row">
                 <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Date d'attribution</label>
                 <div class="col-sm-9">
-                  {{ form.dateAtri }}
+                  {{ pq.dateAtri }}
                 </div>
             </div>
             <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>

@@ -25,24 +25,12 @@
                 {{ form.constructeur }}
               </div>
             </div>
-            <!-- <div class="form-group row d-none ">
-              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Contact</label>
-              <div class="col-sm-9">
-                {{ form.contact }}
-              </div>
-            </div> -->
             <div class="form-group row">
               <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Designation</label>
               <div class="col-sm-9">
                 {{ form.designation }}
               </div>
             </div>
-            <!-- <div class="form-group row">
-              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">category</label>
-              <div class="col-sm-9">
-                {{ form.category }}
-              </div>
-            </div> -->
             <div class="form-group row">
                 <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Marque</label>
                 <div class="col-sm-9">
@@ -68,7 +56,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
-            <a href="{% url 'ListConstructeur' %}"><button type="button" class="btn btn-light">retour</button></a>
+            <a href="{% url 'ListeEquipement' %}"><button type="button" class="btn btn-light">retour</button></a>
           </form>
         </div>
       </div>

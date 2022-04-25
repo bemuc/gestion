@@ -14,15 +14,31 @@ urlpatterns = [
 
 
 
-    
-    
-
-    
+#prdf
     path('pdf/', GeneratePdf.as_view()),
     # path('pdf/<str:pk>', views.GeneratePdf),
     path('ok/',views.ko),
-    # path('ajoutPersonneContact/', views.ajoutPersonneContact,name='ajoutPersonneContact_page'),
-    # path('listePContact/', views.listePContact,name='listePContact_page'), 
+
+
+#direction
+    path('liste_direction/', views.ListeDirection,name='ListeDirection'),
+    path('ajouter_direction/', views.ajouterDirection,name='ajouterDirection'),
+    path('modifier_direction/<str:pk>', views.modifierDirection,name='modifierDirection'),
+    path('deact_direction/<str:pk>', views.deactDirection,name='deactDirection'),
+    
+
+
+
+
+
+
+
+
+#personne de contact
+    path('listePContact/', views.listePContact,name='listePContact_page'),
+    path('ajoutPersonneContact/', views.ajoutPersonneContact,name='ajoutPersonneContact_page'),
+    path('detailPersonneContact/<str:pk>', views.detailPersonneContact,name='detailPersonneContact'),
+    path('updatePersonneContact/<str:pk>', views.updatePersonneContact,name='updatePersonneContact'),
     
 
 # certificat agrement
@@ -37,6 +53,7 @@ urlpatterns = [
     # path('printcert/<str:pk>', views.thepdf,name='printcert_page'),
     path('Cert_Agr_facturer/', views.Certfacturer,name='ListCetAfact'),
     path('facturer_cert_agre/<str:pk>', views.factCert,name = 'factCert'),
+    path('supprimer_cert_agre/<str:pk>', views.supprimerfactCert,name = 'supprimerfactCert'),
 
     path('cwrt_pdf/<str:pk>', views.render_pdf_view,name='pdfcertificat'),
 
@@ -50,6 +67,7 @@ urlpatterns = [
     path('pourfactCertConf/<str:pk>', views.pourfactCertConf,name='pourfactCertConf'), 
     path('Cert_Conf_facturer/', views.CertConfAfact,name='ListCertConfAfact'),
     path('facturer_cert_conf/<str:pk>', views.factCertConf,name = 'factCertConf'),
+    path('supprimer_cert_conf/<str:pk>', views.supprimerfactCertConf,name = 'supprimerfactCertConf'),
 
     path('certificat_conformite_pdf/<str:pk>', views.render_pdf_conf,name='pdfcertificat_conf'),
 
@@ -71,6 +89,7 @@ urlpatterns = [
 
     path('liste_Homologation/', views.ListeHomo,name='ListeHomo'),
     path('ajouter_Homologation/', views.ajoutHomologation,name='ajoutHomologation'),
+    path('supprimer_Homologation/<str:pk>', views.supprimerHomologation,name='supprimerHomologation'),
     path('detail_Homologation/<str:pk>', views.detailHomologation,name='detailHomologation'),
     path('update_Homologation/<str:pk>', views.updateHomologation,name='updateHomologation'),
     path('modifier_Homologation/<str:pk>', views.modifierHomo,name='modifierHomo'),
@@ -118,6 +137,17 @@ urlpatterns = [
     path('ajouter_fr/', views.ajoutFR,name='ajoutFR'),
     path('update_fr/<str:pk>', views.updateFR,name='updateFR'),
 
+#equipement
+    path('liste_equipement/', views.ListeEquipement,name='ListeEquipement'),
+    path('ajouter_equipement/', views.ajoutequipement,name='ajoutequipement'),
+    path('detail_equipement/<str:pk>', views.detailequipement,name='detailequipement'),
+
+#constructeur
+    path('liste_constructeur/', views.ListeConstructeur,name='ListeConstructeur'),
+    path('ajouter_constructeur/', views.ajoutconstructeur,name='ajoutconstructeur'),
+    path('detail_constructeur/<str:pk>', views.detailconstructeur,name='detailconstructeur'),
+
+
 #faisceaux hertzien
     path('liste_fh/', views.ListeFH,name='ListeFH'),
     path('liste_fh_af/', views.ListeFH_af,name='ListeFH_af'),
@@ -126,10 +156,13 @@ urlpatterns = [
     path('detail_fh/<str:pk>', views.detailFH,name='detailFH'),
     path('update_fh/<str:pk>', views.updateFH,name='updateFH'), 
     path('pour_facturer_fh/<str:pk>', views.pourFacturerFH,name='pourFacturerFH'),
+    path('supprimer_facturer_fh/<str:pk>', views.supprimerFacturerFH,name='supprimerFacturerFH'),
 
     #annuelle
     path('faisceaux_Hertzien_annuelle/<str:pk>',views.FaiseceauxAnn,name='FaiseceauxAnn'),
     path('liste_repere/', views.Listerepere,name='Listerepere'),
+    path('detai_liste_repere/<str:pk>', views.detailListerepere,name='detailListerepere'),
+    path('supprimer_liste_repere/<str:pk>', views.supprimerListerepere,name='supprimerListerepere'),
     path('detai_liste_repere/<str:pk>', views.detailListerepere,name='detailListerepere'),
     path('liste_client_repere_ann/', views.ListeRepAnn,name='ListeRepAnn'),
     path('liste_client_repere_ann_af/', views.ListeRepAnnAF,name='ListeRepAnnAF'),
@@ -138,38 +171,12 @@ urlpatterns = [
  
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #tarif FH
     path('liste_Tfh/', views.ListeTFH,name='ListeTFH'),
     path('ajouter_Tfh/', views.ajoutTFH,name='ajoutTFH'),
     path('detail_Tfh/<str:pk>', views.detailTFH,name='detailTFH'),
     path('liste_client_facturation_fh/', views.ListeCliFH,name='ListeCliFH'),
     
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #fiche facturation
@@ -224,5 +231,4 @@ urlpatterns = [
     path('facturer_num/<str:pk>', views.facturerNum,name='facturerNum'),
 
 
-    
 ]
