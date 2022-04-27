@@ -574,6 +574,62 @@ def render_pdf_view(request,pk):
     return response
 
 
+def pdf_facture_certAgr(request,pk):
+    template_path = 'gestionclient/certificatAgrement/certAgrFactpdf.html'
+    certificat = CertAgr.objects.get(id = pk)
+    type = certificat.type
+    if type == 'VENDEUR':
+        tarif = TarifAgre.objects.filter( type = 'VENDEUR').filter(etat = 'actif').first()
+    elif type == 'DISTRIBUTEUR':
+        tarif = TarifAgre.objects.filter( type = 'DISTRIBUTEUR').filter(etat = 'actif').first()
+    elif type == 'INSTALLATEUR':
+        tarif = TarifAgre.objects.filter( type = 'INSTALLATEUR').filter(etat = 'actif').first()
+    taux = Taux.objects.get(etat = 'actif')
+    total = tarif.tarifs
+    total_bif =round(total * taux.taux)
+
+    form = Facture_CertAgrForm(initial={'certificat':certificat,'tarif':tarif,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = Facture_CertAgrForm(request.POST)
+        if form.is_valid():
+            form.save()
+            certificat.facturer = 'oui'
+            certificat.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListCetAfact')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+            'form':form,
+            'certificat':certificat,
+            'tarif':tarif,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            'today':date.today(),
+            
+        }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    #if display 
+    response['Content-Disposition'] = 'filename="certificatAgrement.pdf"'
+    # response['Content-Disposition'] = 'filename= certificat agrement'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
 def render_pdf_conf(request,pk):
     template_path = 'gestionclient/certificatConf/certConfpdf.html'
     certi = CertConf.objects.get(id = pk)
@@ -600,6 +656,120 @@ def render_pdf_conf(request,pk):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+
+########################
+schu=["","UN ","DEUX ","TROIS ","QUATRE ","CINQ ","SIX ","SEPT ","HUIT ","NEUF "]
+schud=["DIX ","ONZE ","DOUZE ","TREIZE ","QUATORZE ","QUINZE ","SEIZE ","DIX SEPT ","DIX HUIT ","DIX NEUF "]
+schd=["","DIX ","VINGT ","TRENTE ","QUARANTE ","CINQUANTE ","SOIXANTE ","SOIXANTE ","QUATRE VINGT ","QUATRE VINGT "]
+
+def convNombre2lettres(nombre):
+    s=''
+    reste=nombre
+    i=1000000000 
+    while i>0:
+        y=reste//i
+        if y!=0:
+            centaine=int(y//100)
+            dizaine=int((y - centaine*100)//10)
+            unite= int(y-(centaine*100)-(dizaine*10))
+            if centaine==1:
+                s+="CENT "
+            elif centaine!=0:
+                s+=schu[centaine]+"CENT "
+                if dizaine==0 and unite==0: s=s[:-1]+"S " 
+            if dizaine not in [0,1]: s+=schd[dizaine] 
+            if unite==0:
+                if dizaine in [1,7,9]: s+="DIX "
+                elif dizaine==8: s=s[:-1]+"S "
+            elif unite==1:   
+                if dizaine in [1,9]: s+="ONZE "
+                elif dizaine==7: s+="ET ONZE "
+                elif dizaine in [2,3,4,5,6]: s+="ET UN "
+                elif dizaine in [0,8]: s+="UN "
+            elif unite in [2,3,4,5,6,7,8,9]: 
+                if dizaine in [1,7,9]: s+=schud[unite] 
+                else: s+=schu[unite] 
+            if i==1000000000:
+                if y>1: s+="MILLIARDS "
+                else: s+="MILLIARD "
+            if i==1000000:
+                if y>1: s+="MILLIONS "
+                else: s+="MILLIONS "
+            if i==1000:
+                s+="MILLE "
+        #end if y!=0
+        reste -= y*i
+        dix=False
+        i/=1000;
+    #end while
+    if len(s)==0: s+="ZERO "
+    return s
+
+
+############################
+
+
+
+
+
+
+
+
+def facture_pdf_conf(request,pk):
+    template_path = 'gestionclient/certificatConf/factureConfPDF.html'
+    certificat = CertConf.objects.get(id = pk)
+    type = certificat.type
+    if type == 'RESEAU LOCAL':
+        tarif = TarifConf.objects.filter( type = 'RESEAU LOCAL').filter(etat = 'actif').first()
+    elif type == 'RESEAU NATIONAL':
+        tarif = TarifConf.objects.filter( type = 'RESEAU NATIONAL').filter(etat = 'actif').first()
+    
+    taux = Taux.objects.get(etat = 'actif')
+    total = tarif.tarif
+    total_bif =round(total * taux.taux)
+
+    form = FactureConfForm(initial={'certificat':certificat,'tarif':tarif,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = FactureConfForm(request.POST)
+        if form.is_valid():
+            form.save()
+            certificat.facturer = 'oui'
+            certificat.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListCertConfAfact')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+    lettre = convNombre2lettres(total_bif)
+    context = {
+            'form':form,
+            'certificat':certificat,
+            'tarif':tarif,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            'today':date.today(),
+            'lettre':lettre,
+            
+        }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    #if display 
+    response['Content-Disposition'] = 'filename="certificatAgrement.pdf"'
+    # response['Content-Disposition'] = 'filename= certificat agrement'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
 def render_pdf_homo(request,pk):
     template_path = 'gestionclient/certificatHomo/certConfpdf.html'
     cert = HomologationEqui.objects.get(id = pk)
@@ -607,6 +777,63 @@ def render_pdf_homo(request,pk):
         'certificat': cert,
         'today': date.today(),
         'contact':PersonneContact.objects.get(id = cert.client.id ),
+        }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    #if display 
+    response['Content-Disposition'] = 'filename="certificatHomologation.pdf"'
+    # response['Content-Disposition'] = 'filename= certificat agrement'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
+def render_pdf_homo_facture(request,pk):
+    template_path = 'gestionclient/certificatHomo/pdfHomoFacture.html'
+    certificat = HomologationEqui.objects.get(id = pk)
+    type = certificat.categorie
+    if type == 'Terminal Simple et de Faible Puissance':
+        tarif = TarifHom.objects.filter( type = 'Terminal Simple et de Faible Puissance').filter(etat = 'actif').first()
+    elif type == "Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise":
+        tarif = TarifHom.objects.filter( type = "Terminal Simple et de Faible Puissance/Terminal de communication d'Entreprise").filter(etat = 'actif').first()
+    elif type == 'Terminal Radioelectrique de Reseau':
+        tarif = TarifHom.objects.filter( type = 'Terminal Radioelectrique de Reseau').filter(etat = 'actif').first()
+    
+    taux = Taux.objects.get(etat = 'actif')
+    total = tarif.tarif
+    total_bif =round(total * taux.taux)
+
+    form = FactureHomForm(initial={'certificat':certificat,'tarif':tarif,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = FactureHomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            certificat.facturer = 'oui'
+            certificat.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListCertHomAfact')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+            'form':form,
+            'certificat':certificat,
+            'tarif':tarif,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            'type':type,
+            
         }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
@@ -664,6 +891,184 @@ def render_pdf_ffnumero(request,pk):
         'contact':cont,
         'direction':Direction.objects.get(type = "Chef Service Normalisation,Reseaux et Servicess"),
         }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    #if display 
+    response['Content-Disposition'] = 'filename="FicheFacturationNumerotation.pdf"'
+    # response['Content-Disposition'] = 'filename= certificat agrement'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
+def pdf_faiscaux(request,pk):
+    template_path = 'gestionclient/faisceaux_hertzien/faisceauxpdf.html'
+    faisceaux = FaisceauxHertzien.objects.get(id = pk)
+    bande = faisceaux.bande
+    id_tarif =0
+    a =0
+    b =0
+    jours =0
+    tarifs = TarifFH.objects.filter(etat = 'actif').order_by('-nature')
+    for tarif in tarifs:
+        if bande >= tarif.nature :
+            id_tarif = tarif.id
+            break
+    tarife =  TarifFH.objects.filter(etat = 'actif').get(id = id_tarif)
+    taux = Taux.objects.get(etat = 'actif')
+    
+    today = date.today()
+    year = today.year
+    year_n = today.year + 1
+    d = datetime.date(year, 6, 30)
+    dn = datetime.date(year_n, 6, 30)
+    if faisceaux.dateAtri < d:
+        jours = d - faisceaux.dateAtri
+        datefin = d
+    else:
+        jours = dn - faisceaux.dateAtri
+        datefin = dn
+
+
+    a = faisceaux.bande_passante * tarife.p_mhz
+    b = faisceaux.nombre_canaux * tarife.p_canal
+    total = a + b
+    total_bif = round(total * taux.taux)
+
+    form = FactureFH_Form(initial={'faisceaux':faisceaux,'tarif':tarife,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = FactureFH_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            faisceaux.efacturer = 'oui'
+            faisceaux.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListeFH_af')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+            'form':form,
+            'fh':faisceaux,
+            'tarif':tarife,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            'datefin':datefin,
+            'jours':jours,
+            'a':a,
+            'b':b,
+            
+        }
+
+    # context = {
+    #     'FF': ff,
+    #     'today': date.today(),
+    #     'contact':cont,
+    #     'direction':Direction.objects.get(type = "Chef Service Normalisation,Reseaux et Servicess"),
+    #     }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    #if display 
+    response['Content-Disposition'] = 'filename="FicheFacturationNumerotation.pdf"'
+    # response['Content-Disposition'] = 'filename= certificat agrement'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
+def pdf_faiscaux_ann(request,pk):
+    template_path = 'gestionclient/faisceaux_hertzien/faisceaux_annuelle_pdf.html'
+    repere =  Repere.objects.get(id = pk)
+    client = Client.objects.get(id = repere.client.id)
+    liste = ListeFHAnnuelle.objects.filter( repere = repere)
+    listo = []
+    for gosto in liste:
+        listo.append(gosto.faisceaux)
+    lista =[]
+    data = []
+    liste_tarif =[]
+    taux = Taux.objects.get(etat = 'actif')
+    total = 0
+    total_bif = 0
+    liste_a =[]
+    liste_b =[]
+    # tarifs = TarifFH.objects.filter(etat = 'actif').order_by('-nature')
+    tarifs = TarifFH.objects.all().order_by('nature')
+    id_t = 0
+    for li in liste:
+        for tarif in tarifs:
+            if li.faisceaux.bande >= tarif.nature :
+                id_t = tarif.id
+                # fafa = FaisceauxHertzien.objects.get(id = li.faisceaux.id)
+                # id_t = fafa.id
+            
+            
+            
+        tarife = TarifFH.objects.get(id = id_t)
+        a = round(li.faisceaux.bande_passante * tarife.p_mhz)
+        b = round(li.faisceaux.nombre_canaux * tarife.p_canal)
+        total = total +(a + b)
+        lista.append([li,tarife,a,b])
+
+
+    total_bif = round(total * taux.taux)
+    form = FFacture_FH_A_Form(initial={'repere':repere,'taux':taux,'total':total,'total_bif':total_bif})
+    if request.method == 'POST':
+        form = FFacture_FH_A_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            repere.efacturer = 'oui'
+            repere.save()
+            messages.success(request, f'Facture bien ajouter')
+            return redirect('ListeRepAnnAF')
+                
+        else:
+            messages.error(request, f' ERREUR facture non ajouter!')
+
+    context = {
+        'form':form,
+            'listes':lista,
+            'listess':listo,
+            'lista':liste_a,
+            'listb':liste_b,
+            'liste_t':liste_tarif,
+            'taux':taux,
+            'total':total,
+            'totals':total_bif,
+            'repere':repere,
+            'client':client,
+            'today':date.today(),
+            # 'n':len(lista),
+            'range': range(len(liste)),
+
+        }
+
+    # context = {
+    #     'FF': ff,
+    #     'today': date.today(),
+    #     'contact':cont,
+    #     'direction':Direction.objects.get(type = "Chef Service Normalisation,Reseaux et Servicess"),
+    #     }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
     # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -825,8 +1230,9 @@ def pdf_ffnumero(request,pk):
                 
         else:
             messages.error(request, f' ERREUR facture non ajouter!')
-
+    lettre = convNombre2lettres(totals)
     context = {
+            'lettre':lettre,
             'form':form,
             'total': round(total,1),
             'totals': totals ,
@@ -1515,6 +1921,8 @@ def factCertHom(request,pk):
             
         }
     return render(request,'gestionclient/certificatHomo/fiche_cert_homo.html',context)
+
+    
 @allowed_users(allowed_roles=['finance'])
 def factFH(request,pk):
     certificat = HomologationEqui.objects.get(id = pk)

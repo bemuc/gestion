@@ -113,10 +113,12 @@
     <a href="{% url 'ListeFH_af' %}"><button type="button" class="btn btn-light">retour</button></a>
     {% else %}
     <a href="{% url 'ListeFH_af' %}"><button type="button" class="btn btn-light">retour</button></a>
+    <a href="{% url 'pdf_faiscaux' fh.id %}"><button type="button" class="btn btn-light">Print</button></a>
     {% endif %}
   </form>
 {% else %}
   <a href="{% url 'ListeFH_af' %}"><button type="button" class="btn btn-primary">retour</button></a>
+  <a href="{% url 'pdf_faiscaux' fh.id %}"><button type="button" class="btn btn-primary">print</button></a>
 {% endif %}
       
       <!-- <a href=""><button type="button" class="btn btn-primary ml-5">fh Agrement</button></a> -->

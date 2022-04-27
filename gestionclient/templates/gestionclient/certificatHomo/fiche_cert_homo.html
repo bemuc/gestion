@@ -99,10 +99,12 @@
     <a href="{% url 'ListCertHomAfact' %}"><button type="button" class="btn btn-light">retour</button></a>
     {% else %}
     <a href="{% url 'ListCertHomAfact' %}"><button type="button" class="btn btn-light">retour</button></a>
+    <a href="{% url 'render_pdf_homo_facture' certificat.id %}"><button type="button" class="btn btn-light">print</button></a>
     {% endif %}
   </form>
 {% else %}
   <a href="{% url 'ListCertHomAfact' %}"><button type="button" class="btn btn-primary">retour</button></a>
+  <a href="{% url 'render_pdf_homo_facture' certificat.id %}"><button type="button" class="btn btn-primary">print</button></a>
 {% endif %}
       
       <!-- <a href=""><button type="button" class="btn btn-primary ml-5">Certificat Agrement</button></a> -->

@@ -56,6 +56,7 @@ urlpatterns = [
     path('supprimer_cert_agre/<str:pk>', views.supprimerfactCert,name = 'supprimerfactCert'),
 
     path('cwrt_pdf/<str:pk>', views.render_pdf_view,name='pdfcertificat'),
+    path('cert_agr_facture_pdf/<str:pk>', views.pdf_facture_certAgr,name='pdf_facture_certAgr'),
 
 # certificat conformite
 
@@ -70,6 +71,7 @@ urlpatterns = [
     path('supprimer_cert_conf/<str:pk>', views.supprimerfactCertConf,name = 'supprimerfactCertConf'),
 
     path('certificat_conformite_pdf/<str:pk>', views.render_pdf_conf,name='pdfcertificat_conf'),
+    path('certificat_facture_pdf/<str:pk>', views.facture_pdf_conf,name='facture_pdf_conf'),
 
 #Homologations
     
@@ -99,6 +101,7 @@ urlpatterns = [
     path('facturer_cert_hom/<str:pk>', views.factCertHom,name = 'factCertHom'),
 
     path('certificat_homoloation_pdf/<str:pk>', views.render_pdf_homo,name='pdfcertificat_homo'),
+    path('certificat_homoloation_facture_pdf/<str:pk>', views.render_pdf_homo_facture,name='render_pdf_homo_facture'),
 
 
 
@@ -158,6 +161,8 @@ urlpatterns = [
     path('pour_facturer_fh/<str:pk>', views.pourFacturerFH,name='pourFacturerFH'),
     path('supprimer_facturer_fh/<str:pk>', views.supprimerFacturerFH,name='supprimerFacturerFH'),
 
+    path('faisceaux_pdf/<str:pk>', views.pdf_faiscaux,name='pdf_faiscaux'),
+
     #annuelle
     path('faisceaux_Hertzien_annuelle/<str:pk>',views.FaiseceauxAnn,name='FaiseceauxAnn'),
     path('liste_repere/', views.Listerepere,name='Listerepere'),
@@ -168,6 +173,8 @@ urlpatterns = [
     path('liste_client_repere_ann_af/', views.ListeRepAnnAF,name='ListeRepAnnAF'),
     path('facturer_FH_annuelle/<str:pk>', views.facturerFHA,name='facturerFHA'),
     path('facturer_facture_FH/<str:pk>', views.facturerfacture,name='facturerfacture'),
+
+    path('faisceaux_annuelle_pdf/<str:pk>', views.pdf_faiscaux_ann,name='pdf_faiscaux_ann'),
  
 
 

@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture</title>
+    <style>
+        /* #entete{
+            display: flex;
+            justify-content: space-between;
+        } */
+        #repub{
+            text-align: left;
+        }
+        #date{
+            /* position: relative;
+            top: -5px;
+            left: 200px; */
+            /* text-align: right; */
+            float: right;
+        }
+        #repu{
+            float: left;
+        }
+        #stirong{
+            margin-left: 20px;
+            padding-left: 50px;
+        }
+        #tablemain,#tablemain tr,#tablemain td{
+            border: 1px solid black;
+           
+        }
+        #tablemain td{
+            text-align: center;
+        }
+        .middle{
+            padding-top: 5px;
+        }
+        ul{
+            /* text-decoration: none; */
+            list-style:none;
+            list-style-type: none;
+        }
+        .identifiant{
+            margin-right: 20px;
+        }
+        .valeurs{
+            font-weight: bold;
+        }
+        #id_client{
+            /* border: 1px solid black; */
+            padding: 1px;
+        }
+        #red{
+            color: red;
+            width: 2px;
+        }
+        #blue{
+            color: green;
+            width: 30px;
+        }
+       #italic{
+           text-align: center;
+       }
+       #FOOT tr td,h6{
+           text-align: center;
+       }
+       #inde{
+           text-align: left;
+       }
+    </style>
+</head>
+<body>
+            <table>
+                <tr> 
+                    <td><h4 id="repub"> <strong> REPUBLIQUE DU BURUNDI <br> PRESIDENCE DE LA REPUBLIQUE <br> </strong>AGENCE DE REGULATION ET <br> DE CONTROLE DES TELECOMMUNICATIONS (ARCT) </h4>
+                        <img src="static/images/logoARCT.png" width="100" height="120" alt="">
+                        <p>N/Ref:ARCT/......../D.M/DG/H.N/g.ni/...</p>
+                    </td>
+            <td></td>
+            <td></td>
+            <td VALIGN=TOP><h4>Bujumbura, le {{ today }}</h4></td>
+                </tr>
+            </table>
+           <br>
+            <table>
+                <tr>
+                    <td><h3>client: <span id="stirong">{{ certificat.client.nom}}</span></h3></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>FACTURE N ...../......</td>
+                </tr>
+            </table>
+            <br>
+            <h6>CERTIFICAT DE CONFORMITE</h6>
+                        
+            <table id="tablemain">
+                <tr>
+                    <th class="middle">Libelle</th>
+                    <th class="middle">Prix Unitaire</th>
+                    <th class="middle">Prix Total</th>
+                </tr>
+                <tr>
+                    <td class="middle">
+                        <h3>cout du certificat</h3>
+                    
+                    </td>
+                    <td class="middle">
+                        {{ tarif.tarif }}$
+                    </td>
+                    <td class="middle">
+                        {{ tarif.tarif }}$
+                    </td>
+                </tr>
+                <tr>
+                    <td class="middle">Total</td>
+                    <td></td>
+                    <td class="middle">{{ total }} $</td>
+                </tr>
+                <tr>
+                    <td class="middle">
+                        Todal a Payer <br>
+                        (Taux de conversion : 1$ US = {{ taux.taux }} BIF
+                    </td>
+                    <td>
+    
+                    </td>
+                    <td class="middle">
+                        {{ totals }} BIF
+                    </td>
+                </tr>
+            </table>
+            <h4>Nous disons : {{ lettre }}</h4>
+            <table>
+                <tr>
+                    <td> <h4> POUR ETABLISSEMENT</h4> 
+                        <br>
+                    </td>
+                    <td></td>
+                    <td> <h4>POUR ACCORD</h4>
+                        <br> 
+                    </td>
+                </tr>
+                <br>
+                <br>
+                <tr>
+                    <td  VALIGN=TOP>
+                        <h4> DIRECTEUR DE LA REGULATION ECONOMIQUE <br> DES FINANCES ET DES RESSOURCES HUMAINES </h4>
+                        <br>
+                        <br>
+                    </td>
+                    <td></td>
+                    <td  VALIGN=TOP> <h4>DIRECTEUR GENERAL</h4> 
+                        <br>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td><h1>Hermalas NAHIMANA</h1> </td>
+                    <td></td>
+                    <td> <h1> Dr. Samuel MUHIZI</h1></td>
+                </tr>
+            </table>
+            <br>
+            <br>
+            <h5><u> COORDONNEES BANCAIRES:</u></h5>
+            <span class="identifiant">Nom du Compte</span><span class="valeurs">: SOUS-COMPTE DE TRANSIT DES RECETTES NON FISCALES</span><br>
+            <span class="identifiant">Numero de Compte</span><span class="valeurs">: 1101/001.04</span><br>
+            <span class="identifiant">Adresse</span><span class="valeurs">: MINISTERE DES FINANCES</span><br>
+            <span class="identifiant">Banque</span><span class="valeurs">: BANQUE DE LA REPUBLIQUE DU BURUNDI</span><br>
+            <span class="identifiant">Code Swift</span><span class="valeurs">: BRBUBIBI</span><br>
+            <br>
+            <u id="red"></u>
+            <hr id="blue">
+            <p  id="italic"> <i> Agence de Regulation et de Controle des Telecommunications</i></p>
+            <table id="FOOT">
+                <tr>
+                    <td valign="middle">
+                        Tel : (00257) 22 21 0276 <br>
+                        Fax : (00257) 22 24 2832
+                    </td>
+                    <td class="inde">
+                        N.I.F : 4000004954 <br>
+                        B.P.  : 6702 BUJUBMBURA
+                    </td>
+                </tr>
+            </table>
+
+            
+    
+</body>
+</html>
