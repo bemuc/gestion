@@ -112,7 +112,6 @@ class TarifAgre(models.Model):
     def __str__(self):
         return (self.type)
 
-
 class Facture_CertAgr(models.Model):
     certificat = models.ForeignKey(CertAgr,on_delete=models.PROTECT)
     tarif =  models.ForeignKey(TarifAgre,on_delete=models.PROTECT)
@@ -120,7 +119,6 @@ class Facture_CertAgr(models.Model):
     total = models.IntegerField(null=True)
     total_bif = models.IntegerField(null=True)
     date = models.DateField(auto_now= True, null= True)
-
 
 class CertConf(models.Model):
     TYPE = (
@@ -248,11 +246,6 @@ class FactureHom(models.Model):
     total_bif = models.IntegerField(null=True)
     date = models.DateField(auto_now= True, null= True)
 
-
-
-
-
-
 class Megas(models.Model):
     client  = models.ForeignKey(Client,on_delete=models.PROTECT)
     megas = models.IntegerField(null=True)
@@ -277,7 +270,6 @@ class Minutes(models.Model):
     class Meta:
         ordering = ['-dateAtri']
 
-
 class ChiffreAffaire(models.Model):
     client  = models.ForeignKey(Client,on_delete=models.PROTECT)
     ca = models.IntegerField(null=True)
@@ -298,8 +290,6 @@ class FrequenceRadio(models.Model):
     facturer = models.CharField(max_length=200, null=True, default='non')
     efacturer = models.CharField(max_length=200, null=True, default='non')
     etat = models.CharField(max_length=200, null=True, default='actif')
-
-    
 
 class FaisceauxHertzien(models.Model):
     client  = models.ForeignKey(Client,on_delete=models.PROTECT)
@@ -350,12 +340,6 @@ class Facture_FH_A(models.Model):
     total_bif = models.IntegerField(null=True)
     total = models.IntegerField(null=True)
     dateAtri = models.DateField(auto_now_add= True, null= True)
-
-
-
-
-
-
 
 class FF_Numero(models.Model):
     NATURE = (
@@ -434,8 +418,6 @@ class AB(models.Model):
     class Meta:
         ordering = ['-dateAtri']
 
-
-
     # def __str__(self):
     #     return (self.taux )
 
@@ -446,8 +428,6 @@ class TarifFSVANumero(models.Model):
     autorisationARCT = models.FloatField(max_length=200, null=True)
     etat = models.CharField(max_length=200, null=True, default='actif')
     dateAtri = models.DateField(auto_now= True, null= True)
-
-
 
 class TarifFFNumero(models.Model):
     TYPE = (
@@ -467,7 +447,6 @@ class TarifFFNumero(models.Model):
     etat = models.CharField(max_length=200, null=True, default='actif')
     dateAtri = models.DateField(auto_now_add= True, null= True)
 
-
 class Facture_FFNumero(models.Model):
     ffnumero = models.ForeignKey(FF_Numero,null=True,on_delete=models.PROTECT)
     taux = models.ForeignKey(Taux,null=True,on_delete=models.PROTECT)
@@ -483,7 +462,6 @@ class Facture_FFNumero(models.Model):
     q_ispc = models.IntegerField(null=True)
     q_cpti = models.IntegerField(null=True)
     fsva = models.IntegerField(null=True)
-
 
 class Direction(models.Model):
     TYPE = (
