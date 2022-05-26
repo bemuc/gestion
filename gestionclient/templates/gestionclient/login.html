@@ -17,6 +17,7 @@
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="{% static '/css/style.css' %}">
+  <link rel="stylesheet" href="{% static '/css/stylelogin.css' %}">
   <!-- endinject -->
   <link rel="shortcut icon" href="../../images/favicon.png" />
 </head>
@@ -29,9 +30,9 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                <!-- <img src="../../images/logo-dark.svg" alt="logo"> -->
+                <!-- <img class="logoti" src="../../static/images/logoARCT.png" alt="logo"> -->
               </div>
-              <h4>Login</h4>
+              <h4 class="logoti">S'authentifier</h4>
               <!-- <h6 class="font-weight-light">Sign in to continue.</h6> -->
               <form class="pt-3" method="POST">
                 {% csrf_token %}
@@ -44,7 +45,7 @@
                 <div class="mt-3">
                   <!-- <a class="btn btn-block btn-info btn-lg font-weight-medium auth-form-btn" href="{% url 'login_page' %}"></a> -->
                   <!-- <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" ></button> -->
-                  <input type="submit" class="form-control form-control-lg btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
+                  <input type="submit" value="s'authentifier" class="form-control form-control-lg btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
                 </div>
                 {% for message in messages %}
                 <div class="alert alert-danger color-danger my-3">

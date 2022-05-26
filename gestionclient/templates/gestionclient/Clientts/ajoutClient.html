@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row">
   <div class="col-md-2 grid-margin stretch-card"></div>
-  <div class="col-md-8 grid-margin">
+  <div class="col-lg-12 grid-margin">
     <br>
       <div class="card">
         <div class="card-body ">
@@ -16,72 +16,94 @@
           </p>
           <form class="forms-sample" method="POST">
             {% csrf_token %}
-            <div class="form-group row">
-              <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Type</label>
-              <div class="col-sm-9">
-                <!-- <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email"> -->
-                {{ form.type }}
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="exampleInputMobile" class="col-sm-3 col-form-label">Nom</label>
-              <div class="col-sm-9">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Type</label>
+                  <div class="col-sm-9">
+                  <!-- <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email"> -->
+                  {{ form.type }}
+                  </div>
+                </div>
+              <div class="form-group row">
+                <label for="exampleInputMobile" class="col-sm-3 col-form-label">Nom</label>
+                <div class="col-sm-9">
                 <!-- <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number"> -->
                 {{ form.nom }}
+                </div>
+                </div>
+                <div class="form-group row">
+                  <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Adresse</label>
+                  <div class="col-sm-9">
+                    <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
+                    {{ form.adresse }}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Téléphone</label>
+                  <div class="col-sm-9">
+                    <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
+                    {{ form.téléphone }}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Fax</label>
+                  <div class="col-sm-9">
+                    <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
+                    {{ form.fax }}
+                  </div>
+                </div>
+
+
               </div>
-            </div>
-            <div class="form-group row">
-              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Adresse</label>
-              <div class="col-sm-9">
-                <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
-                {{ form.adresse }}
+              <div class="col-md-6 border-left-0 border-primary p-2 ">
+                <div class="form-group row">
+                  <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Email</label>
+                  <div class="col-sm-9">
+                    <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
+                    {{ form.email }}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Siteweb</label>
+                  <div class="col-sm-9">
+                    <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
+                    {{ form.siteweb }}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Boite Postale</label>
+                  <div class="col-sm-9">
+                    <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
+                    {{ form.boite_postale }}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">NIF</label>
+                  <div class="col-sm-9">
+                    <!-- <input type="password" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password"> -->
+                    {{ form.nif }}
+                  </div>
+                </div>
+                <div class="row ml-5">
+                  <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
+              <a href="{% url 'listeClient_page'  %}"><button type="button" class="btn btn-light ml-5 mr-3">Retour</button></a>
+            
+                </div>
+              
+  
+  
               </div>
+              
+
+
+
             </div>
-            <div class="form-group row">
-              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Téléphone</label>
-              <div class="col-sm-9">
-                <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
-                {{ form.téléphone }}
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Fax</label>
-              <div class="col-sm-9">
-                <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
-                {{ form.fax }}
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Email</label>
-              <div class="col-sm-9">
-                <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
-                {{ form.email }}
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Siteweb</label>
-              <div class="col-sm-9">
-                <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
-                {{ form.siteweb }}
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Boite Postale</label>
-              <div class="col-sm-9">
-                <!-- <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"> -->
-                {{ form.boite_postale }}
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">NIF</label>
-              <div class="col-sm-9">
-                <!-- <input type="password" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password"> -->
-                {{ form.nif }}
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
-            <a href="{% url 'listeClient_page'  %}"><button type="button" class="btn btn-light ml-5 mr-3">Retour</button></a>
-          </form>
+            
+            
+            
+            
+            </form>
         </div>
       </div>
       <div></div>
