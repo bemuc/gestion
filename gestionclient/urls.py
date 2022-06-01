@@ -25,14 +25,7 @@ urlpatterns = [
     path('ajouter_direction/', views.ajouterDirection,name='ajouterDirection'),
     path('modifier_direction/<str:pk>', views.modifierDirection,name='modifierDirection'),
     path('deact_direction/<str:pk>', views.deactDirection,name='deactDirection'),
-    
-
-
-
-
-
-
-
+   
 
 #personne de contact
     path('listePContact/', views.listePContact,name='listePContact_page'),
