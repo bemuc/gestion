@@ -13,29 +13,33 @@
             
             <p class="card-description">
             <!-- Add class <code>.table-hover</code> -->
+            {% load auth_extras %}
+            {% if request.user|has_group:"technicien" %}
             <a href="{% url 'ajoutClient_page' %}"><button type="button" class="btn btn-primary">Ajouter un client</button></a>
+            {% endif %}
             </p>
+              <div class="table-responsive"></div>
             <div class="row">
                 <div class="col">
                     <div class="card card-body">
                         <form method="get">
-                            {{ myfilter.form }}
-                        <button class="btn btn-primary" type="submit">Search</button>
+                            {{ myfilter.form.as_p }}
+                        <button class="btn btn-primary" type="submit">Rechercher</button>
                       </form>
                     </div>
                 </div>
                 
             </div>
-            <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Num</th>
+                    <th>#</th>
                     <th>Nom</th>
                     <th>Type</th>
                     <th>NIF</th>
-                    <th>Status</th>
-                    <th colspan="2">Actions</th>
+                    <th>Date</th>
+                    <!-- <th>Status</th> -->
+                    <th colspan="2"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -45,10 +49,11 @@
                     <td>{{ client.nom }}</td>
                     <td>{{ client.type }}</td>
                     <td>{{ client.nif }}</td>
+                    <td>{{ client.dateAtri }}</td>
                     {% if client.status == 'actif' %}
-                    <td><label class="badge badge-success">{{ client.status }}</label></td>
+                    <!-- <td><label class="badge badge-success">{{ client.status }}</label></td> -->
                     {% else %}
-                    <td><label class="badge badge-danger">{{ client.status }}</label></td>
+                    <!-- <td><label class="badge badge-danger">{{ client.status }}</label></td> -->
                     {% endif %}
                     <td>
                         <a href="{% url 'detailsClient_page' client.id %}"><button type="button" class="btn btn-primary" ><i class="icon-eye"></i></button></a>
@@ -69,5 +74,18 @@
     </div>
     <div class="col-lg-2 grid-margin"></div>
 </div>
+
+
+
+
+
+
+  
+
+<!-- <script>
+    $(document).ready(function () {
+    $('#example').DataTable();
+});
+</script> -->
     
 {% endblock %}

@@ -44,7 +44,11 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
+            {% if titre == "Ajouter" %}
             <a href="{% url 'ListePQ' %}"><button type="button" class="btn btn-light">retour</button></a>
+            {% else %}
+            <a href="{% url 'detailsPQ' pq.id %}"><button type="button" class="btn btn-light">retour</button></a>
+            {% endif %}
           </form>
         </div>
       </div>

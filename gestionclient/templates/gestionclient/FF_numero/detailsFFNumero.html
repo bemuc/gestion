@@ -26,14 +26,18 @@
                                 <label for="exampleInputEmail2" class="col-sm-3">Nature client :</label>
                                 <div class="col-sm-6">{{ FF_Numero.client.type }}</div>
                             </div>
+                            <hr>
+                            <u><h4 class="mt-3">Types de numero</h4></u>
+                        <br>
+                            <!-- <h5 class="mt-3">Numero Long</h5> -->
                             <div  class="row">
-                                <label for="exampleInputEmail2" class="col-sm-3">Numero long (PQ) :</label>
+                                <h5 for="exampleInputEmail2" class="col-sm-3">* Numero long (PQ) :</h5>
                                 <div class="col-sm-6">{{ FF_Numero.q_pq }}</div>
                             </div> 
                         <!-- </div> -->
                         <!-- <div class="col-md-4" style="border-left: 1px solid black;"> -->
-                            <hr>
-                            <h5 class="mt-3">Numero Court</h5>
+                            
+                            <h5 class="mt-3">* Numero Court</h5>
                             
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Ordinaire :</label>
@@ -71,15 +75,32 @@
                             
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Etude du Dossier :</label>
-                                <div class="col-sm-6">{{ FF_Numero.RN_etudeDossier }}</div>
+                                <div class="col-sm-6">
+                                    {% if FF_Numero.RN_etudeDossier == True %}
+                                    <p>oui</p>
+                                    {% else %}
+                                    <p>non</p>
+                                    {% endif %}
+                            </div>
                             </div> 
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Frais de gestion (annuelle) :</label>
-                                <div class="col-sm-6">{{ FF_Numero.RN_fraisGestion }}</div>
+                                <div class="col-sm-6">
+                                    {% if FF_Numero.RN_fraisGestion  == True %}
+                                    <p>oui</p>
+                                    {% else %}
+                                    <p>non</p>
+                                    {% endif %}</div>
                             </div> 
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Redevances annuelles :</label>
-                                <div class="col-sm-6">{{ FF_Numero.RN_redevanceAnn }}</div>
+                                <div class="col-sm-6">
+                                    {% if FF_Numero.RN_redevanceAnn == True %}
+                                    <p>oui</p>
+                                    {% else %}
+                                    <p>non</p>
+                                    {% endif %}
+                                </div>
                             </div> 
                             {% elif FF_Numero.client.type == 'FSVA' %}
                             <hr>
@@ -87,15 +108,30 @@
                             
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Etude du Dossier :</label>
-                                <div class="col-sm-6">{{ FF_Numero.FS_etudeDossier }}</div>
+                                <div class="col-sm-6">
+                                    {% if FF_Numero.FS_etudeDossier == True %}
+                                    <p>oui</p>
+                                    {% else %}
+                                    <p>non</p>
+                                    {% endif %}</div>
                             </div> 
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Agrement des equipements :</label>
-                                <div class="col-sm-6">{{ FF_Numero.FS_agreEquipe }}</div>
+                                <div class="col-sm-6">
+                                    {% if FF_Numero.FS_agreEquipe  == True %}
+                                    <p>oui</p>
+                                    {% else %}
+                                    <p>non</p>
+                                    {% endif %}</div>
                             </div> 
                             <div  class="row">
                                 <label for="exampleInputEmail2" class="col-sm-3">Autorisation de l'ARCT :</label>
-                                <div class="col-sm-6">{{ FF_Numero.FS_autoARCT }}</div>
+                                <div class="col-sm-6">
+                                    {% if FF_Numero.FS_autoARCT == True %}
+                                    <p>oui</p>
+                                    {% else %}
+                                    <p>non</p>
+                                    {% endif %}</div>
                             </div> 
                             {% endif %}
                             <div  class="row">
@@ -123,9 +159,10 @@
                 </div>
                 
             </div>
+            <br>
             <div class="d-flex justify-content-start align-items-center">
                 <a href="{% url 'ListeFFNumero' %}"><button type="button" class="btn btn-primary ml-5 mr-3">Retour</button></a>
-                <a href="{% url 'pdf_ffnumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5 mr-3">print</button></a>
+                <a href="{% url 'pdf_ffnumero' FF_Numero.id %}" target="_blank" ><button type="button" class="btn btn-primary ml-5 mr-3">Imprimer</button></a>
                 {% if FF_Numero.facturer == 'non' %}
                 <a href="{% url 'facturerFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Facturer</button></a>
                 <a href="{% url 'updateFFNumero' FF_Numero.id %}"><button type="button" class="btn btn-primary ml-5">Modifier</button></a>

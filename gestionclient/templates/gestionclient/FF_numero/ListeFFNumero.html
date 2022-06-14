@@ -13,41 +13,52 @@
                 <p class="card-description">
                 <a href="{% url 'ListeCli' %}"><button type="button" class="btn btn-primary">Ajouter</button></a>
                   </p>
+                  <div class="row">
+                    <div class="col">
+                        <div class="card card-body">
+                            <form method="get">
+                                {{ myfilter.form }}
+                            <button class="btn btn-primary" type="submit">Rechercher</button>
+                          </form>
+                        </div>
+                    </div>
+                    
+                </div>
                 <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>Client</th>
-                        <th>Type Client</th>
-                        <th>Nature</th>
-                        <th>Date Attribution</th>
+                        <!-- <th>Type Client</th> -->
+                        <!-- <th>Nature</th> -->
+                        <th>Date</th>
                         <th>Envoyer pour Facturer</th>
-                        <th>Status</th>
+                        <!-- <th>Status</th> -->
                         <th colspan="5"></th>
                     </tr>
                     </thead>
                     <tbody>
                     {% if FF_numeros %}
-                    {% for FF_numero in FF_numeros %}
+                    {% for numero in numeros %}
                     <tr>
-                        <td>{{ FF_numero.client.nom }}</td>
-                        <td>{{ FF_numero.client.type }}</td>
-                        <td>{{ FF_numero.nature }}</td>
-                        <td>{{ FF_numero.dateAtri }}</td>
-                        <!-- <td>{{ FF_numero.facturer }}</td> -->
-                        {% if FF_numero.facturer == 'oui' %}
-                        <td><label class="badge badge-success" >{{ FF_numero.facturer }}</label></td>
+                        <td>{{ numero.client.nom }}</td>
+                        <!-- <td>{{ numero.client.type }}</td> -->
+                        <!-- <td>{{ numero.nature }}</td> -->
+                        <td>{{ numero.dateAtri }}</td>
+                        <!-- <td>{{ numero.facturer }}</td> -->
+                        {% if numero.facturer == 'oui' %}
+                        <td><label class="badge badge-success" >{{ numero.facturer }}</label></td>
                         {% else %}
-                        <td><label class="badge badge-warning" >{{ FF_numero.facturer }}</label></td>
+                        <td><label class="badge badge-warning" >{{ numero.facturer }}</label></td>
                         {% endif %}
 
-                        {% if FF_numero.etat == 'actif' %}
-                        <td><label class="badge badge-success" >{{ FF_numero.etat }}</label></td>
+                        {% if numero.etat == 'actif' %}
+                        <!-- <td><label class="badge badge-success" >{{ numero.etat }}</label></td> -->
                         {% else %}
-                        <td><label class="badge badge-warning" >{{ FF_numero.etat }}</label></td>
+                        <!-- <td><label class="badge badge-warning" >{{ numero.etat }}</label></td> -->
                         {% endif %}
                         <td>
-                            <a href="{% url 'detailsFFNumero' FF_numero.id  %}"><button type="button" class="btn btn-primary" ><i class="icon-eye"></i></button></a>
+                            <a href="{% url 'detailsFFNumero' numero.id  %}"><button type="button" class="btn btn-primary" ><i class="icon-eye"></i></button></a>
                             <!-- <a href=""><button type="button" class="btn btn-primary" >Ajouter num</button></a> -->
                             <!-- <a href=""><button type="button" class="btn btn-primary" >FF annuelle </button></a> -->
                         </td>

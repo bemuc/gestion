@@ -78,6 +78,8 @@
             <span class="identifiant">Téléphone</span><span class="valeurs">:{{ contact.telephone }}</span><br>
             <span class="identifiant">Email</span><span class="valeurs">:{{ contact.email }}</span><br>
             <span class="identifiant">Titre/Poste</span><span class="valeurs">:{{ contact.poste }}</span><br>
+            {% else  %}
+            <p>Pas de contact enregistrer</p>
             {% endif %}
         </p>
     </div>
@@ -87,13 +89,13 @@
             <tr>
                 <td>
                     <label for="exampleInputPassword2" class="">Nouveau Client :
-                    {% if FF.nature == 'Client Nouveau' %}
+                    {% if FF.nature == "Client Nouveau" %}
                     X
                     {% endif %}
                 </label>
                 </td>
                 <td><label for="exampleInputPassword2" class="">Renouvellement d'autorisation(client existant) : 
-                    {% if FF.nature == 'Client Existant' %}
+                    {% if FF.nature == "Client Existant" %}
                     X
                     {% endif %}
                 </label></td>

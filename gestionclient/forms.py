@@ -14,7 +14,7 @@ class ClientForm(ModelForm):
             'type': forms.Select(attrs={'class':'form-control', }),
             'nom' : forms.TextInput(attrs={'class':'form-control',}),
             'adresse' : forms.TextInput(attrs={'class':'form-control',}),
-            'téléphone' : forms.TextInput(attrs={'class':'form-control',}),
+            'téléphone' : forms.TextInput(attrs={'class':'form-control','type':'tel'}),
             'fax' : forms.TextInput(attrs={'class':'form-control', }),
             'email' : forms.EmailInput(attrs={'class':'form-control', }),
             'siteweb' : forms.TextInput(attrs={'class':'form-control', }),

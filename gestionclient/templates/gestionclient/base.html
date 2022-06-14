@@ -23,13 +23,18 @@
   <!-- endinject -->
   <!-- icone dans le title de l'onglet -->
   <!-- <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" /> -->
+
+
+  
+  
 </head>
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav class=" navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <!-- <a class="navbar-brand brand-logo btn-primary" href="base.html">ARCT</a> -->
+        <a class="brand-logo" href="{% url 'homeTech' %}">ARCT</a>
+        <!-- <h4 id="llogo">ARCT</h4> -->
         <!-- <h4 class="btn-primary" >ARCT</h4> -->
         <!-- <img src="{% static '/images/logo.svg' %}" alt="logo"/> -->
         <!-- <a class="navbar-brand brand-logo-mini" href="base.html"><img width="5" height="5" src="{% static '/images/logoARCT.png' %}" alt="logo"/></a> -->
@@ -99,7 +104,7 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'listeClient_page' %}">
               <i class="fa-solid fa-user-group menu-icon"></i>
-              <span class="menu-title">Stats</span>
+              <span class="menu-title">Clients</span>
             </a>
           </li>
           <li class="nav-item">
@@ -141,8 +146,6 @@
                 <label class="badge badge-warning">{{ certAgr }}</label>
                 {% endif %}
                 </a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li>
               </ul>
             </div>
           </li>
@@ -214,6 +217,27 @@
                 </a></li>
                 <!-- <li class="nav-item"><a class="nav-link" href="{% url 'ListConstructeur' %}">Numero Court</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ListEqui' %}">Numero Long</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#pcontact-basic" aria-expanded="false" aria-controls="pcontact-basic">
+              <i class="icon-circle-check menu-icon"></i>
+              <span class="menu-title">Pesronne de Contact</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="pcontact-basic">
+              <ul class="nav flex-column ">
+                <li class="nav-item"><a class="nav-link" href="{% url 'listePContact_page' %}">Liste des Contacts
+                 
+                <label class="badge badge-warning"></label>
+               
+                </a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="">Liste des Faisceaux annuelles
+                  
+                <label class="badge badge-warning"></label>
+               
+                </a></li>  -->
               </ul>
             </div>
           </li>
@@ -549,7 +573,12 @@
   <!-- End plugin js for this page -->
   <!-- Custom js for this page-->
   <script src="{% static '/js/dashboard.js' %}"></script>
+ 
   <!-- End custom js for this page-->
+
+
+
+
 </body>
 
 </html>

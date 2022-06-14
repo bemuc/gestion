@@ -61,11 +61,11 @@
                         <div class="mx-2   p-2">
                             {% load auth_extras %}
                             {% if request.user|has_group:"technicien" %}
-                            <a href="{% url 'ListeFH'  %}"><button type="button" class="btn btn-dark">retour</button></a>
-                            <a href=""><button type="button" class="btn btn-dark">print</button></a>
+                            <a href="{% url 'ListeFH'%}"><button type="button" class="btn btn-dark">retour</button></a>
+                            <!-- <a href="{% url 'pdf_faiscaux' fh.id %}"><button type="button" class="btn btn-dark">imprimer</button></a> -->
                             {% else %}
-                            <a href="{% url 'ListeFH_af'  %}"><button type="button" class="btn btn-dark">retour</button></a>
-                            <a href=""><button type="button" class="btn btn-dark">print</button></a>
+                            <a href="{% url 'ListeFH_af'%}"><button type="button" class="btn btn-dark">retour</button></a>
+                            <!-- <a href="{% url 'pdf_faiscaux' fh.id %}"><button type="button" class="btn btn-dark">imprimer</button></a> -->
                            
                             {% endif %}
                          </div>

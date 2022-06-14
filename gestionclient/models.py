@@ -9,12 +9,12 @@ from django.utils import timezone
 # Create your models here.
 
 class Client(models.Model):
-    TYPE = (
+    TYPE = ( 
         ('Autre','Autre'),
         ('FAI','FAI'),
-        ('FSVA','FSVA'),
+        ('FSVA','FSVA'), 
         ('Public','Public'),
-        ('Operateur telephonique','Operateur telephonique'),
+        ('Opérateur téléphonique','Opérateur téléphonique'),
     )
     type = models.CharField(max_length=200,  null=True, choices=TYPE)
     nom = models.CharField(max_length=200,  null=False)

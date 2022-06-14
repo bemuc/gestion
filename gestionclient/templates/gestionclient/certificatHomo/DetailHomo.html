@@ -62,10 +62,10 @@
                             {% load auth_extras %}
                             {% if request.user|has_group:"technicien" %}
                             <a href="{% url 'ListeHomo'  %}"><button type="button" class="btn btn-dark">retour</button></a>
-                            <a href="{% url 'pdfcertificat_homo' homologation.id  %}"><button type="button" class="btn btn-dark">print</button></a>
+                            <a href="{% url 'pdfcertificat_homo' homologation.id  %}" target="_blank"><button type="button" class="btn btn-dark">imprimer</button></a>
                             {% else %}
                             <a href="{% url 'ListCertHomAfact'  %}" ><button type="button" class="btn btn-dark">retour</button></a>
-                            <a href="{% url 'pdfcertificat_homo' homologation.id  %}" target="_blank"><button type="button" class="btn btn-dark">print</button></a>
+                            <a href="{% url 'pdfcertificat_homo' homologation.id  %}" target="_blank"><button type="button" class="btn btn-dark">imprimer</button></a>
                             {% endif %}
                             <!-- <a href="{% url 'modifierHomo' homologation.id %}"><button type="button" class="btn btn-dark"> Modifier</button></a> -->
                         </div>

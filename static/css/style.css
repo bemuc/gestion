@@ -10981,6 +10981,9 @@ fieldset:disabled .ajax-upload-dragdrop a.ajax-file-upload,
 .ajax-upload-dragdrop fieldset:disabled a.ajax-file-upload {
   pointer-events: none;
 }
+#llogo {
+  color:#fff;
+}
 
 .btn-primary {
   color: #fff;
@@ -10990,14 +10993,14 @@ fieldset:disabled .ajax-upload-dragdrop a.ajax-file-upload,
 
 .btn-primary:hover {
   color: #fff;
-  background-color: green;
-  border-color: green;
+  /* background-color: green; */
+  /* border-color: green; */
 }
 
 .btn-primary:focus, .btn-primary.focus {
   color: #fff;
-  background-color: green;
-  border-color: green;
+  /* background-color: green; */
+  /* border-color: green; */
   box-shadow: 0 0 0 0.2rem rgba(23, 43, 133, 0.5);
 }
 
@@ -11010,8 +11013,8 @@ fieldset:disabled .ajax-upload-dragdrop a.ajax-file-upload,
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
   color: #fff;
-  background-color: green;
-  border-color: green;
+  /* background-color: green; */
+  /* border-color: green; */
 }
 
 .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,

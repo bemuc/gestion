@@ -87,8 +87,12 @@
                 </div>
                 <div class="row ml-5">
                   <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
-              <a href="{% url 'listeClient_page'  %}"><button type="button" class="btn btn-light ml-5 mr-3">Retour</button></a>
-            
+              {% if titre == "Modifier" %}
+              <a href="{% url 'detailsClient_page' client.id %}"><button type="button" class="btn btn-light ml-5 mr-3">Retour</button></a>
+              
+              {% else %}
+                  <a href="{% url 'listeClient_page'  %}"><button type="button" class="btn btn-light ml-5 mr-3">Retour</button></a>
+              {% endif %}
                 </div>
               
   

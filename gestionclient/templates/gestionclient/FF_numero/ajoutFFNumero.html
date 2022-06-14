@@ -24,19 +24,19 @@
                 {{ form.client }}
               </div>
             </div>
-            <div class="form-group row ">
+            <div class="form-group row">
               <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Client</label>
-              <div class="col-sm-9">
+              <div class="col-sm-9 mt-3">
                 {{ client.nom }}
               </div>
             </div>
             <div class="form-group row">
-                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Nature Facturation</label>
-                <div class="col-sm-9">
+                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Nature client</label>
+                <div class="col-sm-9 mt-3">
                   {{ state }}
                 </div>
             </div>
-            <div class="form-group row ">
+            <div class="form-group row d-none">
                 <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Nature Facturation</label>
                 <div class="col-sm-9">
                   {{ form.nature }}
@@ -100,19 +100,19 @@
             <h4>Ressource en Numerotation</h4>
             <div class="form-group row">
                 <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Etude du dossier</label>
-                <div class="col-sm-9">
+                <div class="col-sm-9 mt-3">
                   {{ form.RN_etudeDossier }}
                 </div>
             </div>
             <div class="form-group row">
                 <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Frais de gestion(annuelle)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-9 mt-3">
                   {{ form.RN_fraisGestion }}
                 </div>
             </div>
             <div class="form-group row">
                 <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Redevance annuelles</label>
-                <div class="col-sm-9">
+                <div class="col-sm-9 mt-3">
                   {{ form.RN_redevanceAnn }}
                 </div>
             </div>
@@ -120,19 +120,19 @@
             <h5>Fourniture des services a valeur ajoutee</h5>
             <div class="form-group row">
               <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Etude du dossier</label>
-              <div class="col-sm-9">
+              <div class="col-sm-9 mt-3">
                 {{ form.FS_etudeDossier }}
               </div>
             </div>
             <div class="form-group row">
               <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Agrement des equipement</label>
-              <div class="col-sm-9">
+              <div class="col-sm-9 mt-3">
                 {{ form.FS_agreEquipe }}
               </div>
             </div>
             <div class="form-group row">
               <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Autorisation de l'ARCT</label>
-              <div class="col-sm-9">
+              <div class="col-sm-9 mt-3">
                 {{ form.FS_autoARCT }}
               </div>
             </div>
@@ -151,7 +151,7 @@
             </div>
             
             <button type="submit" class="btn btn-primary mr-2" value="{{ titre }}">{{ titre }}</button>
-            <a href="{% url 'ListeFFNumero' %}"><button type="button" class="btn btn-light">retour</button></a>
+            <a href="{% url 'ListeCli' %}"><button type="button" class="btn btn-light">retour</button></a>
           </form>
         </div>
       </div>

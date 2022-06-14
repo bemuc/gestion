@@ -11,7 +11,10 @@
                     <div class="d-flex justify-content-start align-items-center">
                     <h4>Details du client</h4>
                     <a href="{% url 'listeClient_page' %}"><button type="button" class="btn btn-primary ml-5 mr-3">Retour</button></a>
+                    {% load auth_extras %}
+                    {% if request.user|has_group:"technicien" %}
                     <a href="{% url 'modifierClient_page' client.id %}"><button type="button" class="btn btn-primary ml-5">Modifier</button></a>
+                    {% endif %}
                     </div>
                     <p class="card-description">
                     <hr>

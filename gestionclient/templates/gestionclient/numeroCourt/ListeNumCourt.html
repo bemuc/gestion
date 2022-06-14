@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-lg-12 grid-margin">
         <br>
-        <div class="card">
+        <div class="card"> 
             <div class="card-body">
                 <div class="d-flex justify-content-center">
                    <h4>Liste des Numeros Court</h4> 
@@ -13,48 +13,59 @@
                 <p class="card-description">
                 <!-- <a href="{% url 'ajoutnumCourt' %}"><button type="button" class="btn btn-primary">Ajouter un numero</button></a> -->
                   </p>
+                  <div class="row">
+                <div class="col">
+                    <div class="card card-body">
+                        <form method="get">
+                            {{ myfilter.form.as_p }}
+                        <button class="btn btn-primary" type="submit">Rechercher</button>
+                      </form>
+                    </div>
+                </div>
+                
+            </div>
                 <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>Client</th>
+                        <!-- <th>Type</th> -->
                         <th>Type</th>
-                        <th>Nature</th>
                         <th>Numero</th>
                         <th>Periode</th>
                         <th>Date d'attribution</th>
                         <!-- <th>Pays d'Origine</th> -->
                         <!-- <th>Fax</th> -->
-                        <th>Status</th>
+                        <!-- <th>Status</th> -->
                         <!-- <th>Status</th> -->
                         <th colspan="5"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% if numcourts %}
-                    {% for numcourt in numcourts %}
+                    {% if numeroCourts %}
+                    {% for numeroCourt in numeroCourts %}
                     <tr>
-                        <td>{{ numcourt.client.nom }}</td>
-                        <td>{{ numcourt.client.type }}</td>
-                        <td>{{ numcourt.type }}</td>
-                        {% if numcourt.numero == None %}
+                        <td>{{ numeroCourt.client.nom }}</td>
+                        <!-- <td>{{ numeroCourt.client.type }}</td> -->
+                        <td>{{ numeroCourt.type }}</td>
+                        {% if numeroCourt.numero == None %}
                         <td><label class="badge badge-warning" >ajouter num</label></td>
                         {% else %}
-                        <td>{{ numcourt.numero }}</td>
+                        <td>{{ numeroCourt.numero }}</td>
                         {% endif %}
-                        {% if numcourt.periode > 0  %}
-                        <td><label class="badge badge-warning" >{{ numcourt.periode }}</label></td>
+                        {% if numeroCourt.periode > 0  %}
+                        <td><label class="badge badge-info" >{{ numeroCourt.periode }}</label></td>
                         {% else %}
                         <td><label class="badge badge-success" >indeterminee</label></td>
                         {% endif %}
-                        <td>{{ numcourt.dateAtri }}</td>
-                        <!-- <td>{{ numcourt.etat }}</td> -->
+                        <td>{{ numeroCourt.dateAtri }}</td>
+                        <!-- <td>{{ numeroCourt.etat }}</td> -->
                         <!-- <td>{{ constructeur.fax }}</td> -->
                         <!-- <td>{{ constructeur.email }}</td> -->
-                        {% if  numcourt.etat == 'actif' %}
-                        <td><label class="badge badge-success" >{{  numcourt.etat }}</label></td>
+                        {% if  numeroCourt.etat == 'actif' %}
+                        <!-- <td><label class="badge badge-success" >{{  numeroCourt.etat }}</label></td> -->
                         {% else %}
-                        <td><label class="badge badge-warning" >{{  numcourt.etat }}</label></td>
+                        <!-- <td><label class="badge badge-warning" >{{  numeroCourt.etat }}</label></td> -->
                         {% endif %}
                         <!-- {% if today >= certificat.dateExp  %}
                         <td><label class="badge badge-danger">Expired</label></td>
@@ -62,7 +73,7 @@
                         <td><label class="badge badge-success">Valid</label></td>
                         {% endif %} -->
                         <td>
-                            <a href="{% url 'updateNumcourt' numcourt.id %}"><button type="button" class="btn btn-primary" >Modifier</button></a>
+                            <a href="{% url 'updateNumcourt' numeroCourt.id %}"><button type="button" class="btn btn-primary" >Modifier</button></a>
                         </td>
                     </tr>
                     {% endfor %}

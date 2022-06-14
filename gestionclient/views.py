@@ -126,7 +126,14 @@ def loginPage(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request,user)
-            return redirect('home')
+
+            if user.is_superuser:
+                return redirect('admin:index')
+            elif user.is_staff:
+                return redirect('admin:index')
+            else:
+                return render(request,'gestionclient/homeTech.html')
+            # return render(request,'gestionclient/Clientts/listeClient.html')
         else:
             messages.info(request,'username or password incorect')
     return render(request,'gestionclient/login.html')
@@ -135,7 +142,7 @@ def logout_page(request):
     # logout(request)
     # return redirect('login_page')
     logout(request)
-    response = redirect('app.home.views.home')
+    response = redirect('login_page')
     response.delete_cookie('user_location')
     return response
 
@@ -152,6 +159,16 @@ def home(request):
     
     return render(request,'gestionclient/base.html',{'name':poste})
 
+@login_required(login_url='login_page')
+def homeTech(request):
+    # if request.user.groups.filter(name='finance'):
+    #     poste = 'finance'
+    # else:
+    #     poste = 'technicien'
+
+    
+    return render(request,'gestionclient/homeTech.html')
+
 
 @login_required(login_url='login_page')
 def ajoutClient(request):
@@ -165,16 +182,25 @@ def ajoutClient(request):
         form = ClientForm(request.POST)
         if form.is_valid():
             thenif = form.cleaned_data.get('nif')
-            clients = Client.objects.all()
-            for client in clients:
-                if thenif == client.nif:
-                    messages.error(request, f'Le client est deja enregister!')
-                    return redirect('ajoutClient_page')
-                else:
-                    form.save()
-                    # username = form.cleaned_data.get('name')
-                    messages.success(request, f'Le client est bien enregister!')
-                    return redirect('ajoutClient_page')
+            # clients = Client.objects.all()
+            clients = Client.objects.filter(nif= thenif).count()
+            if clients > 0:
+                messages.error(request, f'Le client avec le numéro nif est déjà enregister!')
+                return redirect('listeClient_page')
+            else:
+                form.save()
+                messages.success(request, f'Le client est bien enregister!')
+                return redirect('listeClient_page')
+
+            # for client in clients:
+            #     if thenif == client.nif:
+            #         messages.error(request, f'Le client est deja enregister!')
+            #         # return redirect('ajoutClient_page')
+            #     else:
+            #         form.save()
+            #         # username = form.cleaned_data.get('name')
+            #         messages.success(request, f'Le client est bien enregister!')
+            #         return redirect('ajoutClient_page')
     else:
         form = ClientForm()
     
@@ -205,6 +231,7 @@ def modifierClient(request,pk):
         'form':form,
         'titre':"Modifier",
         'name':poste,
+        'client':client,
         }
 
     return render(request,'gestionclient/Clientts/ajoutClient.html',context)
@@ -233,7 +260,7 @@ def listeClient(request):
     else:
         poste = 'nothing'
 
-    clients = Client.objects.all()
+    clients = Client.objects.all().filter(status ="actif")
     myfilter = ClientFilter(request.GET, queryset=clients)
     clients = myfilter.qs
     context = {
@@ -479,7 +506,9 @@ def pourFactCertAgr(request,pk):
 
 @allowed_users(allowed_roles=['finance'])
 def Certfacturer(request):
-    certiAgrs = CertAgr.objects.all()
+    certificats = CertAgr.objects.all()
+    myfilter = certAgrAfFilter(request.GET, queryset = certificats)
+    certificats = myfilter.qs
     # if certiAgrs.porfact == 'non' and date.today() < certiAgrs.dateExp:
     #     certiAgrs.porfact = 'oui'
     #     certiAgrs.save()
@@ -487,7 +516,8 @@ def Certfacturer(request):
     # else:
     #     messages.warning(request, f'le Certificat est expirer il ne peut etre envoyer a la facturation' )
     context ={
-        'certificats':certiAgrs,
+        'certificats':certificats,
+        'myfilter':myfilter,
         }
     return render(request,'gestionclient/certificatAgrement/CertAfacturer.html',context)
 
@@ -636,7 +666,7 @@ def render_pdf_conf(request,pk):
     context = {
         'certificat': certi,
         'today': date.today(),
-        'contact': PersonneContact.objects.get(id = certi.client.id )
+        'contact': PersonneContact.objects.filter(client = certi.client ).first()
         }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
@@ -776,7 +806,7 @@ def render_pdf_homo(request,pk):
     context = {
         'certificat': cert,
         'today': date.today(),
-        'contact':PersonneContact.objects.get(id = cert.client.id ),
+        'contact':PersonneContact.objects.filter(client = cert.client ).first(),
         }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
@@ -860,30 +890,11 @@ def render_pdf_homo_facture(request,pk):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def render_pdf_ffnumero(request,pk):
     template_path = 'gestionclient/FF_numero/FFnumeropdf.html'
     ff = FF_Numero.objects.get(id = pk)
     cont = PersonneContact.objects.get(id = ff.client.id )
+
 
     context = {
         'FF': ff,
@@ -1335,11 +1346,17 @@ def thepdf(request,pk):
 
 @login_required(login_url='login_page')
 def CertListAgr(request):
-
+    certies = CertAgr.objects.all()
+    myfilter = certAgrFilter(request.GET, queryset=certies)
+    certies = myfilter.qs
+ 
     
     context = {
         'certificats': CertAgr.objects.all(),
         'today':date.today(),
+        'certies': certies,
+        'myfilter':myfilter,
+
     }
 
     return render(request,'gestionclient/certificatAgrement/certListagr.html',context)
@@ -1464,15 +1481,23 @@ def ajoutPersonneContact(request):
         form = PersonneContactForm(request.POST)
         if form.is_valid():
             theclient = form.cleaned_data.get('client')
-            personne = PersonneContact.objects.all()
-            for personnes in personne :
-                if personnes.client == theclient and personnes.etat == 'actif':
-                    messages.error(request, f'Le client existe deja')
-                    # return redirect('ajoutClient_page')
-                else:
-                    form.save()
-                    messages.success(request, f'Le client est bien enregister!')
-                    return redirect('listePContact_page')
+            # personne = PersonneContact.objects.all()
+            personne = PersonneContact.objects.filter(client = theclient).filter(etat = 'actif').count()
+            if personne > 0:
+                messages.error(request, f'il existe deja une personne de contact associer a ce client')
+            else:
+                form.save()
+                messages.success(request, f'Le client est bien enregister!')
+                return redirect('listePContact_page')
+
+            # for personnes in personne :
+            #     if personnes.client == theclient and personnes.etat == 'actif':
+            #         messages.error(request, f'Le client existe deja')
+            #         # return redirect('ajoutClient_page')
+            #     else:
+            #         form.save()
+            #         messages.success(request, f'Le client est bien enregister!')
+            #         return redirect('listePContact_page')
     else:
         form = PersonneContactForm()
     
@@ -1559,8 +1584,13 @@ def updatePersonneContact(request,pk):
 
 @login_required(login_url='login_page')
 def ListCertConf(request):
+
+    certies = CertConf.objects.all().filter(etat='actif')
+    myfilter = certConfFilter(request.GET, queryset=certies)
+    certies = myfilter.qs
     context = {
-        'certificats': CertConf.objects.all().filter(etat='actif'),
+        'certies':certies,
+        'myfilter':myfilter,
         'today':date.today(),
     }
 
@@ -1686,8 +1716,11 @@ def pourfactCertConf(request,pk):
 @allowed_users(allowed_roles=['finance'])
 def CertConfAfact(request):
     certiconf = CertConf.objects.filter(pourfact = 'oui')
+    myfilter = certConfAfFilter(request.GET, queryset = certiconf)
+    certiconf = myfilter.qs
     context ={
         'certificats':certiconf,
+        'myfilter':myfilter,
         }
     return render(request,'gestionclient/certificatConf/CertConfAfact.html',context)
 
@@ -1742,8 +1775,15 @@ def factCertConf(request,pk):
 
 @login_required(login_url='login_page')
 def ListConstructeur(request):
+    constructeurs = Constructeur.objects.all()
+    myfilter = constructeurFilter(request.GET, queryset = constructeurs)
+    constructeurs = myfilter.qs
+
+
+
     context = {
-        'constructeurs': Constructeur.objects.all(),
+        'constructeurs': constructeurs,
+        'myfilter':myfilter,
         'today':date.today(),
     }
 
@@ -1808,8 +1848,12 @@ def updateConstr(request,pk):
 
 @login_required(login_url='login_page')
 def ListEqui(request):
+    equipements = Equipement.objects.all()
+    myfilter = equipementFilter(request.GET, queryset=equipements)
+    equipements = myfilter.qs
     context = {
-        'equipements': Equipement.objects.all(),
+        'equipements': equipements,
+        'myfilter':myfilter,
         'today':date.today(),
     }
 
@@ -1971,8 +2015,11 @@ def factFH(request,pk):
 @allowed_users(allowed_roles=['finance'])
 def CertHomAfact(request):
     homologation = HomologationEqui.objects.filter(pourfact = 'oui')
+    myfilter = certHomoAfFilter(request.GET, queryset = homologation)
+    homologation = myfilter.qs
     context ={
         'homologations':homologation,
+        'myfilter': myfilter,
         'today':date.today(),
         }
     return render(request,'gestionclient/certificatHomo/homAFct.html',context)
@@ -1998,8 +2045,14 @@ def pourfactCertHom(request,pk):
 
 @login_required(login_url='login_page')
 def ListeHomo(request):
+    homologation = HomologationEqui.objects.all().filter(etat = 'actif')
+    myfilter = certConfFilter(request.GET, queryset=homologation)
+    homologation = myfilter.qs
+
+
     context = {
-        'homologations': HomologationEqui.objects.all().filter(etat = 'actif'),
+        'homologations': homologation,
+        'myfilter':myfilter,
         'today':date.today(),
     }
 
@@ -2111,10 +2164,15 @@ def updateHomologation(request,pk):
 # num court 
 
 @login_required(login_url='login_page')
-def ListeNumCourt(request):
+def ListeNumCourt(request): 
+    numCourt = NumeroCourt.objects.all()
+    myfilter = numCourtFilter(request.GET, queryset=numCourt)
+    numeroCourts = myfilter.qs
     context = {
         'numcourts': NumeroCourt.objects.all(),
         'today':date.today(),
+        'numeroCourts':numeroCourts,
+        'myfilter':myfilter,
     }
 
     return render(request,'gestionclient/numeroCourt/ListeNumCourt.html',context)
@@ -2294,8 +2352,8 @@ def detailsPQ(request,pk):
 
 @login_required(login_url='login_page')
 def updateAB(request,pk):
-    ab = AB.objects.get(id=pk)
-    pq = PQ.objects.get(id = pk)
+    ab = AB.objects.get(id= pk)
+    pq = PQ.objects.get(id = ab.pq.id)
     form = ABForm(instance = ab)
     if request.method == 'POST':
         form = ABForm(request.POST,instance = ab)
@@ -2594,12 +2652,18 @@ def updateFR(request,pk):
 #equipement
 @login_required(login_url='login_page')
 def ListeEquipement(request):
+    equipements = Equipement.objects.all()
+    myfilter = equipementFilter(request.GET, queryset = equipements)
+    equipements = myfilter.qs
+
+
     context = {
-        'equipements': Equipement.objects.all(),
+        'equipements': equipements,
+        'myfilter':myfilter,
         'today':date.today(),
     }
 
-    return render(request,'gestionclient/equipement/ListeEquip.html.html',context)
+    return render(request,'gestionclient/equipement/ListeEquip.html',context)
 
 
 
@@ -2637,12 +2701,18 @@ def detailequipement(request,pk):
 #constructeur
 @login_required(login_url='login_page')
 def ListeConstructeur(request):
+
+    constructeurs = Constructeur.objects.all()
+    myfilter = constructeurFilter(request.GET, queryset = constructeurs)
+    constructeurs = myfilter.qs
+
     context = {
-        'constructeurs': Constructeur.objects.all(),
+        'constructeurs': constructeurs,
+        'myfilter': myfilter,
         'today':date.today(),
     }
 
-    return render(request,'gestionclient/constructeur/ListeConstructeur.html.html',context)
+    return render(request,'gestionclient/constructeur/ListeConstructeur.html',context)
 
 
 @login_required(login_url='login_page')
@@ -2782,11 +2852,16 @@ def FaiseceauxAnn(request,pk):
 
 @login_required(login_url='login_page')
 def Listerepere(request):
+    reperes = Repere.objects.all()
+    myfilter = fhAnnFilter(request.GET, queryset=reperes)
+    reperes = myfilter.qs
+
     context = {
-        'reperes': Repere.objects.all(),
+        'reperes': reperes,
+        'myfilter': myfilter,
     }
 
-    return render(request,'gestionclient/faisceaux_hertzien/Liste_repere.html',context)
+    return render(request,'gestionclient/faisceaux_hertzien/liste_repere.html',context)
 
 
 @login_required(login_url='login_page')
@@ -2826,8 +2901,12 @@ def ListeRepAnn(request):
 
 @login_required(login_url='login_page')
 def ListeRepAnnAF(request):
+    reperes = Repere.objects.all().filter(facturer = 'oui')
+    myfilter = fhAnnAfFilter(request.GET, queryset = reperes)
+    reperes = myfilter.qs
     context = {
-        'reperes': Repere.objects.all().filter(facturer = 'oui'),
+        'reperes': reperes,
+        'myfilter':myfilter,
     }
 
     return render(request,'gestionclient/faisceaux_hertzien/ListeFHAfacturer.html',context)
@@ -3030,8 +3109,14 @@ def factfh(request,pk):
 #faisceaux hertzien
 @login_required(login_url='login_page')
 def ListeFH(request):
+    fhs = FaisceauxHertzien.objects.all().filter(client__status = 'actif')
+    myfilter = fhFilter(request.GET, queryset=fhs)
+    fhs = myfilter.qs
+
+
     context = {
-        'fhs': FaisceauxHertzien.objects.all().filter(client__status = 'actif'),
+        'fhs': fhs,
+        'myfilter': myfilter,
         'today':date.today(),
     }
 
@@ -3040,8 +3125,12 @@ def ListeFH(request):
 
 @login_required(login_url='login_page')
 def ListeFH_af(request):
+    fhs = FaisceauxHertzien.objects.filter(facturer = 'oui')
+    myfilter = fhAfFilter(request.GET, queryset = fhs)
+    fhs = myfilter.qs
     context = {
-        'fhs': FaisceauxHertzien.objects.filter(facturer = 'oui'),
+        'fhs': fhs,
+        'myfilter':myfilter,
     }
 
     return render(request,'gestionclient/faisceaux_hertzien/ListeFH_af.html',context)
@@ -3603,8 +3692,17 @@ def Listeff(request):
 
 @login_required(login_url='login_page')
 def Listefactfiche(request):
+    ffs = FF_Numero.objects.filter(efacturer = 'oui')
+    myfilter = ffNumeroFilter(request.GET, queryset = ffs)
+    ffs = myfilter.qs
+
+
+
+
+
     context = {
-        'ffs': FF_Numero.objects.filter(efacturer = 'oui'),
+        'ffs': ffs,
+        'myfilter':myfilter,
         'today':date.today(),
     }
 
@@ -3816,9 +3914,14 @@ def ListeCli(request):
 
 @login_required(login_url='login_page')
 def ListeFFNumero(request):
+    numero = FF_Numero.objects.all()
+    myfilter = ffNumeroFilter(request.GET, queryset=numero)
+    numero = myfilter.qs
     context = {
         'FF_numeros': FF_Numero.objects.all().filter(etat = 'actif').order_by('-id'),
         'today':date.today(),
+        'myfilter':myfilter,
+        'numeros':numero,
     }
 
     return render(request,'gestionclient/FF_numero/ListeFFNumero.html',context)
@@ -3888,12 +3991,14 @@ def etatNum():
 def ajoutFFNumero(request,pk):
     client = Client.objects.get(id = pk)
     today = date.today()
-    numCourt = NumeroCourt.objects.filter(client = client).count()
-    numlong = PQ.objects.filter(client = client).count()
+    numCourt = NumeroCourt.objects.filter(client = client.id).count()
+    numlong = PQ.objects.filter(client = client.id).count()
     if numCourt + numlong > 0:
-        states = "Client Existant"
+        states = 'Client Existant'
     else:
-        states = "Client Nouveau"
+        states = 'Client Nouveau'
+
+
     form = FF_NumeroForm(initial={'dateAtri':today,'client':client,'nature':states})
     if request.method == 'POST':
         form = FF_NumeroForm(request.POST) 

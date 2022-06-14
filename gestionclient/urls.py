@@ -3,10 +3,12 @@ from . import views
 from .views import *
 
 urlpatterns = [
-    path('login/', views.loginPage,name='login_page'),
+    path('', views.loginPage,name='login_page'),
+    # path('login/', views.loginPage,name='login_page'),
     path('', views.home,name='home'),
+    path('homeTech', views.homeTech,name='homeTech'),
     path('logout/', views.logout_page,name='logout'),
-    path('ajoutClient/', views.ajoutClient,name='ajoutClient_page'),
+    path('ajoutClient/', views.ajoutClient,name='ajoutClient_page'), 
     path('listeClient/', views.listeClient,name='listeClient_page'),
     path('detailsClient/<str:pk>', views.detailsClient,name='detailsClient_page'),
     path('modifierClient/<str:pk>', views.modifierClient,name='modifierClient_page'),
@@ -33,7 +35,7 @@ urlpatterns = [
     path('detailPersonneContact/<str:pk>', views.detailPersonneContact,name='detailPersonneContact'),
     path('updatePersonneContact/<str:pk>', views.updatePersonneContact,name='updatePersonneContact'),
     
-
+ 
 # certificat agrement
     # path('listeCertAgr/<str:pk>', views.listeCertAgr,name='listeCertAgr_page'),
     path('listeCertAgr/', views.CertListAgr,name='CertListAgr_page'),
@@ -102,21 +104,21 @@ urlpatterns = [
     #numero Court
     path('liste_numCourt/', views.ListeNumCourt,name='ListeNumCourt'),
     path('ajouter_numCourt/', views.ajoutnumCourt,name='ajoutnumCourt'),
-    path('update_numcourt/<str:pk>', views.updateNumcourt,name='updateNumcourt'),
+    path('modifier_numcourt/<str:pk>', views.updateNumcourt,name='updateNumcourt'),
 
     #numero long
     path('liste_pq/', views.ListePQ,name='ListePQ'),
     path('ajouter_pq/', views.ajoutPQ,name='ajoutPQ'),
     path('ajouter_ab/<str:pk>', views.ajoutAB,name='ajoutAB'),
     path('details_pq/<str:pk>', views.detailsPQ,name='detailsPQ'),
-    path('update_ab/<str:pk>', views.updateAB,name='updateAB'),
-    path('update_pq/<str:pk>', views.updatePQ,name='updatePQ'),
+    path('modifier_ab/<str:pk>', views.updateAB,name='updateAB'),
+    path('modifier_pq/<str:pk>', views.updatePQ,name='updatePQ'),
 
 
 #megas
     path('liste_megas/', views.ListeMegas,name='ListeMegas'),
     path('ajouter_megas/', views.ajoutMegas,name='ajoutMegas'),
-    path('update_megas/<str:pk>', views.updateMegas,name='updateMegas'),
+    path('modifier_megas/<str:pk>', views.updateMegas,name='updateMegas'),
 
 #minutes
     path('liste_minutes/', views.ListeMinutes,name='ListeMinutes'),
@@ -150,7 +152,7 @@ urlpatterns = [
     path('facturer_FH/<str:pk>', views.factfh,name = 'factFH'),
     path('ajouter_fh/', views.ajoutFH,name='ajoutFH'),
     path('detail_fh/<str:pk>', views.detailFH,name='detailFH'),
-    path('update_fh/<str:pk>', views.updateFH,name='updateFH'), 
+    path('update_fh/<str:pk>', views.updateFH,name='updateFH'),  
     path('pour_facturer_fh/<str:pk>', views.pourFacturerFH,name='pourFacturerFH'),
     path('supprimer_facturer_fh/<str:pk>', views.supprimerFacturerFH,name='supprimerFacturerFH'),
 

@@ -51,8 +51,8 @@
     <h5>1. IDENTIFICATION DU CLIENT</h5>
     <div id="id_client">
         <p>
-            <span class="identifiant">Nom et Prenon(s) ou Raison Social</span><span class="valeurs">:{{ certificat.client.nom }}</span><br>
-            <span class="identifiant">Adresse Physique</span><span class="valeurs">:{{ certificat.client.adresse }}</span><br>
+            <span class="identifiant">Nom et Prenon(s) ou Raison Social</span><span class="valeurs">:{{ certificat.client.nom|upper }}</span><br>
+            <span class="identifiant">Adresse Physique</span><span class="valeurs">:{{ certificat.client.adresse|upper }}</span><br>
             <span class="identifiant">Téléphone</span><span class="valeurs">:{{ certificat.client.téléphone }}</span><br>
             <span class="identifiant">Fax</span><span class="valeurs">:{{ certificat.client.fax }}</span><br>
             <span class="identifiant">Email</span><span class="valeurs">:{{ certificat.client.email }}</span><br>
@@ -63,10 +63,10 @@
     <h5>2. PERSONNE DE CONTACT</h5>
     <div id="contact">
         <p>
-            <span class="identifiant">Nom et Prenon</span><span class="valeurs">:   {{ contact.nom }}</span><br>
+            <span class="identifiant">Nom et Prenon</span><span class="valeurs">:   {{ contact.nom|upper}}</span><br>
             <span class="identifiant">Téléphone</span><span class="valeurs">:   {{ contact.telephone }}</span><br>
             <span class="identifiant">Email</span><span class="valeurs">:   {{ contact.email }}</span><br>
-            <span class="identifiant">Titre/Poste</span><span class="valeurs">:   {{ contact.poste }}</span><br>
+            <span class="identifiant">Titre/Poste</span><span class="valeurs">:   {{ contact.poste|upper }}</span><br>
         </p>
     </div>
     <h5>3. TYPE DE CERTIFICAT</h5>
@@ -125,7 +125,7 @@
                     <br>
                     <label >Fait a Bujumbura le {{ certificat.dateAttri}}</label><br>
                     <h6 class="center">Le Chef de service Normalisation reseaux et service "NR&S"</h6>
-                    <h4>???????</h4>
+                    <h4>Ir Eliane NIKUZE</h4>
                 </td>
             </tr>
         </table>
