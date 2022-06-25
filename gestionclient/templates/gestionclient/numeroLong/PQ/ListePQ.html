@@ -28,13 +28,17 @@
                         <!-- <th>Status</th> -->
                         <th colspan="5"></th>
                     </tr>
-                    </thead>
+                    </thead> 
                     <tbody>
                     {% if pqs %}
                     {% for pq in pqs %}
                     <tr>
                         <td>{{ pq.client.nom }}</td>
-                        <td>{{ pq.pq }}</td>
+                        {% if pq.pq == None %}
+                        <td><label class="badge badge-warning">{{ pq.pq }}</label></td>
+                        {% else %}
+                        <td>{{ pq.pq }} ok</td>
+                        {% endif %}
                         <td>{{ pq.dateAtri }}</td>
                         <!-- <td>{{ constructeur.fax }}</td> -->
                         <!-- <td>{{ constructeur.email }}</td> -->

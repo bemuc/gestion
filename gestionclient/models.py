@@ -84,6 +84,7 @@ class CertAgr(models.Model):
     porfact = models.CharField(max_length=200, null=True, default='non')
     facturer = models.CharField(max_length=200, null=True, default='non')
     etat = models.CharField(max_length=200, null=True, default='actif')
+    dejaRenou = models.CharField(max_length=200, null=True, default='non')
 
     
     def __str__(self):
@@ -137,6 +138,7 @@ class CertConf(models.Model):
     etat = models.CharField(max_length=200, null=True, default='actif')
     pourfact = models.CharField(max_length=200, null=True, default='non')
     facturer = models.CharField(max_length=200, null=True, default='non')
+    dejaRenou = models.CharField(max_length=200, null=True, default='non')
 
     
     def __str__(self):

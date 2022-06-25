@@ -53,41 +53,28 @@ def ko(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def afacturer(request):
+    today = date.today()
     # technique
+    # les cert agr exprire
+    certagr =0
+    certs = CertAgr.objects.filter(porfact = 'oui').filter(facturer='oui').filter(dejaRenou = 'non')
+    for cert in certs:
+        if cert.dateExp <= today:
+            certagr += 1
+
+    clients = Client.objects.filter(status = 'actif').count()
     afacturer = FF_Numero.objects.filter( facturer = 'non').count()
     numcourt = NumeroCourt.objects.filter( numero = None).count()
     pq = PQ.objects.filter( pq = None).count()
     agre = CertAgr.objects.filter(porfact = 'non').count()
     confor = CertConf.objects.filter(etat = 'actif').filter(pourfact = 'non').count()
+    #conformite
+    conforts = CertConf.objects.filter(etat = 'actif').filter(pourfact = 'oui')
+    cont_confort= 0
+    for confort in conforts:
+        if today >= confort.dateExp and confort.dejaRenou == 'non':
+            cont_confort += 1
     homo = HomologationEqui.objects.filter(etat = 'actif').filter(pourfact = 'non').count()
     numeros = NumeroCourt.objects.filter( etat = 'deactif').exclude( periode = 0).count()
     fh = FaisceauxHertzien.objects.filter( etat = 'actif').filter(facturer = 'non').count()
@@ -106,8 +93,9 @@ def afacturer(request):
         'totalnum':afacturer + numcourt + pq + numeros,
         'totafh':fh + repe ,
         'repe':repe,
-        'agrements':agre,
-        'confor':confor,
+        'agrements':agre + certagr,
+        'agre':agre,
+        'confor':confor + cont_confort,
         'homo':homo,
         'facturer':facturer,
         'certAgr':certAgr,
@@ -117,6 +105,8 @@ def afacturer(request):
         'fai':faisceaux,
         'listfhaf':faisceaux + repo,
         'repo':repo,
+        'client':clients,
+        'certagr':certagr,
     }
 
 def loginPage(request):
@@ -380,7 +370,7 @@ def ajoutCert(request):
                     messages.warning(request, f'Certificat existant deja! il faut renouveller')
                 
                 else:
-                    if(thestart < today or theEnd < thestart or theEnd.year - thestart.year < 5):
+                    if(thestart.year < today.year or theEnd.year < thestart.year or theEnd.year - thestart.year < 5):
                         messages.warning(request, f"Erreur verifier les dates")
                     else:
                         form.dateExp = datetime.date(thestart.year+5,thestart.month,thestart.day-5)
@@ -408,18 +398,20 @@ def renouCertAgre(request,pk):
     else:
         poste = 'nothing'
 
-    
+    # instance = certiAgrs,,instance = certiAgrs
     certiAgrs = CertAgr.objects.get(id=pk)
     today = date.today()
-    form = CertAgreForm(instance = certiAgrs,initial={'nature':'Renouvellement certificat','etat':'actif','dateAttri':today} )
+    form = CertAgreForm(initial={'client': certiAgrs.client,'type':certiAgrs.type,'nature':'Renouvellement certificat','etat':'actif','dateAttri':today} )
     if request.method == 'POST':
-        form = CertAgreForm(request.POST,instance = certiAgrs)
+        form = CertAgreForm(request.POST)
         if form.is_valid():
             form.save()
             certiAgrs.etat = 'deactif'
+            certiAgrs.dejaRenou = 'oui'
             certiAgrs.save()
             messages.success(request, f'Certificat bien renouveller' )
-            return redirect('detailCertAgr_page',pk = pk )
+            # return redirect('detailCertAgr_page',pk = pk )
+            return redirect('CertListAgr_page')
         else:
             messages.warning(request, f"Erreur form invalid")
 
@@ -439,15 +431,24 @@ def updateCertAgre(request,pk):
         poste = 'finance'
     else:
         poste = 'nothing'
-
+    today = date.today()
     certiAgrs = CertAgr.objects.get(id=pk)
     form = CertAgreForm(instance = certiAgrs)
     if request.method == 'POST':
         form = CertAgreForm(request.POST,instance = certiAgrs)
         if form.is_valid():
-            form.save()
-            messages.success(request, f'Certificat bien mis a jour' )
-            return redirect('detailCertAgr_page',pk = pk )
+            thetype = form.cleaned_data.get('type')
+            theclient = form.cleaned_data.get('client')
+            thenature = form.cleaned_data.get('nature')
+            thestart = form.cleaned_data.get('dateAttri')
+            theEnd = form.cleaned_data.get('dateExp')
+            thetat = form.cleaned_data.get('etat')
+            if(thestart.year < today.year or thestart.year > today.year  or theEnd.year < thestart.year or theEnd.year - thestart.year < 5):
+                messages.warning(request, f"Erreur verifier les dates")
+            else:
+                form.save()
+                messages.success(request, f'Certificat bien mis a jour' )
+                return redirect('detailCertAgr_page',pk = pk )
         else:
             messages.warning(request, f"Erreur form invalid")
 
@@ -572,6 +573,10 @@ def detailCertAgr(request,pk):
 @login_required(login_url='login_page')
 def supprimerfactCert(request,pk):
     certificat = CertAgr.objects.get(id = pk)
+    certie = CertAgr.objects.filter(client = certificat.client).filter(nature = certificat.nature).last()
+    certie.etat = 'actif'
+    certie.dejaRenou = 'non'
+    certie.save()
     certificat.delete()
     return redirect('CertListAgr_page')
 
@@ -1585,7 +1590,8 @@ def updatePersonneContact(request,pk):
 @login_required(login_url='login_page')
 def ListCertConf(request):
 
-    certies = CertConf.objects.all().filter(etat='actif')
+    # certies = CertConf.objects.all().filter(etat='actif')
+    certies = CertConf.objects.all()
     myfilter = certConfFilter(request.GET, queryset=certies)
     certies = myfilter.qs
     context = {
@@ -1627,14 +1633,14 @@ def ajoutCertConf(request):
                 if count > 0:
                     messages.warning(request, f'Certificat existe deja! ')
             
+            else:
+                if(thestart < today or theEnd < thestart or (theEnd.year - thestart.year) < 5):
+                    messages.warning(request, f"Erreur verifier les dates")
                 else:
-                    if(thestart < today or theEnd < thestart or (theEnd.year - thestart.year) < 5):
-                        messages.warning(request, f"Erreur verifier les dates")
-                    else:
-                        form.dateExp = datetime.date(thestart.year+5,thestart.month,thestart.day-5)
-                        form.save()
-                        messages.success(request, f'Certificat bien ajouter')
-                        return redirect('ListCertConf')
+                    form.dateExp = datetime.date(thestart.year+5,thestart.month,thestart.day-5)
+                    form.save()
+                    messages.success(request, f'Certificat bien ajouter')
+                    return redirect('ListCertConf')
         else:
             messages.error(request, f' ERREUR Certificat invalid non ajouter!')
 
@@ -1677,6 +1683,7 @@ def renouvCertConf(request,pk):
         if form.is_valid():
             form.save()
             certiAgrs.etat = 'deactif'
+            certiAgrs.dejaRenou = 'oui'
             certiAgrs.save()
             messages.success(request, f'Certificat bien renouveller' )
             return redirect('DetailConf',pk = pk )
@@ -3234,12 +3241,19 @@ def ajouterTaux(request):
         if request.method == 'POST':
             form = TauxForm(request.POST)
             if form.is_valid():
-                taux = Taux.objects.all().last()
-                taux.etat = 'deactivate'
-                taux.save()
-                form.save()
-                messages.success(request, f"Taux bien ajouter")
-                return redirect('ListeTaux')
+                taux = Taux.objects.all().count()
+                if taux > 0:
+                    tox = Taux.objects.all().last()
+                    tox.etat = 'deactivate'
+                    tox.save()
+                    form.save()
+                    messages.success(request, f"Taux bien ajouter")
+                    return redirect('ListeTaux')
+                else :
+                    form.save()
+                    messages.success(request, f"Taux bien ajouter")
+                    return redirect('ListeTaux')
+
                     
             else:
                 messages.error(request, f' ERREUR formulaire invalide. Taux non ajouter!')
@@ -3906,7 +3920,7 @@ def facturerNum(request,pk):
 @login_required(login_url='login_page')
 def ListeCli(request):
     context = {
-        'clients': Client.objects.all().filter(type = 'FSVA' and 'Operateur telephonique').filter(status = 'actif'),
+        'clients': Client.objects.filter(status = 'actif'),
         'today':date.today(),
     }
 

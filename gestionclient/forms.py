@@ -42,7 +42,7 @@ class CertAgreForm(ModelForm):
     class Meta:
         model = CertAgr
         fields = '__all__'
-        exclude = ['etat','porfact','facturer']
+        exclude = ['etat','porfact','facturer','dejaRenou']
         widgets = {
             'client': forms.Select(attrs={'class':'form-control',}),
             # 'contact': forms.Select(attrs={'class':'form-control',}),
@@ -71,7 +71,7 @@ class CertConfForm(ModelForm):
     class Meta:
         model = CertConf
         fields = '__all__'
-        exclude = ['etat','pourfact','facturer']
+        exclude = ['etat','pourfact','facturer','dejaRenou']
         widgets = {
             'client': forms.Select(attrs={'class':'form-control',}),
             'type' : forms.Select(attrs={'class':'form-control',}),

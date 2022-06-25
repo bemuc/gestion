@@ -61,7 +61,11 @@
                         <td><label class="badge badge-warning" >{{ certificat.facturer }}</label></td>
                         {% endif %} -->
                         {% if today >= certificat.dateExp  %}
+                        {% if certificat.dejaRenou == 'non' %}
                         <td><label class="badge badge-danger">Expired</label></td>
+                        {% else %}
+                        <td><label class="badge badge-info">renouvelle</label></td>
+                        {% endif %}
                         {% else %}
                         <td><label class="badge badge-success">Valid</label></td>
                         {% endif %}

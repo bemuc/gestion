@@ -1,47 +1,178 @@
 {%  extends 'gestionclient/base.html' %}
 
 {% block content %}
-<!-- <div class="row d-flex m-5" id="cont" >
-    <div class="col-lg-12 grid-margin">
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-         
-        </div>
+<div class="row d-flex justify-content-center border border-info p-5">
+  <div class="card col-md-3 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'listeClient_page' %}">Clients</a></h5>
+      <p class="card-text">{{ client }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
     </div>
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-         
-        </div>
+  </div>
+  {% load auth_extras %}
+  {% if request.user|has_group:"technicien" %}
+  {% if certagr > 0 %}
+  <div class="card col-md-3 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'CertListAgr_page' %}">Certificat agrement expire</a></h5>
+      <p class="card-text">{{ certagr }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
     </div>
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-         
-        </div>
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-         
-        </div>
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-         
-        </div>
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-         
-        </div>
+  </div>
+  {% endif %}
+  {% if agre > 0 %}
+  <div class="card col-md-3 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'CertListAgr_page' %}">Certificat agrement non envoyer pour facturation</a></h5>
+      <p class="card-text">{{ agre }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
     </div>
-</div>
-      
-</div>
-</div>
-</div>
-</div> -->
+  </div>
+  {% endif %}
+  {% if afacturer > 0 %}
+  <div class="card col-md-3 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListeFFNumero' %}">fiches de facturation des numeros non envoyer pour facturation</a></h5>
+      <p class="card-text">{{ afacturer }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
 
+  {% if pq > 0 %}
+  <div class="card col-md-3 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListePQ' %}">les numeros longs non attribues (PQ)</a></h5>
+      <p class="card-text">{{ pq }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+
+  {% if numcourt > 0 %}
+  <div class="card col-md-3 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListeNumCourt' %}">les numeros courts non attribues (PQ)</a></h5>
+      <p class="card-text">{{ numcourt }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+
+  {% if confor > 0 %}
+  <div class="card col-md-3 ml-2 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListCertConf' %}">Certificat conformite non envoyer pour facturation</a></h5>
+      <p class="card-text">{{ confor }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+
+  {% if cont_confor > 0 %}
+  <div class="card col-md-3 ml-2 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListCertConf' %}">Certificat Conformite expiree</a></h5>
+      <p class="card-text">{{ cont_confor }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+
+  {% if fh > 0 %}
+  <div class="card col-md-3 ml-2 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListCertConf' %}">Faisceaux Hertzien a facturee</a></h5>
+      <p class="card-text">{{ fh }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+
+  {% if repe > 0 %}
+  <div class="card col-md-3 ml-2 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListCertConf' %}">Faisceaux Hertzien annuelle facturee</a></h5>
+      <p class="card-text">{{ repe }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+  {% else %}
+  {% if facturer > 0 %}
+  <div class="card col-md-3 ml-2 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'Listeff' %}">Fiche facturation numero a facturee</a></h5>
+      <p class="card-text">{{ facturer }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+  {% if certAgr > 0 %}
+  <div class="card col-md-3 ml-2 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListCetAfact' %}">Certificat agrement a facturee</a></h5>
+      <p class="card-text">{{ certAgr }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+  {% if conf > 0 %}
+  <div class="card col-md-3 ml-2 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListCertConfAfact' %}">Certificat conformite a facturee</a></h5>
+      <p class="card-text">{{ conf }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+  {% if homolo > 0 %}
+  <div class="card col-md-3 ml-2 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListCertHomAfact' %}">Certificat Homologation a facturee</a></h5>
+      <p class="card-text">{{ homolo }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+  {% if fai > 0 %}
+  <div class="card col-md-3 ml-2 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListeFH_af' %}">Faisceaux Hertzien a facturee</a></h5>
+      <p class="card-text">{{ fai }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+
+  {% if repo > 0 %}
+  <div class="card col-md-3 ml-2 m-2">
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+    <div class="card-body justify-content-center text-center">
+      <h5 class="card-title"><a href="{% url 'ListeRepAnnAF' %}">Faisceaux Hertzien annuelle a facturee</a></h5>
+      <p class="card-text">{{ repo }} </p>
+      <!-- <a href="#" class="btn btn-primary"><i class="fa fa-arrow-right" ></i></a> -->
+    </div>
+  </div>
+  {% endif %}
+
+  {% endif %}
+
+</div>
 
 {% endblock %}
