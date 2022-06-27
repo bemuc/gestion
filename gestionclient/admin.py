@@ -12,10 +12,10 @@ admin.site.register(HomologationEqui)
 admin.site.register(NumeroCourt)
 admin.site.register(PQ)
 admin.site.register(AB)
-admin.site.register(Megas)
-admin.site.register(Minutes)
+# admin.site.register(Megas)
+# admin.site.register(Minutes)
 # admin.site.register(ChiffreAffaire)
-@admin.register(ChiffreAffaire)
+# @admin.register(ChiffreAffaire)
 class TauxAdmin(admin.ModelAdmin):
     list_display = ['client','ca','dateAtri']
     ordering = ['client','dateAtri']
@@ -36,7 +36,7 @@ class TauxAdmin(admin.ModelAdmin):
     list_display = ['type','etat']
 
     
-admin.site.register(FrequenceRadio)
+# admin.site.register(FrequenceRadio)
 admin.site.register(FaisceauxHertzien)
 admin.site.register(FF_Numero)
 admin.site.register(Taux)
@@ -58,7 +58,7 @@ admin.site.register(Facture_FH)
 admin.site.register(ListeFHAnnuelle)
 admin.site.register(Repere)
 admin.site.register(PersonneContact)
-admin.site.register(Direction)
+# admin.site.register(Direction)
 
 
 

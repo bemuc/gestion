@@ -898,14 +898,14 @@ def render_pdf_homo_facture(request,pk):
 def render_pdf_ffnumero(request,pk):
     template_path = 'gestionclient/FF_numero/FFnumeropdf.html'
     ff = FF_Numero.objects.get(id = pk)
-    cont = PersonneContact.objects.get(id = ff.client.id )
+    cont = PersonneContact.objects.get(client = ff.client.id)
 
 
     context = {
         'FF': ff,
         'today': date.today(),
         'contact':cont,
-        'direction':Direction.objects.get(type = "Chef Service Normalisation,Reseaux et Servicess"),
+        # 'direction':Direction.objects.get(type = "Chef Service Normalisation,Reseaux et Servicess"),
         }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
@@ -1275,7 +1275,7 @@ def pdf_ffnumero(request,pk):
             'FF': ff,
         'today': date.today(),
         # 'contact':cont,
-        'direction':Direction.objects.get(type = "Chef Service Normalisation,Reseaux et Servicess"),
+        # 'direction':Direction.objects.get(type = "Chef Service Normalisation,Reseaux et Servicess"),
         }
 
     # context = {
@@ -3695,8 +3695,10 @@ def ajoutertarifFSVANumero(request):
 # factures
 @login_required(login_url='login_page')
 def Listeff(request):
+    ffs = FF_Numero.objects.filter(efacturer = 'non')
     context = {
-        'ffs': FF_Numero.objects.filter(efacturer = 'non'),
+        'ffs': ffs,
+        'myfilter':ffNumeroFilter(request.GET,queryset = ffs),
         'today':date.today(),
     }
 

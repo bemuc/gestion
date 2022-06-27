@@ -59,7 +59,12 @@
                 <div class="row "> 
                     <div class="col-sm-3 d-flex flex-start align-items-center">
                         <div class="mx-2   p-2">
+                            {% if name == 'technicien' %}
                             <a href="{% url 'CertListAgr_page'  %}"><button type="button" class="btn btn-dark">retour</button></a>
+                            {% else %}
+                            <a href="{% url 'ListCetAfact'  %}"><button type="button" class="btn btn-dark">retour</button></a>
+                            
+                            {% endif %}
                             <a href="{% url 'pdfcertificat' certificat.id  %}" target="_blank"><button type="button" class="btn btn-dark">imprimer</button></a>
                       </div>
                     </div>
@@ -84,12 +89,14 @@
                                 <a href="{% url 'supprimerfactCert' certificat.id %}"><button type="button" class="btn btn-danger" ><i class="icon-cross"></i></button></a>
                             </div>
                             {% endif %}
+                            {% if name == 'technicien' %}
                             <div class="mx-2 row d-flex flex-column align-items-center  p-2">
                                 <label  class="">Modifier </label>
                                 <a href="{% url 'updateCertAgr_page' certificat.id %}"><button type="button" class="btn btn-dark"> Modifier</button></a>
                        
                                 <!-- <a href=""><button type="button" class="btn btn-primary" ><i class="icon-file-add"></i></button></a> -->
                             </div>
+                            {% endif %}
 
                             {% endif %}
                             {% if name == 'finance' %}
