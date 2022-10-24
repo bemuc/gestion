@@ -17,6 +17,10 @@ from unicodedata import name
 from django.contrib import admin
 from django.urls import path,include
 
+admin.site.site_header  =  "Gestion Facturation"  
+# admin.site.site_title  =  "Custom bookstore admin site"
+# admin.site.index_title  =  "Custom Bookstore Admin"
+
 urlpatterns = [
     path('admin/', admin.site.urls,name = 'admin'),
     path('', include('gestionclient.urls')),

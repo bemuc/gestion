@@ -33,6 +33,7 @@ WHITENOISE_USE_FINDERS = True
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'gestionclient.apps.GestionclientConfig',
     'django.contrib.admin',
     'django.contrib.auth',

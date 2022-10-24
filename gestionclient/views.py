@@ -588,7 +588,7 @@ def render_pdf_view(request,pk):
     context = {
         'certificat': certi,
         'today': date.today(),
-        'contact': PersonneContact.objects.get(id = certi.client.id )
+        'contact': PersonneContact.objects.filter(client = certi.client ).first()
         }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
